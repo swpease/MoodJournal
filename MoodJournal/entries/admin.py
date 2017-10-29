@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import UserDefinedCategory, EntryInstance
 
-# Register your models here.
+
+admin.site.register(UserDefinedCategory)
+admin.site.register(EntryInstance)
