@@ -13,5 +13,6 @@ class Entries(generics.ListAPIView):
     serializer_class = EntryInstanceSerializer
 
     def get_queryset(self):
-        return Entries.objects.all().filter(user=self.request.user)
+        return Entries.objects.filter(user=self.request.user)
+
 
