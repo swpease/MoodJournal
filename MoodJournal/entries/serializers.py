@@ -7,10 +7,10 @@ from .models import EntryInstance
 class UserDefinedCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserDefinedCategory
-        fields = ('user', 'category',)
+        fields = ('user', 'category', 'pk',)
 
 
 class EntryInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = EntryInstance
-        fields = ('user', 'category', 'date', 'entry', 'quality_rating',)
+        fields = ('user', 'category', 'date', 'entry', 'quality_rating', 'pk',)
