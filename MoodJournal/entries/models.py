@@ -33,4 +33,4 @@ class EntryInstance(models.Model):
     quality_rating = models.CharField(max_length=15, choices=QUALITY_RATING_CHOICES, default=THREE)
 
     def __str__(self):
-        return self.user, self.date, self.category
+        return '{}, {}, {}'.format(self.user, self.date, self.category)
