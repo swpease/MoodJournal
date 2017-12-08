@@ -54,6 +54,7 @@ class EntriesOnDateList(generics.ListCreateAPIView):
                 "UserDefinedCategories": user_defined_categories_serializer.data}
 
         return Response(data)
+    #TODO pagination?
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -85,27 +86,3 @@ class CategoriesList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-
-
-
-# class CategoriesList(mixins.ListModelMixin,
-#                      mixins.CreateModelMixin,
-#                      mixins.UpdateModelMixin,
-#                      mixins.DestroyModelMixin,
-#                      generics.GenericAPIView):
-#     """
-#     Provides the set of categories that the user has defined (or the defaults) for their entries.
-#     HTTP Methods
-#         GET     : All `UserDefinedCategory`s of a User.
-#         POST    : Create a new `UserDefinedCategory`.
-#         DELETE  : Delete a `UserDefinedCategory`.
-#         PATCH   : Update a `UserDefinedCategory` using one of two methods:
-#                       1. Rename the `UserDefinedCategory`
-#                       2. Swap the ordering of two `UserDefinedCategory`s [using pk attrs]
-#     """
-#     serializer_class = UserDefinedCategorySerializer
-#
-#     def get_queryset(self):
-#         return UserDefinedCategory.objects.filter(user=self.request.user)
-#
