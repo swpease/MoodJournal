@@ -20,19 +20,8 @@ class EntriesList(generics.ListAPIView):
     serializer_class = EntryInstanceSerializer
 
     def get_queryset(self):
-        default_queryset = EntryInstance.objects.filter(user=self.request.user)
-        filtered_queryset = default_queryset
-
-        category = self.request.query_params.get('category', None)
-        if category is not None:
-            filtered_queryset = default_queryset.filter(category__category__iexact=category)
-
-        return default_queryset
-    #TODO permissions | pagination | filtering
-
-    #TODO: maybe make my own mixin b/c I think the get() will be the same for this and EODL.
-    # def get(self, request, *args, **kwargs):
-
+        return EntryInstance.objects.filter(user=self.request.user)
+    #TODO permissions | pagination | do I want to include the UDCs too?
 
 
 class EntriesOnDateList(generics.ListCreateAPIView):
@@ -55,7 +44,6 @@ class EntriesOnDateList(generics.ListCreateAPIView):
         return EntryInstance.objects.filter(user=self.request.user).filter(date=date)
 
     def get(self, request, *args, **kwargs):
-        # Taken from ListModelMixin.list method.
         entry_instance_queryset = self.filter_queryset(self.get_queryset())
         user_defined_categories_queryset = UserDefinedCategory.objects.filter(user=self.request.user)
 
