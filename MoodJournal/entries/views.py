@@ -21,7 +21,7 @@ class EntriesList(generics.ListAPIView):
 
     def get_queryset(self):
         return EntryInstance.objects.filter(user=self.request.user)
-    #TODO permissions | pagination
+    #TODO permissions | pagination | do I want to include the UDCs too?
 
 
 class EntriesOnDateList(generics.ListCreateAPIView):
@@ -69,6 +69,24 @@ class EntriesDetail(generics.RetrieveUpdateDestroyAPIView):
         date = datetime.date(int(date_str[:4]), int(date_str[4:6]), int(date_str[6:]))
 
         return EntryInstance.objects.filter(user=self.request.user).filter(date=date)
+
+
+class CategoriesList(generics.ListCreateAPIView):
+    """
+    Provides the set of categories that the user has defined (or the defaults) for their entries.
+    HTTP Methods
+        GET     : All `UserDefinedCategory`s of a User.
+        POST    : Create a new `UserDefinedCategory` specific to the User.
+    """
+    serializer_class = UserDefinedCategorySerializer
+
+    def get_queryset(self):
+        return UserDefinedCategory.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 
 
 # class CategoriesList(mixins.ListModelMixin,
