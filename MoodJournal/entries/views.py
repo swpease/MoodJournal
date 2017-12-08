@@ -27,10 +27,10 @@ class EntriesOnDateList(mixins.ListModelMixin,
     """
     Provides the set of entries that a User has created on a given date.
     HTTP Methods
-        GET     : All `EntryInstance`s of a User on the date specified by the URL pattern.
+        GET     : 1. All `EntryInstance`s of a User on the date specified by the URL pattern.
+                  2. All `UserDefinedCategory`s of a User
+                  Intended use: Take the `UDC`s to create widgets, and populate with any preexisting `EI`s.
         POST    : Create a new `EntryInstance` on the given date.
-        DELETE  : Delete an `EntryInstance` on the given date.
-        PATCH   : Update an `EntryInstance` on the given date.
     """
     serializer_class = EntryInstanceSerializer
 
