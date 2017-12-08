@@ -86,3 +86,4 @@ class CategoriesList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+    #TODO... safeguard against duplicates and "/"
