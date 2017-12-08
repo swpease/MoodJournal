@@ -59,8 +59,17 @@ class EntriesOnDateList(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class EntriesDetail(generics.GenericAPIView):
+class EntriesDetail(generics.RetrieveUpdateDestroyAPIView):
     pass
+    # serializer_class = EntryInstanceSerializer
+    # lookup_field = "category"
+    # lookup_url_kwarg = "category"
+    #
+    # def get_queryset(self):
+    #     date_str = self.kwargs['date']
+    #     date = datetime.date(int(date_str[:4]), int(date_str[4:6]), int(date_str[6:]))
+    #
+    #     return EntryInstance.objects.filter(user=self.request.user).filter(date=date)
 
 
 # class CategoriesList(mixins.ListModelMixin,
