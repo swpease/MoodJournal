@@ -19,11 +19,7 @@ class EntriesList(generics.ListAPIView):
     #TODO permissions | pagination
 
 
-class EntriesOnDateList(mixins.ListModelMixin,
-                        mixins.CreateModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.DestroyModelMixin,
-                        generics.GenericAPIView):
+class EntriesOnDateList(generics.ListCreateAPIView):
     """
     Provides the set of entries that a User has created on a given date.
     HTTP Methods
