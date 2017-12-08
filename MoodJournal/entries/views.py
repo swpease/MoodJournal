@@ -12,6 +12,11 @@ from .models import UserDefinedCategory, EntryInstance
 
 
 class EntriesList(generics.ListAPIView):
+    """
+    Provides all entries a User has ever created.
+    HTTP Methods
+        GET      : List all `EntryInstance`s a User has created.
+    """
     serializer_class = EntryInstanceSerializer
 
     def get_queryset(self):
@@ -52,6 +57,10 @@ class EntriesOnDateList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class EntriesDetail(generics.GenericAPIView):
+    pass
 
 
 # class CategoriesList(mixins.ListModelMixin,
