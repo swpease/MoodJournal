@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 
 
 class UserDefinedCategory(models.Model):
+    DEFAULTS = (
+        'Social',
+        'Personal',
+        'Family',
+        'Work',
+        'Health',
+        'Sleep',
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     category = models.CharField(max_length=50)
