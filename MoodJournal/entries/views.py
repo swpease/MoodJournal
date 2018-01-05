@@ -95,3 +95,11 @@ class CategoriesList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
     #TODO... safeguard against duplicates and "/"
+
+
+class CategoriesDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserDefinedCategorySerializer
+    # lookup_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        return UserDefinedCategory.objects.filter(user=self.request.user)
