@@ -11,6 +11,14 @@ from .serializers import UserDefinedCategorySerializer, EntryInstanceSerializer
 from .models import UserDefinedCategory, EntryInstance
 
 
+@api_view(['GET'])
+def api_root(request):
+    return Response({
+        'entries': reverse('entries-list', request=request),
+        'categories': reverse('categories-list', request=request),
+    })
+
+
 class EntriesList(generics.ListAPIView):
     """
     Provides all entries a User has ever created.
