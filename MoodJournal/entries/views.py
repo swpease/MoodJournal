@@ -37,7 +37,7 @@ class EntriesList(generics.ListAPIView):
         entry_instance_serializer = self.get_serializer(entry_instance_queryset, many=True)
         user_defined_categories_serializer = UserDefinedCategorySerializer(user_defined_categories_queryset, many=True)
 
-        data = {"EntryInstances_on_date": entry_instance_serializer.data,
+        data = {"EntryInstances": entry_instance_serializer.data,
                 "UserDefinedCategories": user_defined_categories_serializer.data}
 
         return Response(data)
@@ -46,14 +46,9 @@ class EntriesList(generics.ListAPIView):
 
 class EntriesDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EntryInstanceSerializer
-    lookup_field = "category__category"
-    lookup_url_kwarg = "category"
 
     def get_queryset(self):
-        date_str = self.kwargs['date']
-        date = datetime.date(int(date_str[:4]), int(date_str[4:6]), int(date_str[6:]))
-
-        return EntryInstance.objects.filter(user=self.request.user).filter(date=date)
+        return EntryInstance.objects.filter(user=self.request.user)
 
 
 class CategoriesList(generics.ListCreateAPIView):
