@@ -34,8 +34,12 @@ class EntriesList(generics.ListCreateAPIView):
         entry_instance_queryset = self.filter_queryset(self.get_queryset())
         user_defined_categories_queryset = UserDefinedCategory.objects.filter(user=self.request.user)
 
-        entry_instance_serializer = self.get_serializer(entry_instance_queryset, many=True)
-        user_defined_categories_serializer = UserDefinedCategorySerializer(user_defined_categories_queryset, many=True)
+        entry_instance_serializer = self.get_serializer(entry_instance_queryset,
+                                                        context={'request': request},
+                                                        many=True)
+        user_defined_categories_serializer = UserDefinedCategorySerializer(user_defined_categories_queryset,
+                                                                           context={'request': request},
+                                                                           many=True)
 
         data = {"EntryInstances": entry_instance_serializer.data,
                 "UserDefinedCategories": user_defined_categories_serializer.data}
