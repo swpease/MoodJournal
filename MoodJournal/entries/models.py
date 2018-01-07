@@ -20,12 +20,13 @@ class UserDefinedCategory(models.Model):
     rank = models.PositiveIntegerField()
 
     def save(self, *args, **kwargs):
-        max_rank_lookup = self.user.userdefinedcategory_set.aggregate(Max('rank'))
-        max_rank = max_rank_lookup['rank__max']
-        if max_rank:
-            self.rank = max_rank + 1
-        else:
-            self.rank = 0
+        if not self.rank:
+            max_rank_lookup = self.user.userdefinedcategory_set.aggregate(Max('rank'))
+            max_rank = max_rank_lookup['rank__max']
+            if max_rank:
+                self.rank = max_rank + 1
+            else:
+                self.rank = 0
         super(UserDefinedCategory, self).save(*args, **kwargs)
 
     def __str__(self):
