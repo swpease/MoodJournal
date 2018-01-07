@@ -30,18 +30,18 @@ class EntriesList(generics.ListAPIView):
     def get_queryset(self):
         return EntryInstance.objects.filter(user=self.request.user)
 
-    # def get(self, request, *args, **kwargs):
-    #     entry_instance_queryset = self.filter_queryset(self.get_queryset())
-    #     user_defined_categories_queryset = UserDefinedCategory.objects.filter(user=self.request.user)
-    #
-    #     entry_instance_serializer = self.get_serializer(entry_instance_queryset, many=True)
-    #     user_defined_categories_serializer = UserDefinedCategorySerializer(user_defined_categories_queryset, many=True)
-    #
-    #     data = {"EntryInstances_on_date": entry_instance_serializer.data,
-    #             "UserDefinedCategories": user_defined_categories_serializer.data}
-    #
-    #     return Response(data)
-    # # TODO permissions | pagination | do I want to include the UDCs too?
+    def get(self, request, *args, **kwargs):
+        entry_instance_queryset = self.filter_queryset(self.get_queryset())
+        user_defined_categories_queryset = UserDefinedCategory.objects.filter(user=self.request.user)
+
+        entry_instance_serializer = self.get_serializer(entry_instance_queryset, many=True)
+        user_defined_categories_serializer = UserDefinedCategorySerializer(user_defined_categories_queryset, many=True)
+
+        data = {"EntryInstances_on_date": entry_instance_serializer.data,
+                "UserDefinedCategories": user_defined_categories_serializer.data}
+
+        return Response(data)
+    # TODO permissions | pagination | do I want to include the UDCs too?
 
 
 class EntriesDetail(generics.RetrieveUpdateDestroyAPIView):
