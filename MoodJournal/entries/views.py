@@ -19,7 +19,7 @@ def api_root(request):
     })
 
 
-class EntriesList(generics.ListAPIView):
+class EntriesList(generics.ListCreateAPIView):
     """
     Provides all entries a User has ever created, and all of their categories.
     HTTP Methods
@@ -42,6 +42,9 @@ class EntriesList(generics.ListAPIView):
 
         return Response(data)
     # TODO permissions | pagination | do I want to include the UDCs too?
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class EntriesDetail(generics.RetrieveUpdateDestroyAPIView):
