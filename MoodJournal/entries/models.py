@@ -16,16 +16,16 @@ class UserDefinedCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     category = models.CharField(max_length=50)
-    #TODO: validate uniqueness of category | category requirements(?)
     rank = models.PositiveIntegerField()
 
     def save(self, *args, **kwargs):
-        max_rank_lookup = self.user.userdefinedcategory_set.aggregate(Max('rank'))
-        max_rank = max_rank_lookup['rank__max']
-        if max_rank:
-            self.rank = max_rank + 1
-        else:
-            self.rank = 0
+        if not self.rank:
+            max_rank_lookup = self.user.userdefinedcategory_set.aggregate(Max('rank'))
+            max_rank = max_rank_lookup['rank__max']
+            if max_rank:
+                self.rank = max_rank + 1
+            else:
+                self.rank = 0
         super(UserDefinedCategory, self).save(*args, **kwargs)
 
     def __str__(self):
