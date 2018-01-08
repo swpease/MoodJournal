@@ -16,7 +16,6 @@ class UserDefinedCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     category = models.CharField(max_length=50)
-    #TODO: validate uniqueness of category | category requirements(?)
     rank = models.PositiveIntegerField()
 
     def save(self, *args, **kwargs):

@@ -26,7 +26,6 @@ class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='entry-detail')
     # TODO do I want this or just a HyperlinkedIdentityField or just a ReadOnlyField?
     category = UserDefinedCategorySerializer(read_only=True)
-    # user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = EntryInstance
