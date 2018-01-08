@@ -45,7 +45,7 @@ class EntriesList(generics.ListCreateAPIView):
                 "UserDefinedCategories": user_defined_categories_serializer.data}
 
         return Response(data)
-    # TODO permissions | pagination | do I want to include the UDCs too?
+    # TODO permissions | pagination
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

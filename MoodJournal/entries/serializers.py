@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from .models import UserDefinedCategory
 from .models import EntryInstance
@@ -6,13 +7,19 @@ from .models import EntryInstance
 
 class UserDefinedCategorySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='category-detail')
-    # user = serializers.ReadOnlyField(source='user.username')
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    rank = serializers.IntegerField(max_value=2147483647, min_value=0, required=False)
 
     class Meta:
         model = UserDefinedCategory
-        fields = ('url', 'category', 'rank')
-        # TODO pk can be removed when transition completed.
-        # TODO should I just omit the user?
+        validators = [
+            UniqueTogetherValidator(
+                queryset=UserDefinedCategory.objects.all(),
+                fields=('user', 'category'),
+                message='There is already a category with this name.'
+            )
+        ]
+        fields = ('url', 'category', 'rank', 'user')
 
 
 class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
