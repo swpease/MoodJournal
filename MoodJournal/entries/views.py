@@ -1,11 +1,8 @@
-import datetime
-
-from django.shortcuts import render
-
-from rest_framework import generics, mixins, permissions, renderers
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import UserDefinedCategorySerializer, EntryInstanceSerializer
 from .models import UserDefinedCategory, EntryInstance
@@ -26,6 +23,7 @@ class EntriesList(generics.ListCreateAPIView):
         GET      : List all `EntryInstance`s a User has created.
     """
     serializer_class = EntryInstanceSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return EntryInstance.objects.filter(user=self.request.user)
@@ -53,6 +51,7 @@ class EntriesList(generics.ListCreateAPIView):
 
 class EntriesDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EntryInstanceSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return EntryInstance.objects.filter(user=self.request.user)
@@ -66,6 +65,7 @@ class CategoriesList(generics.ListCreateAPIView):
         POST    : Create a new `UserDefinedCategory` specific to the User.
     """
     serializer_class = UserDefinedCategorySerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return UserDefinedCategory.objects.filter(user=self.request.user)
@@ -76,7 +76,7 @@ class CategoriesList(generics.ListCreateAPIView):
 
 class CategoriesDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserDefinedCategorySerializer
-    # lookup_url_kwarg = 'pk'
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return UserDefinedCategory.objects.filter(user=self.request.user)
