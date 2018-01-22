@@ -3,6 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  onClick(e) {
+    console.log("Sending GET API call.");
+  }
+
   render() {
     return (
       <div className="App">
@@ -10,9 +14,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. Balls. Boobs. Fuck.
-        </p>
+        <button type="button" onClick={this.onClick}>
+          Send GET /categories
+        </button>
       </div>
     );
   }
