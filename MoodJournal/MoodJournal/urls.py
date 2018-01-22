@@ -18,9 +18,9 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    # url(r'^', include('entries.urls')),
-    url('^$', TemplateView.as_view(template_name="index.html")),
+    url(r'^api/', include('entries.urls')),
     url(r'^admin/', admin.site.urls),
+    url('^$', TemplateView.as_view(template_name="index.html")),
 ]
 
 urlpatterns += [
