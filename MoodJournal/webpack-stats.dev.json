@@ -9,10 +9,22 @@
 				"path": "/Users/Scott/Django/MoodJournal/MoodJournal/frontend/static/js/bundle.js"
 			},
 			{
+				"name": "0.4311d075fcc670a26dd8.hot-update.js",
+				"publicPath": "http://localhost:3000/0.4311d075fcc670a26dd8.hot-update.js",
+				"path": "/Users/Scott/Django/MoodJournal/MoodJournal/frontend/0.4311d075fcc670a26dd8.hot-update.js"
+			},
+			{
 				"name": "static/js/bundle.js.map",
 				"publicPath": "http://localhost:3000/static/js/bundle.js.map",
 				"path": "/Users/Scott/Django/MoodJournal/MoodJournal/frontend/static/js/bundle.js.map"
+			},
+			{
+				"name": "0.4311d075fcc670a26dd8.hot-update.js.map",
+				"publicPath": "http://localhost:3000/0.4311d075fcc670a26dd8.hot-update.js.map",
+				"path": "/Users/Scott/Django/MoodJournal/MoodJournal/frontend/0.4311d075fcc670a26dd8.hot-update.js.map"
 			}
 		]
-	}
+	},
+	"error": "ModuleNotFoundError",
+	"message": "Module not found: Error: Can't resolve './CategoryWidget/CategoryWidget.js' in '/Users/Scott/Django/MoodJournal/MoodJournal/frontend/src/CategoryView'"
 }
