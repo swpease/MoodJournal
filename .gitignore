@@ -1,3 +1,6 @@
+# Python-React coupling
+webpack-stats.*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
