@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
-
 import logo from './logo.svg';
 import './App.css';
 import CategoryView from './CategoryView/CategoryView.js';
@@ -17,29 +15,21 @@ class App extends Component {
     //     - search     : search / filter entries
     this.state = {
       view: 'default',
-      data: []
     };
     this.handleCategoriesBtnClick = this.handleCategoriesBtnClick.bind(this)
   }
 
   handleCategoriesBtnClick(e) {
-    axios.get('/api/categories')
-        .then(response => {
-          this.setState({
-            view: 'categories',
-            data: response.data
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    this.setState({
+      view: 'categories'
+    });
   }
 
   render() {
     let view = null;
     if (this.state.view == 'categories') {
       view = (
-        <CategoryView data={this.state.data}></CategoryView>
+        <CategoryView></CategoryView>
       )
     }
 
