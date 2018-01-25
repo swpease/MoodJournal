@@ -17,15 +17,20 @@ class CategoryView extends Component {
 
   componentDidMount() {
     axios.get('/api/categories')
-        .then(response => {
-          this.setState({
-            isLoaded: true,
-            data: response.data
-          });
-        }) // TODO (error) as second arg.: see docs/faq-ajax
-        .catch(err => {
-          console.log(err);
-        });
+        .then(
+          (response) => {
+            this.setState({
+              isLoaded: true,
+              data: response.data
+            });
+          },
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
   }
   render() {
     const { error, isLoaded, data } = this.state;
