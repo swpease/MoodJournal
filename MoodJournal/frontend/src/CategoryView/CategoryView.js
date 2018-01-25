@@ -12,7 +12,15 @@ class CategoryView extends Component {
       error: null,
       isLoaded: false,
       data: []
-    }
+    };
+    this.onDeleteBtnClick = this.onDeleteBtnClick.bind(this);
+  }
+
+  onDeleteBtnClick(url) {
+    //TODO I don't think I need a fn call here. Can just pass the object.
+    this.setState(prevState => {
+      return {data: prevState.data.filter(datum => datum.url !== url)}
+    });
   }
 
   componentDidMount() {
@@ -39,12 +47,13 @@ class CategoryView extends Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      let categories = this.state.data.map(datum =>
+      let categories = data.map(datum =>
         <CategoryWidget
           key={datum.url}
           url={datum.url}
           rank={datum.rank}
-          category={datum.category}>
+          category={datum.category}
+          onDeleteBtnClick={this.onDeleteBtnClick}>
         </CategoryWidget>
       );
 
