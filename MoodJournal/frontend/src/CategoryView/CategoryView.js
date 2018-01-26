@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-
 import axios from 'axios';
 
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
 
+
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 class CategoryView extends Component {
   constructor(props) {
@@ -17,29 +19,39 @@ class CategoryView extends Component {
   }
 
   onDeleteBtnClick(url) {
-    //TODO I don't think I need a fn call here. Can just pass the object.
-    this.setState(prevState => {
-      return {data: prevState.data.filter(datum => datum.url !== url)}
-    });
+    axios.delete(url)
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {data: prevState.data.filter(datum => datum.url !==  url)}
+          });
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      );
   }
 
   componentDidMount() {
     axios.get('/api/categories')
-        .then(
-          (response) => {
-            this.setState({
-              isLoaded: true,
-              data: response.data
-            });
-          },
-          (error) => {
-            this.setState({
-              isLoaded: true,
-              error
-            });
-          }
-        )
+      .then(
+        (response) => {
+          this.setState({
+            isLoaded: true,
+            data: response.data
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
   }
+
   render() {
     const { error, isLoaded, data } = this.state;
     if (error) {
