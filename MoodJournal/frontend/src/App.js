@@ -9,12 +9,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     // Will have one state per top-level view:
-    //     - default    : welcome page
+    //     - home    : welcome page
     //     - categories : categories list
     //     - daily      : entries for a given date
     //     - search     : search / filter entries
     this.state = {
-      view: 'default',
+      view: 'home',
     };
     this.handleCategoriesTabClick = this.handleCategoriesTabClick.bind(this)
   }
