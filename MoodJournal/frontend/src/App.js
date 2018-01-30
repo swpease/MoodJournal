@@ -36,16 +36,13 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <div>
         <Button type="button"
           onClick={this.handleCategoriesBtnClick}
           color="primary"
           raised>
             Send GET /categories
         </Button>
-        <button type="button" onClick={this.handleCategoriesBtnClick}>
-          Send GET /categories
-        </button>
         {view}
       </div>
     );
