@@ -19,10 +19,10 @@ class App extends Component {
     this.state = {
       view: 'default',
     };
-    this.handleCategoriesBtnClick = this.handleCategoriesBtnClick.bind(this)
+    this.handleCategoriesTabClick = this.handleCategoriesTabClick.bind(this)
   }
 
-  handleCategoriesBtnClick(e) {
+  handleCategoriesTabClick(e) {
     this.setState({
       view: 'categories'
     });
@@ -39,13 +39,7 @@ class App extends Component {
     return (
       <div>
         <Reboot />
-        <AppTabs></AppTabs>  
-        <Button type="button"
-          onClick={this.handleCategoriesBtnClick}
-          color="primary"
-          raised>
-            Send GET /categories
-        </Button>
+        <AppTabs onCategoriesTabClick={this.handleCategoriesTabClick}></AppTabs>
         {view}
       </div>
     );

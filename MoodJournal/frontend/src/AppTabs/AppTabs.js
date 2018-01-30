@@ -9,6 +9,7 @@ class AppTabs extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.onCategoriesTabClick = this.onCategoriesTabClick.bind(this);
   };
 
   state = {
@@ -18,6 +19,11 @@ class AppTabs extends Component {
   onChange(e, value) {
     this.setState({ value });
   };
+
+  // Tabs hookups.
+  onCategoriesTabClick(e) {
+    this.props.onCategoriesTabClick(e);
+  }
 
   render() {
     // const { classes }= this.props;
@@ -29,7 +35,10 @@ class AppTabs extends Component {
           onChange={this.onChange}
           centered
         >
-          <Tab label="Categories" />
+          <Tab
+            label="Categories"
+            onClick={this.onCategoriesTabClick}
+          />
           <Tab label="Daily" />
           <Tab label="History" />
         </Tabs>
