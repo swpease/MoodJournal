@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Button from 'material-ui/Button';
 import Reboot from 'material-ui/Reboot';
 
-
 import 'typeface-roboto';
 
 import CategoryView from './CategoryView/CategoryView.js';
+import AppTabs from './AppTabs/AppTabs.js';
 
 
 class App extends Component {
@@ -39,6 +39,7 @@ class App extends Component {
     return (
       <div>
         <Reboot />
+        <AppTabs></AppTabs>  
         <Button type="button"
           onClick={this.handleCategoriesBtnClick}
           color="primary"
