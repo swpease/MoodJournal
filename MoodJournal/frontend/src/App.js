@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
+import Reboot from 'material-ui/Reboot';
 
 
 import 'typeface-roboto';
@@ -29,7 +30,7 @@ class App extends Component {
 
   render() {
     let view = null;
-    if (this.state.view == 'categories') {
+    if (this.state.view === 'categories') {
       view = (
         <CategoryView></CategoryView>
       )
@@ -37,6 +38,7 @@ class App extends Component {
 
     return (
       <div>
+        <Reboot />
         <Button type="button"
           onClick={this.handleCategoriesBtnClick}
           color="primary"
