@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import Button from 'material-ui/Button';
 import Reboot from 'material-ui/Reboot';
-
-import 'typeface-roboto';
 
 import CategoryView from './CategoryView/CategoryView.js';
 import AppTabs from './AppTabs/AppTabs.js';
