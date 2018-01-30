@@ -35,6 +35,7 @@ class AppTabs extends Component {
           onChange={this.onChange}
           centered
         >
+          <Tab label="Home" />
           <Tab
             label="Categories"
             onClick={this.onCategoriesTabClick}
