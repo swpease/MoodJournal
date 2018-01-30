@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import Button from 'material-ui/Button';
 
-import logo from './logo.svg';
-import './App.css';
+
 import 'typeface-roboto';
 
 import CategoryView from './CategoryView/CategoryView.js';
@@ -37,10 +37,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        <Button type="button"
+          onClick={this.handleCategoriesBtnClick}
+          color="primary"
+          raised>
+            Send GET /categories
+        </Button>
         <button type="button" onClick={this.handleCategoriesBtnClick}>
           Send GET /categories
         </button>
