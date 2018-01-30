@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
@@ -26,8 +25,6 @@ class AppTabs extends Component {
   }
 
   render() {
-    // const { classes }= this.props;
-
     return (
       <Paper>
         <Tabs
@@ -46,6 +43,10 @@ class AppTabs extends Component {
       </Paper>
     )
   }
+}
+
+AppTabs.propTypes = {
+  onCategoriesTabClick: PropTypes.func.isRequired,
 }
 
 export default AppTabs;
