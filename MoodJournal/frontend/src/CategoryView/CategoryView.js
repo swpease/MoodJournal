@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import List from 'material-ui/List';
+import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
@@ -7,6 +8,16 @@ import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
+
 
 class CategoryView extends Component {
   constructor(props) {
@@ -71,10 +82,12 @@ class CategoryView extends Component {
       );
 
       return (
-        <List>{categories}</List>
+        <div className={this.props.classes.root}>
+          <List>{categories}</List>
+        </div>
       )
     }
   }
 }
 
-export default CategoryView
+export default withStyles(styles)(CategoryView)
