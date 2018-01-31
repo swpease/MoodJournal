@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import List from 'material-ui/List';
 import axios from 'axios';
 
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
@@ -70,7 +71,7 @@ class CategoryView extends Component {
       );
 
       return (
-        <ul>{categories}</ul>
+        <List>{categories}</List>
       )
     }
   }
