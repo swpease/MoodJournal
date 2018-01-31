@@ -24,18 +24,12 @@ class CategoryWidget extends Component {
           <IconButton aria-label="Edit">
             <ModeEdit />
           </IconButton>
-          <IconButton aria-label="Delete">
+          <IconButton aria-label="Delete" onClick={this.onDeleteBtnClick}>
             <DeleteForever />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
     );
-    // return (
-    //   <li>
-    //     {this.props.category}
-    //     <button type="button" onClick={this.onDeleteBtnClick}>Delete</button>
-    //   </li>
-    // );
   }
 }
 
