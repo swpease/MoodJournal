@@ -24,8 +24,6 @@ class CategoryWidget extends Component {
           <IconButton aria-label="Edit">
             <ModeEdit />
           </IconButton>
-        </ListItemSecondaryAction>
-        <ListItemSecondaryAction>
           <IconButton aria-label="Delete">
             <DeleteForever />
           </IconButton>
