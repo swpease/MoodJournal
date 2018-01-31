@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Dialog, {
@@ -66,5 +67,10 @@ class CategoryDeleter extends Component {
   }
 }
 
+CategoryDeleter.propTypes = {
+  url: PropTypes.string.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  category: PropTypes.string
+}
 
 export default CategoryDeleter;
