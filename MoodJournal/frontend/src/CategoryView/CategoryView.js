@@ -12,6 +12,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 const styles = theme => ({
   root: {
+    margin: '25px auto 0px',
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
@@ -83,7 +84,7 @@ class CategoryView extends Component {
 
       return (
         <div className={this.props.classes.root}>
-          <List>{categories}</List>
+          <List disablePadding>{categories}</List>
         </div>
       )
     }

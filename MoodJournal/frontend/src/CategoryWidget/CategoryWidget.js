@@ -16,7 +16,7 @@ class CategoryWidget extends Component {
 
   render() {
     return (
-      <ListItem>
+      <ListItem divider>
         <ListItemText
           primary={this.props.category}
         />
