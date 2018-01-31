@@ -28,10 +28,10 @@ class CategoryView extends Component {
       isLoaded: false,
       data: []
     };
-    this.onDeleteBtnClick = this.onDeleteBtnClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  onDeleteBtnClick(url) {
+  handleDelete(url) {
     axios.delete(url)
       .then(
         (response) => {
@@ -78,7 +78,7 @@ class CategoryView extends Component {
           url={datum.url}
           rank={datum.rank}
           category={datum.category}
-          onDeleteBtnClick={this.onDeleteBtnClick}>
+          handleDelete={this.handleDelete}>
         </CategoryWidget>
       );
 

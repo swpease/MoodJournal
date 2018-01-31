@@ -4,16 +4,10 @@ import IconButton from 'material-ui/IconButton';
 import DeleteForever from 'material-ui-icons/DeleteForever';
 import ModeEdit from 'material-ui-icons/ModeEdit';
 
+import CategoryDeleter from '../CategoryDeleter/CategoryDeleter.js';
+
+
 class CategoryWidget extends Component {
-  constructor(props) {
-    super(props);
-    this.onDeleteBtnClick = this.onDeleteBtnClick.bind(this);
-  }
-
-  onDeleteBtnClick(e) {
-    this.props.onDeleteBtnClick(this.props.url);
-  }
-
   render() {
     return (
       <ListItem divider>
@@ -24,9 +18,10 @@ class CategoryWidget extends Component {
           <IconButton aria-label="Edit">
             <ModeEdit />
           </IconButton>
-          <IconButton aria-label="Delete" onClick={this.onDeleteBtnClick}>
-            <DeleteForever />
-          </IconButton>
+          <CategoryDeleter
+            handleDelete={this.props.handleDelete}
+            url={this.props.url}
+          ></CategoryDeleter>
         </ListItemSecondaryAction>
       </ListItem>
     );
