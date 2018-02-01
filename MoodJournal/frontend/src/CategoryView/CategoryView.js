@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
-
+import CategoryCreator from '../CategoryCreator/CategoryCreator.js'
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -85,6 +85,7 @@ class CategoryView extends Component {
       return (
         <div className={this.props.classes.root}>
           <List disablePadding>{categories}</List>
+          <CategoryCreator></CategoryCreator>
         </div>
       )
     }
