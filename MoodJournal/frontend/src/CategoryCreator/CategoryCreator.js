@@ -33,8 +33,8 @@ class CategoryCreator extends Component {
   }
 }
 
-// CategoryCreator.propTypes = {
-//   handleCreate: PropTypes.func.isRequired
-// }
+CategoryCreator.propTypes = {
+  handleCreate: PropTypes.func.isRequired
+}
 
 export default CategoryCreator;

@@ -29,22 +29,7 @@ class CategoryView extends Component {
       data: []
     };
     this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  handleDelete(url) {
-    axios.delete(url)
-      .then(
-        (response) => {
-          this.setState((prevState) => {
-            return {data: prevState.data.filter(datum => datum.url !==  url)}
-          });
-        },
-        (error) => {
-          this.setState({
-            error
-          });
-        }
-      );
+    this.handleCreate = this.handleCreate.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +44,27 @@ class CategoryView extends Component {
         (error) => {
           this.setState({
             isLoaded: true,
+            error
+          });
+        }
+      );
+  }
+
+  // Create, Update, Delete handlers.
+  handleCreate(e) {
+    console.log(e);
+  }
+
+  handleDelete(url) {
+    axios.delete(url)
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {data: prevState.data.filter(datum => datum.url !==  url)}
+          });
+        },
+        (error) => {
+          this.setState({
             error
           });
         }
@@ -85,7 +91,7 @@ class CategoryView extends Component {
       return (
         <div className={this.props.classes.root}>
           <List disablePadding>{categories}</List>
-          <CategoryCreator></CategoryCreator>
+          <CategoryCreator handleCreate={this.handleCreate}></CategoryCreator>
         </div>
       )
     }
