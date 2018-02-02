@@ -32,7 +32,7 @@ class CategoryEditor extends Component {
           <IconButton aria-label="Save">
             <Save />
           </IconButton>
-          <IconButton aria-label="Cancel">
+          <IconButton aria-label="Cancel" onClick={this.props.handleCancel}>
             <Cancel />
           </IconButton>
         </ListItemSecondaryAction>
@@ -45,6 +45,9 @@ CategoryEditor.propTypes = {
   category: PropTypes.string,
   url: PropTypes.string,
   ariaLabel: PropTypes.string,
+  // handleCancel(e)
+  handleCancel: PropTypes.func.isRequired
+  // saveHandler(e, category, url)
   // saveHandler: PropTypes.func.isRequired
 }
 

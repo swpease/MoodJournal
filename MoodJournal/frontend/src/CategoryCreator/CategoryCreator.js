@@ -32,7 +32,11 @@ class CategoryCreator extends Component {
       )
     } else if (this.state.view === "create") {
       display = (
-        <CategoryEditor ariaLabel="Create a new category."></CategoryEditor>
+        <CategoryEditor
+          handleCancel={this.toggleState}
+          ariaLabel="Create a new category."
+        >
+        </CategoryEditor>
       )
     }
     return display;
