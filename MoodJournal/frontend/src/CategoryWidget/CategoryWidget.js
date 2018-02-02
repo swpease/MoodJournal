@@ -5,17 +5,35 @@ import IconButton from 'material-ui/IconButton';
 import ModeEdit from 'material-ui-icons/ModeEdit';
 
 import CategoryDeleter from '../CategoryDeleter/CategoryDeleter.js';
+import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
 
 
 class CategoryWidget extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: "default"  // Options: "default" and "edit".
+    };
+    this.toggleState = this.toggleState.bind(this);
+  }
+
+  toggleState(e) {
+    this.setState((prevState) => {
+      let nextView = prevState.view === "default" ? "edit" : "default";
+      return {view: nextView}
+    });
+  }
+
   render() {
-    return (
+    let display = null;
+    if (this.state.view === "default") {  //TODO enum of states.
+      display = (
       <ListItem divider>
         <ListItemText
           primary={this.props.category}
         />
         <ListItemSecondaryAction>
-          <IconButton aria-label="Edit">
+          <IconButton aria-label="Edit" onClick={this.toggleState}>
             <ModeEdit />
           </IconButton>
           <CategoryDeleter
@@ -24,7 +42,18 @@ class CategoryWidget extends Component {
           ></CategoryDeleter>
         </ListItemSecondaryAction>
       </ListItem>
-    );
+      )
+    } else if (this.state.view === "edit") {
+      display = (
+        <CategoryEditor
+          ariaLabel="Edit category."
+          category={this.props.category}
+          url={this.props.url}
+        >
+        </CategoryEditor>
+      )
+    }
+    return display;
   }
 }
 

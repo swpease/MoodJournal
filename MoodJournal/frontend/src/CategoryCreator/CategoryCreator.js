@@ -32,7 +32,7 @@ class CategoryCreator extends Component {
       )
     } else if (this.state.view === "create") {
       display = (
-        <CategoryEditor></CategoryEditor>
+        <CategoryEditor ariaLabel="Create a new category."></CategoryEditor>
       )
     }
     return display;

@@ -17,7 +17,7 @@ class CategoryEditor extends Component {
 
   render() {
     const inputProps = {
-      "aria-label": "Input a new category"  // TODO Different text in CREATE vs UPDATE
+      "aria-label": this.props.ariaLabel
     }
     return (
       <ListItem divider>
@@ -44,6 +44,7 @@ class CategoryEditor extends Component {
 CategoryEditor.propTypes = {
   category: PropTypes.string,
   url: PropTypes.string,
+  ariaLabel: PropTypes.string,
   // saveHandler: PropTypes.func.isRequired
 }
 
