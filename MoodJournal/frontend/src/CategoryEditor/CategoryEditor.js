@@ -13,6 +13,11 @@ class CategoryEditor extends Component {
     this.state = {
       value: props.category
     };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({value: e.target.value})
   }
 
   render() {
@@ -25,6 +30,7 @@ class CategoryEditor extends Component {
           id="categoryeditor"
           inputProps={inputProps}
           value={this.state.value}
+          onChange={this.handleChange}
           autoFocus
           margin="normal"
         />
