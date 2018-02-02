@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 
+import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
+
 
 class CategoryCreator extends Component {
   constructor(props) {
@@ -27,6 +29,10 @@ class CategoryCreator extends Component {
         <Button fab mini color="primary" aria-label="add" onClick={this.toggleState}>
           <AddIcon />
         </Button>
+      )
+    } else if (this.state.view === "create") {
+      display = (
+        <CategoryEditor></CategoryEditor>
       )
     }
     return display;

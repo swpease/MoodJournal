@@ -1,15 +1,33 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { ListItem, ListItemSecondaryAction } from 'material-ui/List';
+import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import Cancel from 'material-ui-icons/Cancel';
 import Save from 'material-ui-icons/Save';
 
 
 class CategoryEditor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.category
+    };
+  }
+
   render() {
+    const inputProps = {
+      "aria-label": "Input a new category"  // TODO Different text in CREATE vs UPDATE
+    }
     return (
       <ListItem divider>
+        <TextField
+          id="categoryeditor"
+          inputProps={inputProps}
+          value={this.state.value}
+          autoFocus
+          margin="normal"
+        />
         <ListItemSecondaryAction>
           <IconButton aria-label="Save">
             <Save />
