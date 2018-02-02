@@ -30,6 +30,7 @@ class CategoryView extends Component {
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -51,8 +52,12 @@ class CategoryView extends Component {
   }
 
   // Create, Update, Delete handlers.
-  handleCreate(e) {
-    console.log(e);
+  handleCreate(e, category) {
+    console.log("CREATE: ", category, e);
+  }
+
+  handleUpdate(e, category, url) {
+    console.log("UPDATE: ", category, url, e)
   }
 
   handleDelete(url) {

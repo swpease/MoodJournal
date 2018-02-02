@@ -14,10 +14,19 @@ class CategoryEditor extends Component {
       value: props.category
     };
     this.handleChange = this.handleChange.bind(this);
+    this.routeSave = this.routeSave.bind(this);
   }
 
   handleChange(e) {
     this.setState({value: e.target.value})
+  }
+
+  routeSave(e) {
+    if (this.props.url) {
+      this.props.handleSave(e, this.state.value, this.props.url);
+    } else {
+      this.props.handleSave(e, this.state.value)
+    }
   }
 
   render() {
@@ -35,7 +44,7 @@ class CategoryEditor extends Component {
           margin="normal"
         />
         <ListItemSecondaryAction>
-          <IconButton aria-label="Save">
+          <IconButton aria-label="Save" onClick={this.routeSave}>
             <Save />
           </IconButton>
           <IconButton aria-label="Cancel" onClick={this.props.handleCancel}>
@@ -52,9 +61,10 @@ CategoryEditor.propTypes = {
   url: PropTypes.string,
   ariaLabel: PropTypes.string,
   // handleCancel(e)
-  handleCancel: PropTypes.func.isRequired
-  // saveHandler(e, category, url)
-  // saveHandler: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
+  // PATCH:  handleSave(e, category, url)
+  // CREATE: handleSave(e, category)
+  handleSave: PropTypes.func.isRequired
 }
 
 CategoryEditor.defaultProps = {

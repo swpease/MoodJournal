@@ -34,6 +34,7 @@ class CategoryCreator extends Component {
       display = (
         <CategoryEditor
           handleCancel={this.toggleState}
+          handleSave={this.props.handleCreate}
           ariaLabel="Create a new category."
         >
         </CategoryEditor>
