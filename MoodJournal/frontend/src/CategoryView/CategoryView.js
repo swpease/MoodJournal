@@ -53,7 +53,17 @@ class CategoryView extends Component {
 
   // Create, Update, Delete handlers.
   handleCreate(e, category) {
-    console.log("CREATE: ", category, e);
+    axios.post('/api/categories/', {category: category})
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {data: prevState.data.concat([response.data])};
+          });
+        },
+        (error) => {
+          this.setState({error});
+        }
+      );
   }
 
   handleUpdate(e, category, url) {
