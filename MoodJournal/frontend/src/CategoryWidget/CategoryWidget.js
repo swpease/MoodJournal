@@ -49,7 +49,7 @@ class CategoryWidget extends Component {
           ariaLabel="Edit category."
           category={this.props.category}
           url={this.props.url}
-          handleCancel={this.toggleState}
+          handleClose={this.toggleState}
         >
         </CategoryEditor>
       )

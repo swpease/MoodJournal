@@ -52,10 +52,11 @@ class CategoryView extends Component {
   }
 
   // Create, Update, Delete handlers.
-  handleCreate(e, category) {
+  handleCreate(e, category, onSuccess) {
     axios.post('/api/categories/', {category: category})
       .then(
         (response) => {
+          onSuccess();
           this.setState((prevState) => {
             return {data: prevState.data.concat([response.data])};
           });
@@ -66,7 +67,7 @@ class CategoryView extends Component {
       );
   }
 
-  handleUpdate(e, category, url) {
+  handleUpdate(e, category, url, onSuccess) {
     console.log("UPDATE: ", category, url, e)
   }
 

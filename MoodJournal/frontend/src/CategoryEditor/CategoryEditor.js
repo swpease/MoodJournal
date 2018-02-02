@@ -23,9 +23,9 @@ class CategoryEditor extends Component {
 
   routeSave(e) {
     if (this.props.url) {
-      this.props.handleSave(e, this.state.value, this.props.url);
+      this.props.handleSave(e, this.state.value, this.props.url, this.props.handleClose);
     } else {
-      this.props.handleSave(e, this.state.value)
+      this.props.handleSave(e, this.state.value, this.props.handleClose);
     }
   }
 
@@ -47,7 +47,7 @@ class CategoryEditor extends Component {
           <IconButton aria-label="Save" onClick={this.routeSave}>
             <Save />
           </IconButton>
-          <IconButton aria-label="Cancel" onClick={this.props.handleCancel}>
+          <IconButton aria-label="Cancel" onClick={this.props.handleClose}>
             <Cancel />
           </IconButton>
         </ListItemSecondaryAction>
@@ -60,8 +60,8 @@ CategoryEditor.propTypes = {
   category: PropTypes.string,
   url: PropTypes.string,
   ariaLabel: PropTypes.string,
-  // handleCancel(e)
-  handleCancel: PropTypes.func.isRequired,
+  // handleClose(e)
+  handleClose: PropTypes.func.isRequired,
   // PATCH:  handleSave(e, category, url)
   // CREATE: handleSave(e, category)
   handleSave: PropTypes.func.isRequired
