@@ -14,7 +14,7 @@ const styles = theme => ({
   root: {
     margin: '25px auto 0px',
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 360, // TODO increase if there's a long category name.
     backgroundColor: theme.palette.background.paper,
   },
 });
@@ -52,7 +52,7 @@ class CategoryView extends Component {
   }
 
   // Create, Update, Delete handlers.
-  handleCreate(e, category, onSuccess) {
+  handleCreate(e, category, onSuccess, onError) {
     axios.post('/api/categories/', {category: category})
       .then(
         (response) => {
@@ -63,7 +63,7 @@ class CategoryView extends Component {
         },
         (error) => {
           if (error.response && error.response.status === 400) {
-            console.log(error.response.data);
+            onError(error);
           } else {
             this.setState({error});
           }

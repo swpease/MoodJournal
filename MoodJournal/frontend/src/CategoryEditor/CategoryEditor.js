@@ -17,13 +17,14 @@ class CategoryEditor extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.routeSave = this.routeSave.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   handleChange(e) {
-    if (e.target.value.length >= 50) {
+    if (e.target.value.length > 50) {
       this.setState({
         error: true,
-        helperText: "Category name cannot be longer."
+        helperText: "Max length reached."
       });
     } else {
     this.setState({
@@ -34,11 +35,19 @@ class CategoryEditor extends Component {
     }
   }
 
+  handleError(error) {
+    let message = Object.values(error.response.data)[0][0];  // e.r.d type: {str: array}
+    this.setState({
+      error: true,
+      helperText: message
+    });
+  }
+
   routeSave(e) {
     if (this.props.url) {
-      this.props.handleSave(e, this.state.value, this.props.url, this.props.handleClose);
+      this.props.handleSave(e, this.state.value, this.props.url, this.props.handleClose, this.handleError);
     } else {
-      this.props.handleSave(e, this.state.value, this.props.handleClose);
+      this.props.handleSave(e, this.state.value, this.props.handleClose, this.handleError);
     }
   }
 
