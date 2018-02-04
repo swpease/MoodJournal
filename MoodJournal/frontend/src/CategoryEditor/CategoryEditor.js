@@ -88,7 +88,7 @@ class CategoryEditor extends Component {
           value={this.state.value}
           onChange={this.handleChange}
           autoFocus
-          label="Label here"
+          label="Category Name"
           helperText={this.state.helperText}
           error={this.state.error}
           margin="normal"
