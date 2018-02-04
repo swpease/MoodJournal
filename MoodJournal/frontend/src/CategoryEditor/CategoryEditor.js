@@ -16,9 +16,11 @@ class CategoryEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      initialValue: props.category,
       value: props.category,
       error: false,
-      helperText: ""
+      helperText: "",
+      saveBtnDisabled: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.routeSave = this.routeSave.bind(this);
@@ -30,6 +32,17 @@ class CategoryEditor extends Component {
    * Attempts to save overly long category names are precluded here.
    */
   handleChange(e) {
+    let value = e.target.value;
+    if (e.target.value === this.state.initialValue) {
+      this.setState({
+        saveBtnDisabled: true
+      });
+    } else {
+      this.setState({
+        saveBtnDisabled: false
+      });
+    }
+
     if (e.target.value.length > 50) {
       this.setState({
         error: true,
@@ -86,7 +99,7 @@ class CategoryEditor extends Component {
           margin="normal"
         />
         <ListItemSecondaryAction>
-          <IconButton aria-label="Save" onClick={this.routeSave}>
+          <IconButton aria-label="Save" disabled={this.state.saveBtnDisabled} onClick={this.routeSave}>
             <Save />
           </IconButton>
           <IconButton aria-label="Cancel" onClick={this.props.handleClose}>
