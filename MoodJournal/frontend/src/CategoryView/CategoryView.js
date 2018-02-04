@@ -62,7 +62,11 @@ class CategoryView extends Component {
           });
         },
         (error) => {
-          this.setState({error});
+          if (error.response && error.response.status === 400) {
+            console.log(error.response.data);
+          } else {
+            this.setState({error});
+          }
         }
       );
   }

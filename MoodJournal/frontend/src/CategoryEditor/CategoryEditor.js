@@ -11,14 +11,27 @@ class CategoryEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.category
+      value: props.category,
+      error: false,
+      helperText: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.routeSave = this.routeSave.bind(this);
   }
 
   handleChange(e) {
-    this.setState({value: e.target.value})
+    if (e.target.value.length >= 50) {
+      this.setState({
+        error: true,
+        helperText: "Category name cannot be longer."
+      });
+    } else {
+    this.setState({
+      value: e.target.value,
+      error: false,
+      helperText: ""
+    })
+    }
   }
 
   routeSave(e) {
@@ -41,6 +54,9 @@ class CategoryEditor extends Component {
           value={this.state.value}
           onChange={this.handleChange}
           autoFocus
+          label="Label here"
+          helperText={this.state.helperText}
+          error={this.state.error}
           margin="normal"
         />
         <ListItemSecondaryAction>
