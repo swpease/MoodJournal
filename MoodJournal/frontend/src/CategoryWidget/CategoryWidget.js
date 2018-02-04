@@ -1,11 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
 import { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import ModeEdit from 'material-ui-icons/ModeEdit';
 
 import CategoryDeleter from '../CategoryDeleter/CategoryDeleter.js';
 import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
+
+
+// Prevents categories from overflowing into the buttons and beyond.
+const styles = theme => ({
+  text: {
+    "overflow-wrap": "break-word",
+    "max-width": "260px",
+  }
+})
 
 
 class CategoryWidget extends Component {
@@ -30,6 +40,7 @@ class CategoryWidget extends Component {
       display = (
       <ListItem divider>
         <ListItemText
+          className={this.props.classes.text}
           primary={this.props.category}
         />
         <ListItemSecondaryAction>
@@ -65,4 +76,4 @@ CategoryWidget.propTypes = {
   rank: PropTypes.number
 }
 
-export default CategoryWidget
+export default withStyles(styles)(CategoryWidget);
