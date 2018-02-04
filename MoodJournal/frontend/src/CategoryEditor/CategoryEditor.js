@@ -6,7 +6,12 @@ import IconButton from 'material-ui/IconButton';
 import Cancel from 'material-ui-icons/Cancel';
 import Save from 'material-ui-icons/Save';
 
-
+/*
+ * CategoryEditor is designed for use in CategoryCreator and CategoryWidget.
+ * It is simply a text editor with a Save and a Discard button.
+ * Errors are handled from the server response, and the "too long" restriction
+ * on the model field is precluded by a checker within CategoryEditor.
+*/
 class CategoryEditor extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +25,10 @@ class CategoryEditor extends Component {
     this.handleError = this.handleError.bind(this);
   }
 
+  /*
+   * The Text Field is a controlled component.
+   * Attempts to save overly long category names are precluded here.
+   */
   handleChange(e) {
     if (e.target.value.length > 50) {
       this.setState({
@@ -35,6 +44,10 @@ class CategoryEditor extends Component {
     }
   }
 
+  /*
+   * Callback passed with the data to save in case of an error.
+   * Assumes that the error has a response with data (see axios docs).
+   */
   handleError(error) {
     let message = Object.values(error.response.data)[0][0];  // e.r.d type: {str: array}
     this.setState({
@@ -43,6 +56,10 @@ class CategoryEditor extends Component {
     });
   }
 
+  /*
+   * Depending on if it's an edit or a create, passes different params,
+   * because handleSave is a different function.
+   */
   routeSave(e) {
     if (this.props.url) {
       this.props.handleSave(e, this.state.value, this.props.url, this.props.handleClose, this.handleError);
@@ -82,13 +99,16 @@ class CategoryEditor extends Component {
 }
 
 CategoryEditor.propTypes = {
+  // If update.
   category: PropTypes.string,
+  // If update.
   url: PropTypes.string,
+  // Need b/c not using a label for the text field.
   ariaLabel: PropTypes.string,
   // handleClose(e)
   handleClose: PropTypes.func.isRequired,
-  // PATCH:  handleSave(e, category, url)
-  // CREATE: handleSave(e, category)
+  // PATCH:  handleSave(e, category, url, onSuccess, onError)
+  // CREATE: handleSave(e, category, onSuccess, onError)
   handleSave: PropTypes.func.isRequired
 }
 
