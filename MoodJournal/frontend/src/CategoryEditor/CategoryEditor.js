@@ -33,24 +33,19 @@ class CategoryEditor extends Component {
    */
   handleChange(e) {
     let value = e.target.value;
-    if (e.target.value === this.state.initialValue) {
-      this.setState({
-        saveBtnDisabled: true
-      });
-    } else {
-      this.setState({
-        saveBtnDisabled: false
-      });
-    }
+    let saveBtnDisabled = value === this.state.initialValue ? true : false;
+    this.setState({
+      saveBtnDisabled: saveBtnDisabled
+    });
 
-    if (e.target.value.length > 50) {
+    if (value.length > 50) {
       this.setState({
         error: true,
         helperText: "Max length reached."
       });
     } else {
     this.setState({
-      value: e.target.value,
+      value: value,
       error: false,
       helperText: ""
     })
