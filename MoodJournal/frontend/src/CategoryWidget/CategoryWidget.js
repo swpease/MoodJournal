@@ -61,6 +61,7 @@ class CategoryWidget extends Component {
           category={this.props.category}
           url={this.props.url}
           handleClose={this.toggleState}
+          handleSave={this.props.handleUpdate}
         >
         </CategoryEditor>
       )
@@ -73,6 +74,7 @@ CategoryWidget.propTypes = {
   url: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
   rank: PropTypes.number
 }
 

@@ -71,8 +71,26 @@ class CategoryView extends Component {
       );
   }
 
-  handleUpdate(e, category, url, onSuccess) {
-    console.log("UPDATE: ", category, url, e)
+  handleUpdate(e, category, url, onSuccess, onError) {
+    axios.patch(url, {category: category})
+      .then(
+        (response) => {
+          onSuccess();
+          this.setState((prevState) => {
+            let oldData = prevState.data
+            let replaceIndex = oldData.findIndex(item => item.url === response.data.url);
+            let newData = oldData.splice(replaceIndex, 1, response.data);
+            return newData;
+          })
+        },
+        (error) => {
+          if (error.response && error.response.status === 400) {
+            onError(error);
+          } else {
+            this.setState({error});
+          }
+        }
+      );
   }
 
   handleDelete(url) {
@@ -104,7 +122,8 @@ class CategoryView extends Component {
           url={datum.url}
           rank={datum.rank}
           category={datum.category}
-          handleDelete={this.handleDelete}>
+          handleDelete={this.handleDelete}
+          handleUpdate={this.handleUpdate}>
         </CategoryWidget>
       );
 
