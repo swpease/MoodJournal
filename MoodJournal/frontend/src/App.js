@@ -1,57 +1,42 @@
 import React, { Component } from 'react';
+import Reboot from 'material-ui/Reboot';
 
-import axios from 'axios';
-
-import logo from './logo.svg';
-import './App.css';
 import CategoryView from './CategoryView/CategoryView.js';
+import AppTabs from './AppTabs/AppTabs.js';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     // Will have one state per top-level view:
-    //     - default    : welcome page
+    //     - home    : welcome page
     //     - categories : categories list
     //     - daily      : entries for a given date
     //     - search     : search / filter entries
     this.state = {
-      view: 'default',
-      data: []
+      view: 'home',
     };
-    this.handleCategoriesBtnClick = this.handleCategoriesBtnClick.bind(this)
+    this.handleCategoriesTabClick = this.handleCategoriesTabClick.bind(this)
   }
 
-  handleCategoriesBtnClick(e) {
-    axios.get('/api/categories')
-        .then(response => {
-          this.setState({
-            view: 'categories',
-            data: response.data
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+  handleCategoriesTabClick(e) {
+    this.setState({
+      view: 'categories'
+    });
   }
 
   render() {
     let view = null;
-    if (this.state.view == 'categories') {
+    if (this.state.view === 'categories') {
       view = (
-        <CategoryView data={this.state.data}></CategoryView>
+        <CategoryView></CategoryView>
       )
     }
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <button type="button" onClick={this.handleCategoriesBtnClick}>
-          Send GET /categories
-        </button>
+      <div>
+        <Reboot />
+        <AppTabs onCategoriesTabClick={this.handleCategoriesTabClick}></AppTabs>
         {view}
       </div>
     );
