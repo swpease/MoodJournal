@@ -6,38 +6,49 @@ import AddIcon from 'material-ui-icons/Add';
 import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
 
 
+/*
+ * CategoryCreator has two states: default and create.
+ *   default: Displays an "add" fab.
+ *   create:  Displays a CategoryEditor widget in place of the fab.
+ */
+
+const STATES = {
+  default: "default",
+  create: "create"
+}
+
+
 class CategoryCreator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "default"  // Options: "default" and "create".
+      view: STATES.default
     };
     this.toggleState = this.toggleState.bind(this);
   }
 
   toggleState(e) {
     this.setState((prevState) => {
-      let nextView = prevState.view === "default" ? "create" : "default";
+      let nextView = prevState.view === STATES.default ? STATES.create : STATES.default;
       return {view: nextView}
     });
   }
 
   render() {
     let display = null;
-    if (this.state.view === "default") {  //TODO enum of states.
+    if (this.state.view === STATES.default) {  //TODO enum of states.
       display = (
         <Button fab mini color="primary" aria-label="add" onClick={this.toggleState}>
           <AddIcon />
         </Button>
       )
-    } else if (this.state.view === "create") {
+    } else if (this.state.view === STATES.create) {
       display = (
         <CategoryEditor
           handleClose={this.toggleState}
           handleSave={this.props.handleCreate}
           ariaLabel="Create a new category."
-        >
-        </CategoryEditor>
+        />
       )
     }
     return display;
@@ -45,6 +56,7 @@ class CategoryCreator extends Component {
 }
 
 CategoryCreator.propTypes = {
+  // Passed through to CategoryEditor
   handleCreate: PropTypes.func.isRequired
 }
 
