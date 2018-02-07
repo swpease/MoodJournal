@@ -5,29 +5,32 @@ import CategoryView from './CategoryView/CategoryView.js';
 import AppTabs from './AppTabs/AppTabs.js';
 
 
+const STATES  = {
+  home: "home",
+  categories: "categories",
+  daily: "daily",
+  search: "search"
+}
+
+
 class App extends Component {
   constructor(props) {
     super(props);
-    // Will have one state per top-level view:
-    //     - home    : welcome page
-    //     - categories : categories list
-    //     - daily      : entries for a given date
-    //     - search     : search / filter entries
     this.state = {
-      view: 'home',
+      view: STATES.home,
     };
     this.handleCategoriesTabClick = this.handleCategoriesTabClick.bind(this)
   }
 
   handleCategoriesTabClick(e) {
     this.setState({
-      view: 'categories'
+      view: STATES.categories
     });
   }
 
   render() {
     let view = null;
-    if (this.state.view === 'categories') {
+    if (this.state.view === STATES.categories) {
       view = (
         <CategoryView></CategoryView>
       )

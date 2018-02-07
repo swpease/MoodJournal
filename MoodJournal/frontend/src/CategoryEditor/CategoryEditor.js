@@ -20,7 +20,7 @@ class CategoryEditor extends Component {
       value: props.category,
       error: false,
       helperText: "",
-      saveBtnDisabled: true
+      saveBtnDisabled: true  // Toggled in handleChange by initialValue
     };
     this.handleChange = this.handleChange.bind(this);
     this.routeSave = this.routeSave.bind(this);
@@ -113,7 +113,7 @@ CategoryEditor.propTypes = {
   url: PropTypes.string,
   // Need b/c not using a label for the text field.
   ariaLabel: PropTypes.string,
-  // handleClose(e)
+  // handleClose(e): for canceling.
   handleClose: PropTypes.func.isRequired,
   // PATCH:  handleSave(e, category, url, onSuccess, onError)
   // CREATE: handleSave(e, category, onSuccess, onError)
