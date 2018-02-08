@@ -14,7 +14,7 @@ const styles = theme => ({
   root: {
     margin: '25px auto 0px',
     width: '100%',
-    maxWidth: 360, // TODO increase if there's a long category name.
+    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
 });
@@ -33,6 +33,7 @@ class CategoryView extends Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
+  // https://reactjs.org/docs/faq-ajax.html
   componentDidMount() {
     axios.get('/api/categories')
       .then(
@@ -114,7 +115,7 @@ class CategoryView extends Component {
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div>Loading...</div>;
+      return <div>Loading...</div>;  // TODO loading icon
     } else {
       let categories = data.map(datum =>
         <CategoryWidget
@@ -126,7 +127,7 @@ class CategoryView extends Component {
           handleUpdate={this.handleUpdate}>
         </CategoryWidget>
       );
-
+      // TODO do I want to just put the CategoryCreator in the List?
       return (
         <div className={this.props.classes.root}>
           <List disablePadding>{categories}</List>

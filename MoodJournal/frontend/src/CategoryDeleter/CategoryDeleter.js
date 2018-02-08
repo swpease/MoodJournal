@@ -10,7 +10,11 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import DeleteForever from 'material-ui-icons/DeleteForever';
 
-
+/*
+ * CategoryDeleter renders a span containing a button to delete forever
+ * an item, as well as an "are you sure" dialog. Upon confirmation, it
+ * calls the delete handler callback prop with the target's url.
+ */
 class CategoryDeleter extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +32,7 @@ class CategoryDeleter extends Component {
     this.setState({open: false});
   }
 
+  // Just exists to pass an arg to the callback fn.
   handleConfirm(e) {
     this.props.handleDelete(this.props.url);
   }
@@ -68,9 +73,13 @@ class CategoryDeleter extends Component {
 }
 
 CategoryDeleter.propTypes = {
+  // URL of the target to delete. To pass to handleDelete.
   url: PropTypes.string.isRequired,
+  // handleDelete(url) should delete the resource at URL url.
   handleDelete: PropTypes.func.isRequired,
-  category: PropTypes.string
+  // In case you want to display the text representation
+  // of what the user is deleting.
+  target: PropTypes.string
 }
 
 export default CategoryDeleter;
