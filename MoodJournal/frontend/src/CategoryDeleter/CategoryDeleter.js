@@ -11,7 +11,7 @@ import Dialog, {
 import DeleteForever from 'material-ui-icons/DeleteForever';
 
 /*
- * CategoryDeleter renders a span containing a button to delete forever
+ * CategoryDeleter renders a button to delete forever
  * an item, as well as an "are you sure" dialog. Upon confirmation, it
  * calls the delete handler callback prop with the target's url.
  */
@@ -39,7 +39,7 @@ class CategoryDeleter extends Component {
 
   render() {
     return (
-      <span>
+      <React.Fragment>
         <IconButton aria-label="Delete" onClick={this.handleClickOpen}>
           <DeleteForever />
         </IconButton>
@@ -67,7 +67,7 @@ class CategoryDeleter extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </span>
+      </React.Fragment>
     )
   }
 }
