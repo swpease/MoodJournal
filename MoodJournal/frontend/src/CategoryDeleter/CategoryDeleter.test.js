@@ -25,17 +25,6 @@ it('renders without crashing', () => {
 });
 
 // Content:
-it('is all wrapped in a span', () => {
-  let wrapper = setup();
-  expect(wrapper.find('span').first().children()).toEqual(wrapper.children());
-});
-
-// it('has a DeleteForever icon button', () => {
-//   let wrapper = setup();
-//   expect(wrapper.find(DeleteForever).length).toBe(1);
-// });
-
-// need a different renderer for this test.
 it('displays a dialog only after clicking the delete button', () => {
   let wrapper = setup();
   let delBtn = wrapper.find(IconButton);

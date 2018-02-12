@@ -21,7 +21,6 @@ class CategoryDeleter extends Component {
     this.state = {open: false};
     this.handleClose = this.handleClose.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
-    this.handleConfirm = this.handleConfirm.bind(this);
   }
 
   handleClickOpen(e) {
@@ -30,11 +29,6 @@ class CategoryDeleter extends Component {
 
   handleClose(e) {
     this.setState({open: false});
-  }
-
-  // Just exists to pass an arg to the callback fn.
-  handleConfirm(e) {
-    this.props.handleDelete(this.props.url);
   }
 
   render() {
@@ -62,7 +56,7 @@ class CategoryDeleter extends Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleConfirm} color="primary">
+            <Button onClick={(e) => this.props.handleDelete(this.props.url)} color="primary">
               Confirm
             </Button>
           </DialogActions>
