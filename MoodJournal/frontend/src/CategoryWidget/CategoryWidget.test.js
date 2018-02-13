@@ -1,8 +1,8 @@
 import React from 'react';
-import { createMount } from 'material-ui/test-utils';
-import { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
+
+import { createShallow } from 'material-ui/test-utils';
+import { ListItem, ListItemText } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
-import ModeEdit from 'material-ui-icons/ModeEdit';
 
 import CategoryDeleter from '../CategoryDeleter/CategoryDeleter.js';
 import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
@@ -16,8 +16,8 @@ const setup = propOverrides => {
     handleUpdate: jest.fn(),
   }, propOverrides);
 
-  let mount = createMount();
-  const wrapper = mount(<CategoryWidget {...props} />);
+  let shallow = createShallow({untilSelector: 'CategoryWidget'}); // b/c withStyles HOC
+  const wrapper = shallow(<CategoryWidget {...props} />);
   return wrapper;
 };
 
@@ -35,14 +35,20 @@ it('displays a ListItem (displayed as div) by default', () => {
 it('passes `primary` prop to ListItemText', () => {
   let wrapper = setup();
   let lit = wrapper.find(ListItemText);
-  expect(lit.prop('primary')).toBe(wrapper.prop('category'));
+  expect(lit.prop('primary')).toBe(wrapper.instance().props.category);
+});
+
+it('passes className prop to ListItemText', () => {
+  let wrapper = setup();
+  let lit = wrapper.find(ListItemText);
+  expect(lit.prop('className')).toBe(wrapper.instance().props.classes.text);
 });
 
 it('passes handleDelete and url to CategoryDeleter', () => {
   let wrapper = setup();
   let cd = wrapper.find(CategoryDeleter);
-  expect(cd.prop('url')).toBe(wrapper.prop('url'));
-  expect(cd.prop('handleDelete')).toBe(wrapper.prop('handleDelete'));
+  expect(cd.prop('url')).toBe(wrapper.instance().props.url);
+  expect(cd.prop('handleDelete')).toBe(wrapper.instance().props.handleDelete);
 });
 
 it('displays a CategoryEditor upon edit button click', () => {
@@ -58,9 +64,8 @@ it('passes a bunch of props to CategoryEditor upon view', () => {
   let editBtn = wrapper.find(IconButton).first();
   editBtn.simulate('click');
   let ce = wrapper.find(CategoryEditor);
-  expect(ce.prop('url')).toBe(wrapper.prop('url'));
-  expect(ce.prop('category')).toBe(wrapper.prop('category'));
-  expect(ce.prop('handleSave')).toBe(wrapper.prop('handleUpdate'));
-  console.log(wrapper.debug())
+  expect(ce.prop('url')).toBe(wrapper.instance().props.url);
+  expect(ce.prop('category')).toBe(wrapper.instance().props.category);
+  expect(ce.prop('handleSave')).toBe(wrapper.instance().props.handleUpdate);
   expect(ce.prop('handleClose')).toBe(wrapper.instance().toggleState);
 });
