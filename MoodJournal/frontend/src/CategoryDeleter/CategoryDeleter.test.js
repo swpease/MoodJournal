@@ -41,4 +41,11 @@ it('calls delete handler upon dialog confirmation', () => {
   confirmBtn.simulate('click');
   let handleDelete = wrapper.instance().props.handleDelete;
   expect(handleDelete.mock.calls.length).toBe(1);
-})
+});
+// 
+// it('closes a dialog after clicking Cancel button', () => {
+//   let wrapper = setup();
+//   let cancelBtn = wrapper.find(DialogActions).at(0);
+//   cancelBtn.simulate('click');
+//   let handleClose =
+// })
