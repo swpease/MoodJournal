@@ -96,6 +96,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.13.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "webpack-bundle-tracker": "^0.2.1"
