@@ -7,6 +7,7 @@ import CategoryView from '../CategoryView/CategoryView.js';
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js';
 import CategoryCreator from '../CategoryCreator/CategoryCreator.js'
 import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
+import CategoryDeleter from '../CategoryDeleter/CategoryDeleter.js';
 
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
@@ -34,13 +35,13 @@ mock.onPost(BASEPOST).reply(201, {
     "rank": 11
 });
 
-mock.onPatch("http://127.0.0.1:8000/api/categories/56/").reply(200, {
-    "url": "http://127.0.0.1:8000/api/categories/56/",
+mock.onPatch("http://127.0.0.1:8000/api/categories/15/").reply(200, {
+    "url": "http://127.0.0.1:8000/api/categories/15/",
     "category": "Modded Entry",
-    "rank": 11
+    "rank": 2
 });
 
-mock.onDelete("http://127.0.0.1:8000/api/categories/56/").reply(204);
+mock.onDelete("http://127.0.0.1:8000/api/categories/15/").reply(204);
 
 
 it('renders without crashing', async () => {
@@ -66,7 +67,7 @@ it('can add new entries', async () => {
   wrapper.update();
 
   let cc = wrapper.find(CategoryCreator);
-  cc.instance().toggleState();
+  cc.instance().toggleState({});
   wrapper.update();
 
   let ce = wrapper.find(CategoryEditor);
@@ -85,4 +86,46 @@ it('can add new entries', async () => {
 
   expect(wrapper.find(CategoryWidget).length).toBe(2);
   expect(wrapper.find(TextField).length).toBe(0);
+});
+
+it('can edit preexisting entries', async () => {
+  const wrapper = mount(<CategoryView />);
+  await flushPromises();
+  wrapper.update();
+
+  let cw = wrapper.find(CategoryWidget).children();  // b/c wrapped in HOC
+  cw.instance().toggleState({});
+  wrapper.update();
+
+  let ce = wrapper.find(CategoryEditor);
+  ce.instance().handleChange({target: {value: 'Modded Entry'}}); //NB doesn't actually get passed to the mock axios call
+  wrapper.update();
+
+  ce = wrapper.find(CategoryEditor);
+  ce.instance().props.handleSave(
+    {},
+    ce.instance().state.value,
+    ce.instance().props.url,
+    ce.instance().props.handleClose,
+    ce.instance().handleError
+  );
+  await flushPromises();
+  wrapper.update();
+
+  expect(wrapper.find(CategoryWidget).length).toBe(1);
+  expect(wrapper.find(CategoryEditor).length).toBe(0);
+  expect(wrapper.find(CategoryWidget).props().category).toBe('Modded Entry');
+});
+
+it('can delete entries', async () => {
+  const wrapper = mount(<CategoryView />);
+  await flushPromises();
+  wrapper.update();
+
+  let cd = wrapper.find(CategoryDeleter);
+  cd.instance().props.handleDelete(cd.instance().props.url);
+  await flushPromises();
+  wrapper.update();
+
+  expect(wrapper.find(CategoryWidget).length).toBe(0);
 });
