@@ -83,17 +83,3 @@ it('has custom styles in a wrapper div', async () => {
   let shell = wrapper.find('div').first();
   expect(shell.prop('className')).toBeTruthy();
 });
-
-// // mock.onPost(BASEURL).reply(201, {
-//     "url": "http://127.0.0.1:8000/api/categories/56/",
-//     "category": "New Entry",
-//     "rank": 11
-// });
-//
-// mock.onPatch("http://127.0.0.1:8000/api/categories/56/").reply(200, {
-//     "url": "http://127.0.0.1:8000/api/categories/56/",
-//     "category": "Modded Entry",
-//     "rank": 11
-// });
-//
-// mock.onDelete("http://127.0.0.1:8000/api/categories/56/").reply(204);
