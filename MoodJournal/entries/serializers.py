@@ -19,13 +19,13 @@ class UserDefinedCategorySerializer(serializers.HyperlinkedModelSerializer):
                 message='There is already a category with this name.'
             )
         ]
-        fields = ('url', 'category', 'rank', 'user')
+        fields = ('url', 'category', 'rank', 'pk', 'user')
 
 
 class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='entry-detail')
-    # TODO do I want this or just a HyperlinkedIdentityField or just a ReadOnlyField?
-    category = UserDefinedCategorySerializer(read_only=True)
+    # I was getting weird behavior using other serializer fields, so here we are:
+    category = serializers.PrimaryKeyRelatedField(queryset=UserDefinedCategory.objects.all())
 
     class Meta:
         model = EntryInstance
