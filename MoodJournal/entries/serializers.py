@@ -19,7 +19,7 @@ class UserDefinedCategorySerializer(serializers.HyperlinkedModelSerializer):
                 message='There is already a category with this name.'
             )
         ]
-        fields = ('url', 'category', 'rank', 'user')
+        fields = ('url', 'category', 'rank', 'pk', 'user')
 
 
 class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
