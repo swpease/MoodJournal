@@ -16,13 +16,27 @@ def api_root(request):
     return Response({
         'entries': reverse('entries-list', request=request),
         'categories': reverse('categories-list', request=request),
-        'quality_ratings': reverse('qualityratings-list', request=request),
+        'quality_ratings': reverse('quality-ratings-list', request=request),
+        'entry_filter_options': reverse('entry-filter-options-list', request=request),
     })
 
 @api_view(['GET'])
 def quality_ratings(request):
     quality_ratings = [qr[0] for qr in EntryInstance.QUALITY_RATING_CHOICES]
     return Response(quality_ratings)
+
+#TODO: this view is brittle.
+@api_view(['GET'])
+def entry_filter_options(request):
+    FILTER_OPTIONS = {
+        'quality_rating': 'exact',
+        'entry': 'icontains',
+        'category': 'iexact',
+        'date': 'exact',
+        'date_start': 'gte',
+        'date_end': 'lte'
+    }
+    return Response(FILTER_OPTIONS)
 
 
 class EntriesList(generics.ListCreateAPIView):
