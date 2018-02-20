@@ -35,7 +35,13 @@ def api_root(request):
     return Response({
         'entries': reverse('entries-list', request=request),
         'categories': reverse('categories-list', request=request),
+        'quality_ratings': reverse('qualityratings-list', request=request),
     })
+
+@api_view(['GET'])
+def quality_ratings(request):
+    quality_ratings = [qr[0] for qr in EntryInstance.QUALITY_RATING_CHOICES]
+    return Response(quality_ratings)
 
 
 class EntriesList(generics.ListCreateAPIView):
@@ -52,21 +58,6 @@ class EntriesList(generics.ListCreateAPIView):
     def get_queryset(self):
         return EntryInstance.objects.filter(user=self.request.user)
 
-    def get(self, request, *args, **kwargs):
-        entry_instance_queryset = self.filter_queryset(self.get_queryset())
-        user_defined_categories_queryset = UserDefinedCategory.objects.filter(user=self.request.user)
-
-        entry_instance_serializer = self.get_serializer(entry_instance_queryset,
-                                                        context={'request': request},
-                                                        many=True)
-        user_defined_categories_serializer = UserDefinedCategorySerializer(user_defined_categories_queryset,
-                                                                           context={'request': request},
-                                                                           many=True)
-
-        data = {"EntryInstances": entry_instance_serializer.data,
-                "UserDefinedCategories": user_defined_categories_serializer.data}
-
-        return Response(data)
     # TODO permissions | pagination
 
     def perform_create(self, serializer):
