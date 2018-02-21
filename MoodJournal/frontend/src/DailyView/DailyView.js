@@ -24,7 +24,9 @@ class DailyView extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      data: []
+      categories: [],
+      qualityRatings: [],
+      entries: []
     };
     // this.handleDelete = this.handleDelete.bind(this);
     // this.handleCreate = this.handleCreate.bind(this);
@@ -37,7 +39,35 @@ class DailyView extends Component {
         (response) => {
           this.setState({
             isLoaded: true,
-            data: response.data
+            entries: response.data
+          });
+          return axios.get('/api/categories/')
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+      .then(
+        (response) => {
+          this.setState({
+            categories: response.data
+          });
+          return axios.get('/api/quality-ratings/')
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+      .then(
+        (response) => {
+          this.setState({
+            qualityRatings: response.data
           });
         },
         (error) => {
@@ -50,13 +80,13 @@ class DailyView extends Component {
   }
 
   render() {
-    const { error, isLoaded, data } = this.state;
+    const { error, isLoaded, entries } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;  // TODO loading icon
     } else {
-      let entries = data.map(datum =>
+      let entriesWidgets = entries.map(datum =>
         <div key={datum.url}>
         {datum.entry}
         </div>
@@ -64,7 +94,7 @@ class DailyView extends Component {
       // TODO do I want to just put the CategoryCreator in the List?
       return (
         <div className={this.props.classes.root}>
-          <List>{entries}</List>
+          <List>{entriesWidgets}</List>
         </div>
       )
     }
