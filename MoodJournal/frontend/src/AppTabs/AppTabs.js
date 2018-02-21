@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
-import { APPSTATES } from '../App.js';
+import APPVIEWS from './APPVIEWS.js';
 
 class AppTabs extends Component {
   constructor(props) {
@@ -28,20 +28,20 @@ class AppTabs extends Component {
           centered
         >
           <Tab
-            label={APPSTATES.home}
-            onClick={(e) => {this.props.handleTabClick(APPSTATES.home, e)}}
+            label={APPVIEWS.home}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
           />
           <Tab
-            label={APPSTATES.categories}
-            onClick={(e) => {this.props.handleTabClick(APPSTATES.categories, e)}}
+            label={APPVIEWS.categories}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
           />
           <Tab
-            label={APPSTATES.daily}
-            onClick={(e) => {this.props.handleTabClick(APPSTATES.daily, e)}}
+            label={APPVIEWS.daily}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
           />
           <Tab
-            label={APPSTATES.history}
-            onClick={(e) => {this.props.handleTabClick(APPSTATES.history, e)}}
+            label={APPVIEWS.history}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
           />
         </Tabs>
       </Paper>

@@ -4,38 +4,30 @@ import Reboot from 'material-ui/Reboot';
 import CategoryView from './CategoryView/CategoryView.js';
 import DailyView from './DailyView/DailyView.js';
 import AppTabs from './AppTabs/AppTabs.js';
-
-
-const STATES  = {
-  home: "Home",
-  categories: "Categories",
-  daily: "Daily",
-  history: "History"
-}
-
+import APPVIEWS from './APPVIEWS.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: STATES.home,
+      view: APPVIEWS.home,
     };
     this.handleTabClick = this.handleTabClick.bind(this)
   }
 
-  handleTabClick(state, e) {
+  handleTabClick(view, e) {
     this.setState({
-      view: state 
+      view: view
     });
   }
 
   render() {
     let view = null;
-    if (this.state.view === STATES.categories) {
+    if (this.state.view === APPVIEWS.categories) {
       view = (
         <CategoryView></CategoryView>
       )
-    } else if (this.state.view === STATES.daily) {
+    } else if (this.state.view === APPVIEWS.daily) {
       view = (
         <DailyView />
       )
@@ -52,4 +44,3 @@ class App extends Component {
 }
 
 export default App;
-export { STATES as APPSTATES };
