@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import Reboot from 'material-ui/Reboot';
 
 import CategoryView from './CategoryView/CategoryView.js';
+import DailyView from './DailyView/DailyView.js';
 import AppTabs from './AppTabs/AppTabs.js';
 
 
 const STATES  = {
-  home: "home",
-  categories: "categories",
-  daily: "daily",
-  search: "search"
+  home: "Home",
+  categories: "Categories",
+  daily: "Daily",
+  history: "History"
 }
 
 
@@ -19,12 +20,12 @@ class App extends Component {
     this.state = {
       view: STATES.home,
     };
-    this.handleCategoriesTabClick = this.handleCategoriesTabClick.bind(this)
+    this.handleTabClick = this.handleTabClick.bind(this)
   }
 
-  handleCategoriesTabClick(e) {
+  handleTabClick(state, e) {
     this.setState({
-      view: STATES.categories
+      view: state 
     });
   }
 
@@ -34,12 +35,16 @@ class App extends Component {
       view = (
         <CategoryView></CategoryView>
       )
+    } else if (this.state.view === STATES.daily) {
+      view = (
+        <DailyView />
+      )
     }
 
     return (
       <div>
         <Reboot />
-        <AppTabs onCategoriesTabClick={this.handleCategoriesTabClick}></AppTabs>
+        <AppTabs handleTabClick={this.handleTabClick}></AppTabs>
         {view}
       </div>
     );
@@ -47,3 +52,4 @@ class App extends Component {
 }
 
 export default App;
+export { STATES as APPSTATES };
