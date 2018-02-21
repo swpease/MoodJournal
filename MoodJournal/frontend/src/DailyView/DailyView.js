@@ -8,6 +8,16 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 
+const styles = theme => ({
+  root: {
+    margin: '25px auto 0px',
+    width: '100%',
+    maxWidth: 720,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
+
+
 class DailyView extends Component {
   constructor(props) {
     super(props);
@@ -53,10 +63,12 @@ class DailyView extends Component {
       );
       // TODO do I want to just put the CategoryCreator in the List?
       return (
-        <List>{entries}</List>
+        <div className={this.props.classes.root}>
+          <List>{entries}</List>
+        </div>
       )
     }
   }
 }
 
-export default DailyView;
+export default withStyles(styles)(DailyView);
