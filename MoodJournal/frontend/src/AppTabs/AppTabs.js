@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
-import APPVIEWS from './APPVIEWS.js';
+import APPVIEWS from '../APPVIEWS.js';
 
 class AppTabs extends Component {
   constructor(props) {

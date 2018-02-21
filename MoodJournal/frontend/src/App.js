@@ -25,7 +25,7 @@ class App extends Component {
     let view = null;
     if (this.state.view === APPVIEWS.categories) {
       view = (
-        <CategoryView></CategoryView>
+        <CategoryView />
       )
     } else if (this.state.view === APPVIEWS.daily) {
       view = (
