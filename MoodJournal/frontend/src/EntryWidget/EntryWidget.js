@@ -32,14 +32,14 @@ class EntryWidget extends Component {
 
   render() {
     // pass other to EU
-    const { date, category, rating, entry, url, handleDelete, classes, ...other } = this.props;
+    const { date, categoryName, rating, entry, url, handleDelete, classes, ...other } = this.props;
     let display = null;
     if (this.state.view === STATES.default) {
       display = (
         <Card>
           <CardContent>
             <Typography align="right" color="textSecondary">{date}</Typography>
-            <Typography variant="headline">{category}</Typography>
+            <Typography variant="display3">{categoryName}</Typography>
             <Typography variant="subheading" color="textSecondary" gutterBottom>{rating}</Typography>
             <Typography component="p">{entry}</Typography>
           </CardContent>
@@ -60,7 +60,8 @@ class EntryWidget extends Component {
 
 EntryWidget.propTypes = {
   date: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
+  categoryId: PropTypes.number.isRequired,
+  categoryName: PropTypes.string.isRequired,
   rating: PropTypes.string.isRequired,
   entry: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,

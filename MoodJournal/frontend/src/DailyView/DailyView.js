@@ -29,6 +29,7 @@ class DailyView extends Component {
       qualityRatings: [],
       entries: []
     };
+    this.getCategoryName = this.getCategoryName.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     // this.handleUpdate = this.handleUpdate.bind(this);
@@ -39,7 +40,6 @@ class DailyView extends Component {
       .then(
         (response) => {
           this.setState({
-            isLoaded: true,
             entries: response.data
           });
           return axios.get('/api/categories/')
@@ -54,6 +54,7 @@ class DailyView extends Component {
       .then(
         (response) => {
           this.setState({
+            isLoaded: true,
             categories: response.data
           });
           return axios.get('/api/quality-ratings/')
@@ -88,6 +89,11 @@ class DailyView extends Component {
     return
   }
 
+  getCategoryName(pk) {
+    let categoryObject = this.state.categories.find(category => category.pk === pk);
+    return categoryObject.category
+  }
+
   render() {
     const { error, isLoaded, entries, qualityRatings } = this.state;
     if (error) {
@@ -100,7 +106,8 @@ class DailyView extends Component {
           key={datum.url}
           url={datum.url}
           date={datum.date}
-          category={datum.category}  // pk
+          categoryId={datum.category}  // pk
+          categoryName={this.getCategoryName(datum.category)}
           rating={datum.quality_rating}
           entry={datum.entry}
           qualityRatings={qualityRatings}
