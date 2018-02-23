@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Reboot from 'material-ui/Reboot';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 import CategoryView from './CategoryView/CategoryView.js';
 import DailyView from './DailyView/DailyView.js';
 import AppTabs from './AppTabs/AppTabs.js';
 import APPVIEWS from './APPVIEWS.js';
+
+
+const theme = createMuiTheme();
+
 
 class App extends Component {
   constructor(props) {
@@ -34,11 +39,11 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <MuiThemeProvider theme={theme}>
         <Reboot />
         <AppTabs handleTabClick={this.handleTabClick}></AppTabs>
         {view}
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
