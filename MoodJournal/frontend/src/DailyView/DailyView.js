@@ -3,6 +3,7 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
+import EntryWidget from '../EntryWidget/EntryWidget.js';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -28,8 +29,8 @@ class DailyView extends Component {
       qualityRatings: [],
       entries: []
     };
-    // this.handleDelete = this.handleDelete.bind(this);
-    // this.handleCreate = this.handleCreate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
     // this.handleUpdate = this.handleUpdate.bind(this);
   }
 
@@ -79,22 +80,38 @@ class DailyView extends Component {
       );
   }
 
+  handleDelete() {
+    return
+  }
+
+  handleCreate() {
+    return
+  }
+
   render() {
-    const { error, isLoaded, entries } = this.state;
+    const { error, isLoaded, entries, qualityRatings } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;  // TODO loading icon
     } else {
-      let entriesWidgets = entries.map(datum =>
-        <div key={datum.url}>
-        {datum.entry}
-        </div>
+      let entryWidgets = entries.map(datum =>
+        <EntryWidget
+          key={datum.url}
+          url={datum.url}
+          date={datum.date}
+          category={datum.category}  // pk
+          rating={datum.quality_rating}
+          entry={datum.entry}
+          qualityRatings={qualityRatings}
+          handleDelete={this.handleDelete}
+          handleSave={this.handleCreate}
+        />
       );
       // TODO do I want to just put the CategoryCreator in the List?
       return (
         <div className={this.props.classes.root}>
-          <List>{entriesWidgets}</List>
+          {entryWidgets}
         </div>
       )
     }
