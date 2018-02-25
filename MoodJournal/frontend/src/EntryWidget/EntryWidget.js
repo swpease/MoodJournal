@@ -39,7 +39,7 @@ class EntryWidget extends Component {
         <Card>
           <CardContent>
             <Typography align="right" color="textSecondary">{date}</Typography>
-            <Typography variant="display3">{categoryName}</Typography>
+            <Typography variant="headline">{categoryName}</Typography>
             <Typography variant="subheading" color="textSecondary" gutterBottom>{rating}</Typography>
             <Typography component="p">{entry}</Typography>
           </CardContent>
