@@ -8,7 +8,11 @@ import AppTabs from './AppTabs/AppTabs.js';
 import APPVIEWS from './APPVIEWS.js';
 
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark'
+  },
+});
 
 
 class App extends Component {
