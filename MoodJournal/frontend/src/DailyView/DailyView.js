@@ -81,8 +81,20 @@ class DailyView extends Component {
       );
   }
 
-  handleDelete() {
-    return
+  handleDelete(url) {
+    axios.delete(url)
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {entries: prevState.entries.filter(datum => datum.url !==  url)}
+          });
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      );
   }
 
   handleCreate() {
