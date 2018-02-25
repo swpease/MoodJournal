@@ -38,7 +38,7 @@ class CategoryCreator extends Component {
     let display = null;
     if (this.state.view === STATES.default) {  //TODO enum of states.
       display = (
-        <Button fab mini color="primary" aria-label="add" onClick={this.toggleState}>
+        <Button variant="fab" mini color="primary" aria-label="add" onClick={this.toggleState}>
           <AddIcon />
         </Button>
       )
