@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardHeader, CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -10,9 +10,7 @@ class EntryEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      initialEntry: props.entry,
       entry: props.entry,
-      initialRating: props.rating,
       rating: props.rating,
       category: props.category,
       saveBtnDisabled: true,
@@ -87,7 +85,9 @@ class EntryEditor extends Component {
           />
         </CardContent>
         <CardActions>
-          <Button onClick={this.props.handleSave}>{"Save"}</Button>
+          <Button onClick={this.props.handleSave} disabled={this.props.saveBtnDisabled}>
+            {"Save"}
+          </Button>
           <Button onClick={this.props.handleCancel}>{"Cancel"}</Button>
         </CardActions>
       </Card>
