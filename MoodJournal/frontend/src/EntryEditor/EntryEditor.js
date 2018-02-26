@@ -24,6 +24,12 @@ class EntryEditor extends Component {
       this.setState({
         [field]: e.target.value
       });
+      if (field !== "category") {
+        let saveBtnDisabled = e.target.value === this.props[field] ? true : false;
+        this.setState({
+          saveBtnDisabled: saveBtnDisabled
+        });
+      }
     };
   }
 
@@ -85,7 +91,7 @@ class EntryEditor extends Component {
           />
         </CardContent>
         <CardActions>
-          <Button onClick={this.props.handleSave} disabled={this.props.saveBtnDisabled}>
+          <Button onClick={this.props.handleSave} disabled={this.state.saveBtnDisabled}>
             {"Save"}
           </Button>
           <Button onClick={this.props.handleCancel}>{"Cancel"}</Button>
