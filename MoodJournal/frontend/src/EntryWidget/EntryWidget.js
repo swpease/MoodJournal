@@ -4,6 +4,8 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+
+import EntryEditor from '../EntryEditor/EntryEditor.js';
 /*
  * EntryWidget has two states: default and edit.
  *
@@ -32,14 +34,14 @@ class EntryWidget extends Component {
 
   render() {
     // pass other to EU
-    const { date, categoryName, rating, entry, url, handleDelete, classes, ...other } = this.props;
+    const { date, category, rating, entry, url, handleDelete, classes, handleSave, qualityRatings } = this.props;
     let display = null;
     if (this.state.view === STATES.default) {
       display = (
         <Card>
           <CardContent>
             <Typography align="right" color="textSecondary">{date}</Typography>
-            <Typography variant="headline">{categoryName}</Typography>
+            <Typography variant="headline">{category}</Typography>
             <Typography variant="subheading" color="textSecondary" gutterBottom>{rating}</Typography>
             <Typography component="p">{entry}</Typography>
           </CardContent>
@@ -51,7 +53,15 @@ class EntryWidget extends Component {
       )
     } else if (this.state.view === STATES.edit) {
       display = (
-        <Button onClick={this.toggleState}>Revert</Button>
+        <EntryEditor
+          date={date}
+          category={category}
+          handleSave={handleSave}
+          handleCancel={this.toggleState}
+          qualityRatings={qualityRatings}
+          rating={rating}
+          entry={entry}
+        />
       )
     }
     return display;
@@ -60,8 +70,7 @@ class EntryWidget extends Component {
 
 EntryWidget.propTypes = {
   date: PropTypes.string.isRequired,
-  categoryId: PropTypes.number.isRequired,
-  categoryName: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
   rating: PropTypes.string.isRequired,
   entry: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,

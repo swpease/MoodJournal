@@ -118,8 +118,7 @@ class DailyView extends Component {
           key={datum.url}
           url={datum.url}
           date={datum.date}
-          categoryId={datum.category}  // pk
-          categoryName={this.getCategoryName(datum.category)}
+          category={this.getCategoryName(datum.category)}
           rating={datum.quality_rating}
           entry={datum.entry}
           qualityRatings={qualityRatings}
