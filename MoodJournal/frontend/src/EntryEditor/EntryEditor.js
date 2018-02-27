@@ -98,6 +98,7 @@ class EntryEditor extends Component {
             id="entryField"
             label="Entry"
             multiline
+            fullWidth="true"
             value={this.state.entry}
             onChange={this.handleChange("entry")}
             margin="normal"
