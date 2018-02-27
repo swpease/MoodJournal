@@ -114,8 +114,27 @@ class DailyView extends Component {
       );
   }
 
-  handleCreate() {
-    return
+  handleCreate(e, date, categoryId, rating, entry, onSuccess, onError) {
+    axios.post('/api/entries/', {
+      date: date,
+      category: categoryId,
+      quality_rating: rating,
+      entry: entry
+    }).then(
+      (response) => {
+        onSuccess();
+        this.setState((prevState) => {
+          return {entries: prevState.entries.concat([response.data])};
+        });
+      },
+      (error) => {
+        if (error.response && error.response.status === 400) {
+          onError(error);
+        } else {
+          this.setState({error});
+        }
+      }
+    );
   }
 
   handleUpdate(e, url, rating, entry, onSuccess, onError) {
