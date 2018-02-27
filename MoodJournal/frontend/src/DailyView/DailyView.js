@@ -32,7 +32,7 @@ class DailyView extends Component {
     this.getCategoryName = this.getCategoryName.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
-    // this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +101,30 @@ class DailyView extends Component {
     return
   }
 
+  handleUpdate(e, url, rating, entry, onSuccess, onError) {
+    axios.patch(url, {
+      quality_rating: rating,
+      entry: entry
+    }).then(
+      (response) => {
+        onSuccess();
+        this.setState((prevState) => {
+          let oldData = prevState.entries
+          let replaceIndex = oldData.findIndex(item => item.url === response.data.url);
+          let newData = oldData.splice(replaceIndex, 1, response.data);
+          return newData;
+        })
+      },
+      (error) => {
+        if (error.response && error.response.status === 400) {
+          onError(error);
+        } else {
+          this.setState({error});
+        }
+      }
+    );
+  }
+
   getCategoryName(pk) {
     let categoryObject = this.state.categories.find(category => category.pk === pk);
     return categoryObject.category
@@ -123,10 +147,9 @@ class DailyView extends Component {
           entry={datum.entry}
           qualityRatings={qualityRatings}
           handleDelete={this.handleDelete}
-          handleSave={this.handleCreate}
+          handleSave={this.handleUpdate}
         />
       );
-      // TODO do I want to just put the CategoryCreator in the List?
       return (
         <div className={this.props.classes.root}>
           {entryWidgets}

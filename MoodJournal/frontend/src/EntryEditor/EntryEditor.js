@@ -17,6 +17,7 @@ class EntryEditor extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.routeSave = this.routeSave.bind(this);
   }
 
   handleChange(field) {
@@ -31,6 +32,18 @@ class EntryEditor extends Component {
         });
       }
     };
+  }
+
+  handleError(error) {
+    console.log(error);
+  }
+
+  routeSave(e) {
+    if (this.props.url) {
+      this.props.handleSave(e, this.props.url, this.state.rating, this.state.entry, this.props.handleCancel, this.handleError);
+    } else {
+      this.props.handleSave(e, this.props.date, this.state.category, this.state.rating, this.state.entry, this.props.handleCancel, this.handleError);
+    }
   }
 
   render() {
@@ -91,7 +104,7 @@ class EntryEditor extends Component {
           />
         </CardContent>
         <CardActions>
-          <Button onClick={this.props.handleSave} disabled={this.state.saveBtnDisabled}>
+          <Button onClick={this.routeSave} disabled={this.state.saveBtnDisabled}>
             {"Save"}
           </Button>
           <Button onClick={this.props.handleCancel}>{"Cancel"}</Button>
@@ -108,6 +121,7 @@ EntryEditor.propTypes = {
   // from parent component. Will just toggle the state of said parent.
   handleCancel: PropTypes.func.isRequired,
   // EntryUpdater only
+  url: PropTypes.string,
   category: PropTypes.string,
   rating: PropTypes.string,
   entry: PropTypes.string,
@@ -116,6 +130,7 @@ EntryEditor.propTypes = {
 }
 
 EntryEditor.defaultProps = {
+  url: "",
   category: "",
   rating: "OK",
   entry: ""

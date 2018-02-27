@@ -54,6 +54,7 @@ class EntryWidget extends Component {
     } else if (this.state.view === STATES.edit) {
       display = (
         <EntryEditor
+          url={url}
           date={date}
           category={category}
           handleSave={handleSave}
