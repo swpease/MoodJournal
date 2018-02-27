@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
@@ -8,6 +7,19 @@ import EntryWidget from '../EntryWidget/EntryWidget.js';
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
+// >:|
+function getToday() {
+  let today = new Date();
+  let dd = today.getDate().toString();
+  let mm = (today.getMonth() + 1).toString();
+  let yyyy = today.getFullYear().toString();
+
+  dd = dd.length === 1 ? "0" + dd : dd;
+  mm = mm.length === 1 ? "0" + mm : mm;
+  let date = yyyy + "-" + mm + "-" + dd;
+
+  return date;
+}
 
 const styles = theme => ({
   root: {
@@ -36,7 +48,11 @@ class DailyView extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/entries/')
+    let baseUrl = '/api/entries/';
+    let queryString = '?date=' + getToday();
+    let fullUrl = baseUrl + queryString;
+
+    axios.get(fullUrl)
       .then(
         (response) => {
           this.setState({
