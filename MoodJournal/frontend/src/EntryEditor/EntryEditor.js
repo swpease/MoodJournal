@@ -63,9 +63,10 @@ class EntryEditor extends Component {
           }}
           margin="normal"
         >
+          <option key={"empty"} value={""} />
           {this.props.categories.map(category => (
-            <option key={category} value={category}>
-              {category}
+            <option key={category.category} value={category.category}>
+              {category.category}
             </option>
           ))}
         </TextField>
@@ -98,7 +99,7 @@ class EntryEditor extends Component {
             id="entryField"
             label="Entry"
             multiline
-            fullWidth="true"
+            fullWidth={true}
             value={this.state.entry}
             onChange={this.handleChange("entry")}
             margin="normal"

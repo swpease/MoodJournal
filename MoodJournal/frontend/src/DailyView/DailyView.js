@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
 import EntryWidget from '../EntryWidget/EntryWidget.js';
+import EntryCreator from '../EntryCreator/EntryCreator.js';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -169,6 +170,12 @@ class DailyView extends Component {
       return (
         <div className={this.props.classes.root}>
           {entryWidgets}
+          <EntryCreator
+            date={getToday()}
+            qualityRatings={this.state.qualityRatings}
+            handleSave={this.handleCreate}
+            categories={this.state.categories}
+          />
         </div>
       )
     }
