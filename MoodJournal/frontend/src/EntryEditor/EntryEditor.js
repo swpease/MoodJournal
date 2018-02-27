@@ -63,9 +63,9 @@ class EntryEditor extends Component {
           }}
           margin="normal"
         >
-          <option key={"123456789012345678901234567890123456789012345678901"} value={""} />
+          <option key={"0"} value={""} />
           {this.props.categories.map(category => (
-            <option key={category.category} value={category.category}>
+            <option key={category.pk} value={category.pk}>
               {category.category}
             </option>
           ))}
