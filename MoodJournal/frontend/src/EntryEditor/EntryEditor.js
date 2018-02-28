@@ -101,6 +101,9 @@ class EntryEditor extends Component {
             label="Entry"
             multiline
             fullWidth={true}
+            inputProps={{
+              maxLength: 5000
+            }}
             value={this.state.entry}
             onChange={this.handleChange("entry")}
             margin="normal"

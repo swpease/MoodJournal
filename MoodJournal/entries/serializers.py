@@ -26,6 +26,7 @@ class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='entry-detail')
     # I was getting weird behavior using other serializer fields, so here we are:
     category = serializers.PrimaryKeyRelatedField(queryset=UserDefinedCategory.objects.all())
+    entry = serializers.CharField(max_length=5000)
 
     class Meta:
         model = EntryInstance
