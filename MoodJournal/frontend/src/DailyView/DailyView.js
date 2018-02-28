@@ -43,6 +43,7 @@ class DailyView extends Component {
       entries: []
     };
     this.getCategoryName = this.getCategoryName.bind(this);
+    this.getUnusedCategories = this.getUnusedCategories.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -161,6 +162,12 @@ class DailyView extends Component {
     );
   }
 
+  getUnusedCategories() {
+    let usedCategories = this.state.entries.map(entry => entry.category);
+    let unusedCategories = this.state.categories.filter(category => !(usedCategories.includes(category.pk)));
+    return unusedCategories;
+  }
+
   getCategoryName(pk) {
     let categoryObject = this.state.categories.find(category => category.pk === pk);
     return categoryObject.category
@@ -193,7 +200,7 @@ class DailyView extends Component {
             date={getToday()}
             qualityRatings={this.state.qualityRatings}
             handleSave={this.handleCreate}
-            categories={this.state.categories}
+            categories={this.getUnusedCategories()}
           />
         </div>
       )

@@ -35,7 +35,8 @@ class EntryEditor extends Component {
   }
 
   handleError(error) {
-    console.log(error);
+    let message = Object.values(error.response.data)[0][0];
+    console.log(message, Object.values(error.response.data));
   }
 
   routeSave(e) {
