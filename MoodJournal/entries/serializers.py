@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.serializers import ValidationError
 
 from .models import UserDefinedCategory
 from .models import EntryInstance
@@ -30,3 +31,9 @@ class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = EntryInstance
         fields = ('url', 'category', 'date', 'entry', 'quality_rating')
+
+    def validate_category(self, value):
+        request = self._context['request']
+        if EntryInstance.objects.filter(user=request.user, date=request.data['date'], category=value).exists():
+            raise ValidationError('An entry for this category on this date already exists.')
+        return value
