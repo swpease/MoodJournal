@@ -14,10 +14,15 @@ class EntryEditor extends Component {
       rating: props.rating,
       category: props.category,
       saveBtnDisabled: true,
+      categoryError: false,
+      entryError: false,
+      categoryHelperText: "",
+      entryHelperText: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.routeSave = this.routeSave.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   handleChange(field) {
@@ -35,8 +40,22 @@ class EntryEditor extends Component {
   }
 
   handleError(error) {
-    let message = Object.values(error.response.data)[0][0];
-    console.log(message, Object.values(error.response.data));
+    let data = error.response.data;
+    let categoryErrorMsg = data["category"]
+    let entryErrorMsg = data["entry"]
+    if (categoryErrorMsg) {
+      this.setState({
+        categoryError: true,
+        categoryHelperText: categoryErrorMsg
+      });
+    }
+    // Not reachable by the average user.
+    if (entryErrorMsg) {
+      this.setState({
+        entryError: true,
+        entryHelperText: entryErrorMsg
+      });
+    }
   }
 
   routeSave(e) {
@@ -62,6 +81,8 @@ class EntryEditor extends Component {
           SelectProps={{
             native: true,
           }}
+          error={this.state.categoryError}
+          helperText={this.state.categoryHelperText}
           margin="normal"
         >
           <option key={"0"} value={""} />
@@ -103,6 +124,8 @@ class EntryEditor extends Component {
             fullWidth={true}
             value={this.state.entry}
             onChange={this.handleChange("entry")}
+            error={this.state.entryError}
+            helperText={this.state.entryHelperText}
             margin="normal"
           />
         </CardContent>
