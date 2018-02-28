@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.validators import UniqueTogetherValidator, UniqueForDateValidator
 
 from .models import UserDefinedCategory
 from .models import EntryInstance
@@ -29,4 +29,12 @@ class EntryInstanceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = EntryInstance
+        validators = [
+            UniqueForDateValidator(
+                queryset=EntryInstance.objects.all(),
+                field='category',
+                date_field='date',
+                message='You already have an entry for this category on this date!'
+            )
+        ]
         fields = ('url', 'category', 'date', 'entry', 'quality_rating')
