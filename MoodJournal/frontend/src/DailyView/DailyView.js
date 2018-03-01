@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import moment from 'moment';
+import { DatePicker } from 'material-ui-pickers';
 
 import EntryWidget from '../EntryWidget/EntryWidget.js';
 import EntryCreator from '../EntryCreator/EntryCreator.js';
@@ -27,13 +28,15 @@ class DailyView extends Component {
       isLoaded: false,
       categories: [],
       qualityRatings: [],
-      entries: []
+      entries: [],
+      selectedDate: moment()
     };
     this.getCategoryName = this.getCategoryName.bind(this);
     this.getUnusedCategories = this.getUnusedCategories.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   componentDidMount() {
@@ -149,6 +152,31 @@ class DailyView extends Component {
     );
   }
 
+  handleDateChange(date) {
+    this.setState({
+      selectedDate: date
+    });
+    console.log(date, date.format('YYYY-MM-DD'));
+    let baseUrl = '/api/entries/';
+    let queryString = '?date=' + date.format('YYYY-MM-DD');
+    let fullUrl = baseUrl + queryString;
+
+    axios.get(fullUrl)
+      .then(
+        (response) => {
+          this.setState({
+            entries: response.data
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
   getUnusedCategories() {
     let usedCategories = this.state.entries.map(entry => entry.category);
     let unusedCategories = this.state.categories.filter(category => !(usedCategories.includes(category.pk)));
@@ -182,9 +210,16 @@ class DailyView extends Component {
       );
       return (
         <div className={this.props.classes.root}>
+          <DatePicker
+            value={this.state.selectedDate}
+            onChange={this.handleDateChange}
+            disableFuture={true}
+            keyboard
+            label="Choose a date"
+          />
           {entryWidgets}
           <EntryCreator
-            date={moment().format('YYYY-MM-DD')}
+            date={this.state.selectedDate.format('YYYY-MM-DD')}
             qualityRatings={this.state.qualityRatings}
             handleSave={this.handleCreate}
             categories={this.getUnusedCategories()}
