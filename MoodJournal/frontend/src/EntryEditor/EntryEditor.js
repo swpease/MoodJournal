@@ -1,10 +1,19 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+
+
+/*
+ * EntryEditor is designed for use in EntryCreator (POST) and EntryWidget (PATCH).
+ * It has a fixed date based on either the entry being edited (PATCH) or
+ * the DatePicker's current date (POST). For POST, the category is required
+ * and modifiable. For PATCH, the category is fixed. Rating and Entry are
+ * modifiable in both methods.
+*/
+
 
 class EntryEditor extends Component {
   constructor(props) {
@@ -25,6 +34,11 @@ class EntryEditor extends Component {
     this.handleError = this.handleError.bind(this);
   }
 
+  /*
+   * Partially applied method.
+   * @param field [string]: the state's key to target.
+   * @return [func]: the change handler.
+  */
   handleChange(field) {
     return (e) => {
       this.setState({
@@ -39,6 +53,10 @@ class EntryEditor extends Component {
     };
   }
 
+  /*
+   * Used as a callback in the handleSave method.
+   * Called in case of 400 response in DailyView.
+  */
   handleError(error) {
     let data = error.response.data;
     let categoryErrorMsg = data["category"]
@@ -58,6 +76,7 @@ class EntryEditor extends Component {
     }
   }
 
+  // Not sure how else to do this.
   routeSave(e) {
     if (this.props.url) {
       this.props.handleSave(e, this.props.url, this.state.rating, this.state.entry, this.props.handleCancel, this.handleError);
@@ -68,6 +87,7 @@ class EntryEditor extends Component {
 
   render() {
     let categoryElement = null;
+    // category UI either fixed text (PATCH) or a select widget (POST)
     if (this.props.category) {
       categoryElement = <Typography variant="headline">{this.props.category}</Typography>
     } else {
