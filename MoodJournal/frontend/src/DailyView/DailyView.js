@@ -1,26 +1,13 @@
 import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
+import moment from 'moment';
 
 import EntryWidget from '../EntryWidget/EntryWidget.js';
 import EntryCreator from '../EntryCreator/EntryCreator.js';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-
-// >:|
-function getToday() {
-  let today = new Date();
-  let dd = today.getDate().toString();
-  let mm = (today.getMonth() + 1).toString();
-  let yyyy = today.getFullYear().toString();
-
-  dd = dd.length === 1 ? "0" + dd : dd;
-  mm = mm.length === 1 ? "0" + mm : mm;
-  let date = yyyy + "-" + mm + "-" + dd;
-
-  return date;
-}
 
 const styles = theme => ({
   root: {
@@ -51,7 +38,7 @@ class DailyView extends Component {
 
   componentDidMount() {
     let baseUrl = '/api/entries/';
-    let queryString = '?date=' + getToday();
+    let queryString = '?date=' + moment().format('YYYY-MM-DD');
     let fullUrl = baseUrl + queryString;
 
     axios.get(fullUrl)
@@ -197,7 +184,7 @@ class DailyView extends Component {
         <div className={this.props.classes.root}>
           {entryWidgets}
           <EntryCreator
-            date={getToday()}
+            date={moment().format('YYYY-MM-DD')}
             qualityRatings={this.state.qualityRatings}
             handleSave={this.handleCreate}
             categories={this.getUnusedCategories()}
