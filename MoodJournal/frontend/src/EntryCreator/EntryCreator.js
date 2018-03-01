@@ -1,24 +1,19 @@
+//TODO This component is very similar to CategoryCreator.
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 
-import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
+import EntryEditor from '../EntryEditor/EntryEditor.js';
 
-
-/*
- * CategoryCreator has two states: default and create.
- *   default: Displays an "add" fab.
- *   create:  Displays a CategoryEditor widget in place of the fab.
- */
 
 const STATES = {
   default: "default",
   create: "create"
 }
 
-
-class CategoryCreator extends Component {
+class EntryCreator extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +31,7 @@ class CategoryCreator extends Component {
 
   render() {
     let display = null;
-    if (this.state.view === STATES.default) {  //TODO enum of states.
+    if (this.state.view === STATES.default) {
       display = (
         <Button variant="fab" mini color="primary" aria-label="add" onClick={this.toggleState}>
           <AddIcon />
@@ -44,10 +39,12 @@ class CategoryCreator extends Component {
       )
     } else if (this.state.view === STATES.create) {
       display = (
-        <CategoryEditor
-          handleClose={this.toggleState}
-          handleSave={this.props.handleCreate}
-          ariaLabel="Create a new category."
+        <EntryEditor
+          date={this.props.date}
+          qualityRatings={this.props.qualityRatings}
+          handleSave={this.props.handleSave}
+          handleCancel={this.toggleState}
+          categories={this.props.categories}
         />
       )
     }
@@ -55,9 +52,13 @@ class CategoryCreator extends Component {
   }
 }
 
-CategoryCreator.propTypes = {
-  // Passed through to CategoryEditor
-  handleCreate: PropTypes.func.isRequired
+EntryCreator.propTypes = {
+  // All props passed to EntryEditor
+  date: PropTypes.string.isRequired,
+  qualityRatings: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  // DailyView handleCreate
+  handleSave: PropTypes.func.isRequired,
 }
 
-export default CategoryCreator;
+export default EntryCreator;

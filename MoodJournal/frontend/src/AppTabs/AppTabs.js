@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
+import APPVIEWS from '../APPVIEWS.js';
 
 class AppTabs extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.onCategoriesTabClick = this.onCategoriesTabClick.bind(this);
   };
 
   state = {
@@ -19,11 +19,6 @@ class AppTabs extends Component {
     this.setState({ value });
   };
 
-  // Tabs hookups.
-  onCategoriesTabClick(e) {
-    this.props.onCategoriesTabClick(e);
-  }
-
   render() {
     return (
       <Paper>
@@ -32,13 +27,22 @@ class AppTabs extends Component {
           onChange={this.onChange}
           centered
         >
-          <Tab label="Home" />
           <Tab
-            label="Categories"
-            onClick={this.onCategoriesTabClick}
+            label={APPVIEWS.home}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
           />
-          <Tab label="Daily" />
-          <Tab label="History" />
+          <Tab
+            label={APPVIEWS.categories}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
+          />
+          <Tab
+            label={APPVIEWS.daily}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
+          />
+          <Tab
+            label={APPVIEWS.history}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
+          />
         </Tabs>
       </Paper>
     )
@@ -46,7 +50,7 @@ class AppTabs extends Component {
 }
 
 AppTabs.propTypes = {
-  onCategoriesTabClick: PropTypes.func.isRequired,
+  handleTabClick: PropTypes.func.isRequired,
 }
 
 export default AppTabs;

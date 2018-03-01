@@ -1,47 +1,53 @@
 import React, { Component } from 'react';
 import Reboot from 'material-ui/Reboot';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 import CategoryView from './CategoryView/CategoryView.js';
+import DailyView from './DailyView/DailyView.js';
 import AppTabs from './AppTabs/AppTabs.js';
+import APPVIEWS from './APPVIEWS.js';
 
 
-const STATES  = {
-  home: "home",
-  categories: "categories",
-  daily: "daily",
-  search: "search"
-}
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark'
+  },
+});
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: STATES.home,
+      view: APPVIEWS.home,
     };
-    this.handleCategoriesTabClick = this.handleCategoriesTabClick.bind(this)
+    this.handleTabClick = this.handleTabClick.bind(this)
   }
 
-  handleCategoriesTabClick(e) {
+  handleTabClick(view, e) {
     this.setState({
-      view: STATES.categories
+      view: view
     });
   }
 
   render() {
     let view = null;
-    if (this.state.view === STATES.categories) {
+    if (this.state.view === APPVIEWS.categories) {
       view = (
-        <CategoryView></CategoryView>
+        <CategoryView />
+      )
+    } else if (this.state.view === APPVIEWS.daily) {
+      view = (
+        <DailyView />
       )
     }
 
     return (
-      <div>
+      <MuiThemeProvider theme={theme}>
         <Reboot />
-        <AppTabs onCategoriesTabClick={this.handleCategoriesTabClick}></AppTabs>
+        <AppTabs handleTabClick={this.handleTabClick}></AppTabs>
         {view}
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
