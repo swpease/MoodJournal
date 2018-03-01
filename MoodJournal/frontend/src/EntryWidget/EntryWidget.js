@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
@@ -8,7 +7,12 @@ import Button from 'material-ui/Button';
 import EntryEditor from '../EntryEditor/EntryEditor.js';
 /*
  * EntryWidget has two states: default and edit.
- *
+ * default:
+ *  displays a card containing the EntryInstance (backend) data:
+ *    date, entry, rating, category
+ * edit:
+ *  displays a card as in default, but with an editable entry and editable
+ *  rating widget. Element is an EntryEditor.
 */
 
 const STATES = {
@@ -33,8 +37,7 @@ class EntryWidget extends Component {
   }
 
   render() {
-    // pass other to EU
-    const { date, category, rating, entry, url, handleDelete, classes, handleSave, qualityRatings } = this.props;
+    const { date, category, rating, entry, url, handleDelete, handleSave, qualityRatings } = this.props;
     let display = null;
     if (this.state.view === STATES.default) {
       display = (
@@ -79,9 +82,7 @@ EntryWidget.propTypes = {
   url: PropTypes.string.isRequired,
   // DailyView's PATCH handler:
   handleSave: PropTypes.func.isRequired,
-  // For PATCHing
   qualityRatings: PropTypes.array.isRequired
-  // classes is provided by withStyles
 }
 
 export default EntryWidget;
