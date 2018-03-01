@@ -10,6 +10,17 @@ import EntryCreator from '../EntryCreator/EntryCreator.js';
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
+
+/*
+ * 1. Displays the EntryInstances for a given day.
+ * 2. Provides an EntryInstance creation widget.
+ * Layout:
+ *  - DatePicker
+ *  - EntryInstances list of Cards
+ *  - EntryCreator
+*/
+
+
 const styles = theme => ({
   root: {
     margin: '25px auto 0px',
@@ -40,6 +51,7 @@ class DailyView extends Component {
   }
 
   componentDidMount() {
+    // Defaults to populating with entries for the current day.
     let baseUrl = '/api/entries/';
     let queryString = '?date=' + moment().format('YYYY-MM-DD');
     let fullUrl = baseUrl + queryString;
@@ -62,7 +74,7 @@ class DailyView extends Component {
       .then(
         (response) => {
           this.setState({
-            isLoaded: true,
+            isLoaded: true, // Need categories for the EntryWidgets.
             categories: response.data
           });
           return axios.get('/api/quality-ratings/')
@@ -152,11 +164,14 @@ class DailyView extends Component {
     );
   }
 
+  /*
+   * Updates the state's entries array to contain only those entries for
+   * the selected date.
+  */
   handleDateChange(date) {
     this.setState({
       selectedDate: date
     });
-    console.log(date, date.format('YYYY-MM-DD'));
     let baseUrl = '/api/entries/';
     let queryString = '?date=' + date.format('YYYY-MM-DD');
     let fullUrl = baseUrl + queryString;
@@ -177,12 +192,20 @@ class DailyView extends Component {
       )
   }
 
+  /*
+   * Populates the categories options widget in EntryCreator with only
+   * unused categories, providing frontend enforcement of unique-for-date.
+  */
   getUnusedCategories() {
     let usedCategories = this.state.entries.map(entry => entry.category);
     let unusedCategories = this.state.categories.filter(category => !(usedCategories.includes(category.pk)));
     return unusedCategories;
   }
 
+  /*
+   * For EntryWidget. We don't update category in PATCH, so we just need the
+   * name, not the pk.
+  */
   getCategoryName(pk) {
     let categoryObject = this.state.categories.find(category => category.pk === pk);
     return categoryObject.category
