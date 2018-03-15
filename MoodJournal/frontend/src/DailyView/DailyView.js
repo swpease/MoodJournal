@@ -63,35 +63,25 @@ class DailyView extends Component {
             entries: response.data
           });
           return axios.get('/api/categories/')
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
         }
       )
       .then(
         (response) => {
           this.setState({
-            isLoaded: true, // Need categories for the EntryWidgets.
             categories: response.data
           });
           return axios.get('/api/quality-ratings/')
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
         }
       )
       .then(
         (response) => {
           this.setState({
+            isLoaded: true, // Need for the widgets.
             qualityRatings: response.data
           });
-        },
+        }
+      )
+      .catch(
         (error) => {
           this.setState({
             isLoaded: true,
