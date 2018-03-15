@@ -33,9 +33,11 @@ class EntryCreator extends Component {
     let display = null;
     if (this.state.view === STATES.default) {
       display = (
-        <Button variant="fab" mini color="primary" aria-label="add" onClick={this.toggleState}>
-          <AddIcon />
-        </Button>
+        <div>
+          <Button variant="fab" mini color="primary" aria-label="add" onClick={this.toggleState}>
+            <AddIcon />
+          </Button>
+        </div>
       )
     } else if (this.state.view === STATES.create) {
       display = (

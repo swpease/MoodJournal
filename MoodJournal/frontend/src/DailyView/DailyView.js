@@ -28,6 +28,9 @@ const styles = theme => ({
     maxWidth: 720,
     backgroundColor: theme.palette.background.paper,
   },
+  datePicker: {
+    margin: '10px',
+  },
 });
 
 
@@ -224,6 +227,7 @@ class DailyView extends Component {
       return (
         <div className={this.props.classes.root}>
           <DatePicker
+            className={this.props.classes.datePicker}
             value={this.state.selectedDate}
             onChange={this.handleDateChange}
             disableFuture={true}
