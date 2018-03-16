@@ -4,9 +4,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import { withStyles } from 'material-ui/styles';
 
 import EntryEditor from '../EntryEditor/EntryEditor.js';
 
+
+const styles = theme => ({
+  button: {
+    margin: '6px',
+  },
+});
 
 const STATES = {
   default: "default",
@@ -34,7 +41,13 @@ class EntryCreator extends Component {
     if (this.state.view === STATES.default) {
       display = (
         <div>
-          <Button variant="fab" mini color="primary" aria-label="add" onClick={this.toggleState}>
+          <Button
+            className={this.props.classes.button}
+            variant="fab"
+            mini
+            color="primary"
+            aria-label="add"
+            onClick={this.toggleState}>
             <AddIcon />
           </Button>
         </div>
@@ -63,4 +76,4 @@ EntryCreator.propTypes = {
   handleSave: PropTypes.func.isRequired,
 }
 
-export default EntryCreator;
+export default withStyles(styles)(EntryCreator);

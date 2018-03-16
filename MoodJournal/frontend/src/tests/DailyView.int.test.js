@@ -113,7 +113,7 @@ it('can add new entries', async () => {
   await flushPromises();
   wrapper.update();
 
-  let ec = wrapper.find(EntryCreator);
+  let ec = wrapper.find(EntryCreator).children(); // b/c wrapped in HOC
   ec.instance().toggleState({});
   wrapper.update();
 
