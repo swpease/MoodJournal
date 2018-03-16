@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { createShallow } from 'material-ui/test-utils';
 
 import CategoryCreator from './CategoryCreator';
 import Button from 'material-ui/Button';
@@ -10,6 +10,7 @@ const setup = propOverrides => {
     handleCreate: jest.fn(),
   }, propOverrides);
 
+  let shallow = createShallow({untilSelector: 'CategoryCreator'});
   const wrapper = shallow(<CategoryCreator {...props} />);
   return wrapper;
 }
