@@ -80,7 +80,7 @@ it('can add new entries', async () => {
   await flushPromises();
   wrapper.update();
 
-  let cc = wrapper.find(CategoryCreator);
+  let cc = wrapper.find(CategoryCreator).children();
   cc.instance().toggleState({});
   wrapper.update();
 
@@ -107,7 +107,7 @@ it('displays an error if trying to add a duplicate category', async () => {
   await flushPromises();
   wrapper.update();
 
-  let cc = wrapper.find(CategoryCreator);
+  let cc = wrapper.find(CategoryCreator).children();
   cc.instance().toggleState({});
   wrapper.update();
 

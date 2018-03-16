@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
+import { withStyles } from 'material-ui/styles';
 
 import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
 
@@ -11,6 +12,12 @@ import CategoryEditor from '../CategoryEditor/CategoryEditor.js';
  *   default: Displays an "add" fab.
  *   create:  Displays a CategoryEditor widget in place of the fab.
  */
+
+const styles = theme => ({
+  button: {
+    margin: '6px',
+  },
+});
 
 const STATES = {
   default: "default",
@@ -38,7 +45,13 @@ class CategoryCreator extends Component {
     let display = null;
     if (this.state.view === STATES.default) {  //TODO enum of states.
       display = (
-        <Button variant="fab" mini color="primary" aria-label="add" onClick={this.toggleState}>
+        <Button
+          className={this.props.classes.button}
+          variant="fab"
+          mini
+          color="primary"
+          aria-label="add"
+          onClick={this.toggleState}>
           <AddIcon />
         </Button>
       )
@@ -60,4 +73,4 @@ CategoryCreator.propTypes = {
   handleCreate: PropTypes.func.isRequired
 }
 
-export default CategoryCreator;
+export default withStyles(styles)(CategoryCreator);
