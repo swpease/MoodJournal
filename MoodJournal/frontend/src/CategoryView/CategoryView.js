@@ -3,6 +3,8 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
+import { CircularProgress } from 'material-ui/Progress';
+
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
 import CategoryCreator from '../CategoryCreator/CategoryCreator.js'
 
@@ -16,6 +18,13 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+  },
+  progressWrapper: {
+    display: 'flex',
+  },
+  progress: {
+    margin: '25px auto 0px',
+    width: '100%',
   },
 });
 
@@ -115,7 +124,11 @@ class CategoryView extends Component {
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div>Loading...</div>;  // TODO loading icon
+      return (
+        <div className={this.props.classes.progressWrapper}>
+          <CircularProgress className={this.props.classes.progress}/>
+        </div>
+      )
     } else {
       let categories = data.map(datum =>
         <CategoryWidget
