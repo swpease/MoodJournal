@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { DatePicker } from 'material-ui-pickers';
 
+import CustomProgress from '../CustomProgress/CustomProgress.js';
 import EntryWidget from '../EntryWidget/EntryWidget.js';
 import EntryCreator from '../EntryCreator/EntryCreator.js';
 
@@ -209,7 +210,11 @@ class DailyView extends Component {
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div>Loading...</div>;  // TODO loading icon
+      return (
+        <div>
+          <CustomProgress />
+        </div>
+      );
     } else {
       let entryWidgets = entries.map(datum =>
         <EntryWidget

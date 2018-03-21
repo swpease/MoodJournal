@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { createShallow } from 'material-ui/test-utils';
 
 import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
@@ -15,8 +15,8 @@ const setup = propOverrides => {
     handleSave: jest.fn()
   }, propOverrides);
 
+  let shallow = createShallow({untilSelector: 'EntryEditor'});
   const wrapper = shallow(<EntryEditor {...props} />);
-
   return wrapper;
 }
 
