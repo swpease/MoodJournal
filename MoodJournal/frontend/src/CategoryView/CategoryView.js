@@ -3,6 +3,7 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
+import { CircularProgress } from 'material-ui/Progress';
 import CustomProgress from '../CustomProgress/CustomProgress.js';
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js';
 import CategoryCreator from '../CategoryCreator/CategoryCreator.js';
@@ -122,7 +123,11 @@ class CategoryView extends Component {
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <CustomProgress />; 
+      return (
+        <div>
+          <CustomProgress />
+        </div>
+      );
     } else {
       let categories = data.map(datum =>
         <CategoryWidget

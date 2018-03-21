@@ -5,7 +5,10 @@ import { withStyles } from 'material-ui/styles';
 
 import { CircularProgress } from 'material-ui/Progress';
 
-
+/*
+ * These styles basically just give the CircularProgress a top margin and
+ * center it in its containing div.
+ */
 const styles = theme => ({
   root: {
     display: 'flex',
