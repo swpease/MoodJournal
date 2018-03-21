@@ -118,13 +118,13 @@ it('can add new entries', async () => {
   wrapper.update();
 
   let ee = wrapper.find(EntryEditor);
-  ee.instance().handleChange('category')({target: {value: 'Health'}})
-  ee.instance().handleChange('rating')({target: {value: 'Good'}})
-  ee.instance().handleChange('entry')({target: {value: 'New entry created.'}})
+  ee.children().instance().handleChange('category')({target: {value: 'Health'}})
+  ee.children().instance().handleChange('rating')({target: {value: 'Good'}})
+  ee.children().instance().handleChange('entry')({target: {value: 'New entry created.'}})
   wrapper.update();
 
   ee = wrapper.find(EntryEditor);
-  ee.instance().routeSave({}); // {} acts as empty error arg.
+  ee.children().instance().routeSave({}); // {} acts as empty error arg.
   await flushPromises();
   wrapper.update();
 
@@ -142,12 +142,12 @@ it('can edit a preexisting entry', async () => {
   wrapper.update();
 
   let ee = wrapper.find(EntryEditor);
-  ee.instance().handleChange('entry')({target: {value: 'entry modified.'}})
+  ee.children().instance().handleChange('entry')({target: {value: 'entry modified.'}})
   wrapper.update();
 
   ee = wrapper.find(EntryEditor);
 
-  ee.instance().routeSave({});
+  ee.children().instance().routeSave({});
   await flushPromises();
   wrapper.update();
 
@@ -167,17 +167,16 @@ it('displays error on saving with preexisting category', async() => {
   wrapper.update();
 
   let ee = wrapper.find(EntryEditor);
-  ee.instance().handleChange('entry')({target: {value: 'entry modified.'}})
+  ee.children().instance().handleChange('entry')({target: {value: 'entry modified.'}})
   wrapper.update();
 
   ee = wrapper.find(EntryEditor);
 
-  ee.instance().routeSave({});
+  ee.children().instance().routeSave({});
   await flushPromises();
   wrapper.update();
-
   expect(wrapper.find(EntryEditor).length).toBe(1);
-  expect(wrapper.find(EntryEditor).instance().state.categoryError).toBeTruthy();
+  expect(wrapper.find(EntryEditor).children().instance().state.categoryError).toBeTruthy();
 });
 
 it('displays error on saving >5000 char entry', async() => {
@@ -190,17 +189,17 @@ it('displays error on saving >5000 char entry', async() => {
   wrapper.update();
 
   let ee = wrapper.find(EntryEditor);
-  ee.instance().handleChange('entry')({target: {value: 'entry modified.'}})
+  ee.children().instance().handleChange('entry')({target: {value: 'entry modified.'}})
   wrapper.update();
 
   ee = wrapper.find(EntryEditor);
 
-  ee.instance().routeSave({});
+  ee.children().instance().routeSave({});
   await flushPromises();
   wrapper.update();
 
   expect(wrapper.find(EntryEditor).length).toBe(1);
-  expect(wrapper.find(EntryEditor).instance().state.entryError).toBeTruthy();
+  expect(wrapper.find(EntryEditor).children().instance().state.entryError).toBeTruthy();
 });
 
 // Delete tests
