@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
@@ -15,15 +13,6 @@ import Button from 'material-ui/Button';
  * and modifiable. For PATCH, the category is fixed. Rating and Entry are
  * modifiable in both methods.
 */
-
-
-const styles = theme => ({
-  textField: {
-    // marginLeft: theme.spacing.unit,
-    marginRight: 2 * theme.spacing.unit,
-    width: 150,
-  },
-});
 
 
 class EntryEditor extends Component {
@@ -107,7 +96,6 @@ class EntryEditor extends Component {
           id="select-category"
           select
           label="Category"
-          className={this.props.classes.textField}
           value={this.state.category}
           onChange={this.handleChange("category")}
           SelectProps={{
@@ -197,4 +185,4 @@ EntryEditor.defaultProps = {
   entry: ""
 }
 
-export default withStyles(styles)(EntryEditor);
+export default EntryEditor;
