@@ -3,10 +3,9 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
-import { CircularProgress } from 'material-ui/Progress';
-
-import CategoryWidget from '../CategoryWidget/CategoryWidget.js'
-import CategoryCreator from '../CategoryCreator/CategoryCreator.js'
+import CustomProgress from '../CustomProgress/CustomProgress.js';
+import CategoryWidget from '../CategoryWidget/CategoryWidget.js';
+import CategoryCreator from '../CategoryCreator/CategoryCreator.js';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -24,7 +23,6 @@ const styles = theme => ({
   },
   progress: {
     margin: '25px auto 0px',
-    width: '100%',
   },
 });
 
@@ -124,11 +122,7 @@ class CategoryView extends Component {
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return (
-        <div className={this.props.classes.progressWrapper}>
-          <CircularProgress className={this.props.classes.progress}/>
-        </div>
-      )
+      return <CustomProgress />; 
     } else {
       let categories = data.map(datum =>
         <CategoryWidget
