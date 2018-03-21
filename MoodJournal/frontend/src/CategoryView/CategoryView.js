@@ -3,7 +3,6 @@ import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 
-import { CircularProgress } from 'material-ui/Progress';
 import CustomProgress from '../CustomProgress/CustomProgress.js';
 import CategoryWidget from '../CategoryWidget/CategoryWidget.js';
 import CategoryCreator from '../CategoryCreator/CategoryCreator.js';
