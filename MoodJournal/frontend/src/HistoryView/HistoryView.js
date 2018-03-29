@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import moment from 'moment';
 import { DatePicker } from 'material-ui-pickers';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import CustomProgress from '../CustomProgress/CustomProgress.js';
 import EntryWidget from '../EntryWidget/EntryWidget.js';
@@ -37,6 +38,7 @@ class HistoryView extends Component {
       entriesCount: null,
     };
     this.getCategoryName = this.getCategoryName.bind(this);
+    this.loadMoreEntries = this.loadMoreEntries.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +70,27 @@ class HistoryView extends Component {
         }
       )
       .catch(
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
+  }
+
+  //TODO deal with filters.
+  loadMoreEntries() {
+    axios.get(this.state.moreEntriesUrl)
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {
+              entries: prevState.entries.concat(response.data.results),
+              moreEntriesUrl: response.data.next,
+            };
+          });
+        },
         (error) => {
           this.setState({
             isLoaded: true,
@@ -112,9 +135,16 @@ class HistoryView extends Component {
         />
       );
       return (
-        <div className={this.props.classes.root}>
-          {entryWidgets}
-        </div>
+          <InfiniteScroll
+            hasMore={this.state.moreEntriesUrl ? true : false}
+            loader={<CustomProgress />}
+            initialLoad={false}
+            loadMore={this.loadMoreEntries}
+          >
+            <div className={this.props.classes.root}>
+              {entryWidgets}
+            </div>
+          </InfiniteScroll>
       )
     }
   }
