@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import LimitOffsetPagination
 from django_filters import rest_framework as filters
 
 
@@ -53,6 +54,7 @@ class EntriesList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = EntriesFilter
+    pagination_class = LimitOffsetPagination
 
     throttle_scope = None
 

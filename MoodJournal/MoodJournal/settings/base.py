@@ -109,7 +109,11 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'user': '5000/day',
         'Entries.POST': '50/day',
-    }
+    },
+
+    # For pagination
+    'PAGE_SIZE': 20,
+
 }
 
 
