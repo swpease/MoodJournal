@@ -64,7 +64,7 @@ class DailyView extends Component {
       .then(
         (response) => {
           this.setState({
-            entries: response.data
+            entries: response.data.results
           });
           return axios.get('/api/categories/')
         }
@@ -174,7 +174,7 @@ class DailyView extends Component {
       .then(
         (response) => {
           this.setState({
-            entries: response.data
+            entries: response.data.results
           });
         },
         (error) => {
