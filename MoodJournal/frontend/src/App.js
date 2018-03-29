@@ -4,6 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 import CategoryView from './CategoryView/CategoryView.js';
 import DailyView from './DailyView/DailyView.js';
+import HistoryView from './HistoryView/HistoryView.js';
 import AppTabs from './AppTabs/AppTabs.js';
 import APPVIEWS from './APPVIEWS.js';
 
@@ -39,6 +40,10 @@ class App extends Component {
     } else if (this.state.view === APPVIEWS.daily) {
       view = (
         <DailyView />
+      )
+    } else if (this.state.view === APPVIEWS.history) {
+      view = (
+        <HistoryView />
       )
     }
 
