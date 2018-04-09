@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import moment from 'moment';
 import { DatePicker } from 'material-ui-pickers';
+import Drawer from 'material-ui/Drawer';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import CustomProgress from '../CustomProgress/CustomProgress.js';
@@ -18,6 +19,9 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 720,
     backgroundColor: theme.palette.background.paper,
+  },
+  drawerPaper: {
+    width: 240,
   },
   datePicker: {
     margin: '10px',
@@ -36,9 +40,17 @@ class HistoryView extends Component {
       entries: [],
       moreEntriesUrl: null,
       entriesCount: null,
+      queryParams: {
+        date_start: moment(),
+        date_end: moment(),
+        category: null,
+        quality_rating: null,
+        entry: null
+      },
     };
     this.getCategoryName = this.getCategoryName.bind(this);
     this.loadMoreEntries = this.loadMoreEntries.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
   }
 
   componentDidMount() {
@@ -109,6 +121,32 @@ class HistoryView extends Component {
     return categoryObject.category
   }
 
+/*
+ *  Partially applied method for controlled component updating.
+ */
+  handleQueryChange(field) {
+    let fullField = 'queryParams.' + field;
+    if (['date_start', 'date_end'].includes(field)) {
+      return (date) => {
+        let qPs = {...this.state.queryParams};
+        qPs[field] = date;
+        this.setState({
+          queryParams: qPs
+        });
+        //TODO axios call.
+      };
+    } else {
+      return (e) => {
+        let qPs = {...this.state.queryParams};
+        qPs[field] = e.target.value;
+        this.setState({
+          queryParams: qPs
+        });
+        //TODO axios call.
+      }
+    }
+  }
+
 
   render() {
     const { error, isLoaded, entries, qualityRatings } = this.state;
@@ -135,6 +173,32 @@ class HistoryView extends Component {
         />
       );
       return (
+        <React.Fragment>
+          <Drawer
+            variant='permanent'
+            classes={{
+              paper: this.props.classes.drawerPaper,
+            }}
+          >
+            {'Hello'}
+          <DatePicker
+            className={this.props.classes.datePicker}
+            value={this.state.queryParams.date_start}
+            onChange={this.handleQueryChange("date_start")}
+            disableFuture={true}
+            keyboard
+            label="Choose a start date"
+          />
+          <DatePicker
+            className={this.props.classes.datePicker}
+            value={this.state.queryParams.date_end}
+            onChange={this.handleQueryChange("date_end")}
+            disableFuture={true}
+            keyboard
+            label="Choose a end date"
+          />
+          </Drawer>
+
           <InfiniteScroll
             hasMore={this.state.moreEntriesUrl ? true : false}
             loader={<CustomProgress />}
@@ -145,6 +209,7 @@ class HistoryView extends Component {
               {entryWidgets}
             </div>
           </InfiniteScroll>
+        </React.Fragment>
       )
     }
   }
