@@ -63,10 +63,14 @@ class HistoryView extends Component {
     axios.get('/api/entries/')
       .then(
         (response) => {
+          let oldestEntry = response.data.results[0];
+          let qPs = {...this.state.queryParams};
+          qPs.date_start = moment(oldestEntry.date);
           this.setState({
             entries: response.data.results,
             moreEntriesUrl: response.data.next,
             entriesCount: response.data.count,
+            queryParams: qPs
           });
           return axios.get('/api/categories/')
         }
