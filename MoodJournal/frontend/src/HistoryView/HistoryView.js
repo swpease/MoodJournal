@@ -4,6 +4,8 @@ import axios from 'axios';
 import moment from 'moment';
 import { DatePicker } from 'material-ui-pickers';
 import Drawer from 'material-ui/Drawer';
+import Typography from 'material-ui/Typography';
+import TextField from 'material-ui/TextField';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import CustomProgress from '../CustomProgress/CustomProgress.js';
@@ -25,6 +27,10 @@ const styles = theme => ({
   },
   datePicker: {
     margin: '10px',
+  },
+  textField: {
+    margin: '10px',
+    width: 150,
   },
 });
 
@@ -181,22 +187,42 @@ class HistoryView extends Component {
             }}
           >
             {'Hello'}
-          <DatePicker
-            className={this.props.classes.datePicker}
-            value={this.state.queryParams.date_start}
-            onChange={this.handleQueryChange("date_start")}
-            disableFuture={true}
-            keyboard
-            label="Choose a start date"
-          />
-          <DatePicker
-            className={this.props.classes.datePicker}
-            value={this.state.queryParams.date_end}
-            onChange={this.handleQueryChange("date_end")}
-            disableFuture={true}
-            keyboard
-            label="Choose a end date"
-          />
+            <DatePicker
+              className={this.props.classes.datePicker}
+              value={this.state.queryParams.date_start}
+              onChange={this.handleQueryChange("date_start")}
+              disableFuture={true}
+              keyboard
+              label="Choose a start date"
+            />
+            <DatePicker
+              className={this.props.classes.datePicker}
+              value={this.state.queryParams.date_end}
+              onChange={this.handleQueryChange("date_end")}
+              disableFuture={true}
+              keyboard
+              label="Choose a end date"
+            />
+            <TextField
+              id="select-category"
+              select
+              label="Category"
+              className={this.props.classes.textField}
+              value={this.state.queryParams.category}
+              onChange={this.handleQueryChange("category")}
+              SelectProps={{
+                native: true,
+              }}
+              margin="normal"
+            >
+              <option key={"0"} value={""} />
+              {this.state.categories.map(category => (
+                <option key={category.pk} value={category.pk}>
+                  {category.category}
+                </option>
+              ))}
+            </TextField>
+
           </Drawer>
 
           <InfiniteScroll
