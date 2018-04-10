@@ -30,7 +30,7 @@ const styles = theme => ({
   },
   textField: {
     margin: '10px',
-    width: 150,
+    display: 'flex',
   },
 });
 
@@ -245,7 +245,16 @@ class HistoryView extends Component {
                 </option>
               ))}
             </TextField>
-
+            <TextField
+              id="filter-entries"
+              label="Entry Text Contains"
+              className={this.props.classes.textField}
+              value={this.state.queryParams.entry}
+              onChange={this.handleQueryChange("entry")}
+              margin="normal"
+              multiline
+            >
+            </TextField>
           </Drawer>
 
           <InfiniteScroll
