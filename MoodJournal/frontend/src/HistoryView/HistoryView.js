@@ -226,6 +226,25 @@ class HistoryView extends Component {
                 </option>
               ))}
             </TextField>
+            <TextField
+              id="select-rating"
+              select
+              label="Rating"
+              className={this.props.classes.textField}
+              value={this.state.queryParams.quality_rating}
+              onChange={this.handleQueryChange("quality_rating")}
+              SelectProps={{
+                native: true,
+              }}
+              margin="normal"
+            >
+              <option key={"0"} value={""} />
+              {this.state.qualityRatings.map(rating => (
+                <option key={rating} value={rating}>
+                  {rating}
+                </option>
+              ))}
+            </TextField>
 
           </Drawer>
 
