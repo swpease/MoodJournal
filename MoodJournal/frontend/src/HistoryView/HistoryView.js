@@ -132,14 +132,14 @@ class HistoryView extends Component {
   }
 
 /*
- * For axios calls when filtering.
+ * For axios calls when filtering. Pass the qPs object, not this.state,
+ * b/c state will not have updated yet to match qPs.
 */
-  composeQueryString() {
-    let queryParams = this.state.queryParams;
+  composeQueryString(qPs) {
     let base = '/api/entries/';
     let queryString = '?';
-    for (let k in queryParams) {
-      queryString += k + "=" + queryParams[k] + "&";
+    for (let k in qPs) {
+      queryString += k + "=" + qPs[k] + "&";
     }
     queryString = queryString.slice(0, -1);
     let url = base + queryString;
