@@ -132,6 +132,21 @@ class HistoryView extends Component {
   }
 
 /*
+ * For axios calls when filtering.
+*/
+  composeQueryString() {
+    let queryParams = this.state.queryParams;
+    let base = '/api/entries/';
+    let queryString = '?';
+    for (let k in queryParams) {
+      queryString += k + "=" + queryParams[k] + "&";
+    }
+    queryString = queryString.slice(0, -1);
+    let url = base + queryString;
+    return url;
+  }
+
+/*
  *  Partially applied method for controlled component updating.
  */
   handleQueryChange(field) {
