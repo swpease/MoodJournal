@@ -49,9 +49,9 @@ class HistoryView extends Component {
       queryParams: {
         date_start: moment(),
         date_end: moment(),
-        category: null,
-        quality_rating: null,
-        entry: null
+        category: "",
+        quality_rating: "",
+        entry: "",
       },
     };
     this.getCategoryName = this.getCategoryName.bind(this);
@@ -135,25 +135,13 @@ class HistoryView extends Component {
  *  Partially applied method for controlled component updating.
  */
   handleQueryChange(field) {
-    let fullField = 'queryParams.' + field;
-    if (['date_start', 'date_end'].includes(field)) {
-      return (date) => {
-        let qPs = {...this.state.queryParams};
-        qPs[field] = date;
-        this.setState({
-          queryParams: qPs
-        });
-        //TODO axios call.
-      };
-    } else {
-      return (e) => {
-        let qPs = {...this.state.queryParams};
-        qPs[field] = e.target.value;
-        this.setState({
-          queryParams: qPs
-        });
-        //TODO axios call.
-      }
+    return (e) => {
+      let qPs = {...this.state.queryParams};
+      qPs[field] = e.target ? e.target.value : e; // if its just e, it's a date.
+      this.setState({
+        queryParams: qPs
+      });
+      //TODO axios call.
     }
   }
 
