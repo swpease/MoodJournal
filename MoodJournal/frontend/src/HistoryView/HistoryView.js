@@ -58,8 +58,9 @@ class HistoryView extends Component {
     this.loadMoreEntries = this.loadMoreEntries.bind(this);
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.composeFilterUrl = this.composeFilterUrl.bind(this);
-    this.getCategoryName = this.getCategoryName.bind(this); // don't think necessary
     this.getFilteredEntries = this.getFilteredEntries.bind(this);
+
+    this.timeout = 0;
   }
 
   componentDidMount() {
@@ -128,6 +129,7 @@ class HistoryView extends Component {
   /*
    * For EntryWidget. We don't update category in PATCH, so we just need the
    * name, not the pk.
+   * Also using in composeFilterUrl.
   */
   getCategoryName(pk) {
     let categoryObject = this.state.categories.find(category => category.pk === pk);
@@ -138,15 +140,20 @@ class HistoryView extends Component {
  * For axios calls when filtering. Pass the qPs object, not this.state,
  * b/c state will not have updated yet to match qPs.
 */
-  composeFilterUrl(qPs) {
+  composeFilterUrl(queryParams) {
+    let qPs = {...queryParams};
     let dateKeys = ['date_start', 'date_end'];
 
     let base = '/api/entries/';
     let queryString = '?';
     for (let k in qPs) {
       if (dateKeys.includes(k)) {
-        qPs[k] = qPs[k].format('YYYY-MM-DD');
+        qPs[k] = qPs[k].format('YYYY-MM-DD'); // Date states are never falsy
       }
+      if (k === 'category' && qPs[k]) {
+        qPs[k] = this.getCategoryName(Number(qPs[k]));
+      }
+
       queryString += k + "=" + qPs[k] + "&";
     }
     queryString = queryString.slice(0, -1);
@@ -183,11 +190,16 @@ class HistoryView extends Component {
       this.setState({
         queryParams: qPs
       });
+      let filterUrl = this.composeFilterUrl(qPs);
 
       if (field === 'entry') {
-        return
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(() => {
+          this.getFilteredEntries(filterUrl);
+        }, 300);
       } else {
-        let filterUrl = this.composeFilterUrl(qPs);
         this.getFilteredEntries(filterUrl);
       }
     }
