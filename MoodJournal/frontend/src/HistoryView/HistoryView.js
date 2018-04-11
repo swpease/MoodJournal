@@ -57,6 +57,9 @@ class HistoryView extends Component {
     this.getCategoryName = this.getCategoryName.bind(this);
     this.loadMoreEntries = this.loadMoreEntries.bind(this);
     this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.composeFilterUrl = this.composeFilterUrl.bind(this);
+    this.getCategoryName = this.getCategoryName.bind(this); // don't think necessary
+    this.getFilteredEntries = this.getFilteredEntries.bind(this);
   }
 
   componentDidMount() {
@@ -135,15 +138,39 @@ class HistoryView extends Component {
  * For axios calls when filtering. Pass the qPs object, not this.state,
  * b/c state will not have updated yet to match qPs.
 */
-  composeQueryString(qPs) {
+  composeFilterUrl(qPs) {
+    let dateKeys = ['date_start', 'date_end'];
+
     let base = '/api/entries/';
     let queryString = '?';
     for (let k in qPs) {
+      if (dateKeys.includes(k)) {
+        qPs[k] = qPs[k].format('YYYY-MM-DD');
+      }
       queryString += k + "=" + qPs[k] + "&";
     }
     queryString = queryString.slice(0, -1);
     let url = base + queryString;
     return url;
+  }
+
+  getFilteredEntries(url) {
+    axios.get(url)
+      .then(
+        (response) => {
+          this.setState({
+            entries: response.data.results,
+            moreEntriesUrl: response.data.next,
+            entriesCount: response.data.count,
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
   }
 
 /*
@@ -156,7 +183,13 @@ class HistoryView extends Component {
       this.setState({
         queryParams: qPs
       });
-      //TODO axios call.
+
+      if (field === 'entry') {
+        return
+      } else {
+        let filterUrl = this.composeFilterUrl(qPs);
+        this.getFilteredEntries(filterUrl);
+      }
     }
   }
 
