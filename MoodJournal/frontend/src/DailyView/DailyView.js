@@ -24,7 +24,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 const styles = theme => ({
   root: {
-    margin: '25px auto 0px',
+    margin: '25px auto 50px',
     width: '100%',
     maxWidth: 720,
     backgroundColor: theme.palette.background.paper,
