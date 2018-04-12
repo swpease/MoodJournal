@@ -47,8 +47,8 @@ class HistoryView extends Component {
       moreEntriesUrl: null,
       entriesCount: null,
       queryParams: {
-        date_start: moment(),
-        date_end: moment(),
+        date_start: null,
+        date_end: null,
         category: "",
         quality_rating: "",
         entry: "",
@@ -67,14 +67,14 @@ class HistoryView extends Component {
     axios.get('/api/entries/')
       .then(
         (response) => {
-          let oldestEntry = response.data.results[0];
-          let qPs = {...this.state.queryParams};
-          qPs.date_start = moment(oldestEntry.date);
+          // let oldestEntry = response.data.results[0];
+          // let qPs = {...this.state.queryParams};
+          // qPs.date_start = moment(oldestEntry.date);
           this.setState({
             entries: response.data.results,
             moreEntriesUrl: response.data.next,
             entriesCount: response.data.count,
-            queryParams: qPs
+            // queryParams: qPs
           });
           return axios.get('/api/categories/')
         }
@@ -107,23 +107,26 @@ class HistoryView extends Component {
 
   //TODO deal with filters.
   loadMoreEntries() {
-    axios.get(this.state.moreEntriesUrl)
-      .then(
-        (response) => {
-          this.setState((prevState) => {
-            return {
-              entries: prevState.entries.concat(response.data.results),
-              moreEntriesUrl: response.data.next,
-            };
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+    if (this.state.moreEntriesUrl) {
+      axios.get(this.state.moreEntriesUrl)
+        .then(
+          (response) => {
+            this.setState((prevState) => {
+              return {
+                entries: prevState.entries.concat(response.data.results),
+                moreEntriesUrl: response.data.next,
+              };
+            });
+          },
+          (error) => {
+            console.log(error);
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        );
+    }
   }
 
   /*
@@ -148,7 +151,11 @@ class HistoryView extends Component {
     let queryString = '?';
     for (let k in qPs) {
       if (dateKeys.includes(k)) {
-        qPs[k] = qPs[k].format('YYYY-MM-DD'); // Date states are never falsy
+        if (qPs[k]) {
+          qPs[k] = qPs[k].format('YYYY-MM-DD'); // Date states are never falsy
+        } else {
+          qPs[k] = ""
+        }
       }
       if (k === 'category' && qPs[k]) {
         qPs[k] = this.getCategoryName(Number(qPs[k]));
