@@ -57,4 +57,4 @@ class EntryInstance(models.Model):
         return '{}, {}, {}'.format(self.user, self.date, self.category)
 
     class Meta:
-        ordering = ["date"]
+        ordering = ["-date"]
