@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 
 import AuthWrapper from '../AuthWrapper/AuthWrapper.js';
 
@@ -15,6 +17,8 @@ const styles = theme => ({
   },
 });
 
+const LOGIN_URL = '/rest-auth/login/';
+
 
 class LoginView extends Component {
   constructor(props) {
@@ -22,8 +26,12 @@ class LoginView extends Component {
     this.state = {
       username: "",
       password: "",
+      generalError: "",
+      userError: "",
     };
     this.handleChange = this.handleChange.bind(this);
+    this.logIn = this.logIn.bind(this);
+    this.onError = this.onError.bind(this);
   }
 
   handleChange(field) {
@@ -34,13 +42,69 @@ class LoginView extends Component {
     };
   }
 
+  onError(error) {
+    const userErrorMsg = Object.values(error.response.data)[0][0];
+    const userErrorMsgs = {
+      'This field may not be blank.': 'Password required.',
+      'Must include "username" and "password".': 'Username required.',
+      'Unable to log in with provided credentials.': 'Username and / or password are incorrect.'
+    }
+    let userError = userErrorMsgs[userErrorMsg] || 'Unexpected Log In error. Please try again.'
+    this.setState({
+      userError: userError
+    });
+  }
+
+  logIn(e) {
+    axios.post(LOGIN_URL, {
+      username: this.state.username,
+      password: this.state.password
+    })
+      .then(
+        (response) => {
+          console.log(response);
+          // localStorage.setItem('token', response.data.token);
+        },
+        (error) => {
+          if (error.response && error.response.status === 400) {
+            this.onError(error);
+          } else {
+            this.setState({generalError: error});
+          }
+        }
+      );
+  }
+
   render() {
+    let generalError = null;
+    if (this.state.generalError) {
+      generalError = (
+        <Typography variant="subheading" color="error">
+          {this.state.generalError}
+        </Typography>
+      )
+    }
+
+    let userError = null;
+    if (this.state.userError) {
+      userError = (
+        <Typography variant="subheading" color="error">
+          {this.state.userError}
+        </Typography>
+      )
+    }
+
     return (
       <AuthWrapper>
+        <Typography variant="title" gutterBottom>
+          Log In
+        </Typography>
+        {generalError}
+        {userError}
         <TextField
         id="username"
         label="User Name"
-        className={this.classes.textField}
+        className={this.props.classes.textField}
         value={this.state.username}
         onChange={this.handleChange('username')}
         margin="normal"
@@ -48,11 +112,14 @@ class LoginView extends Component {
         <TextField
         id="password"
         label="Password"
-        className={this.classes.textField}
-        value={this.state.username}
+        className={this.props.classes.textField}
+        value={this.state.password}
         onChange={this.handleChange('password')}
         margin="normal"
         />
+        <Button color="primary" onClick={this.logIn}>
+          {"Log In"}
+        </Button>
       </AuthWrapper>
     );
   }
