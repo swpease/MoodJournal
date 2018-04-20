@@ -43,6 +43,10 @@ class AppTabs extends Component {
             label={APPVIEWS.history}
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
           />
+          <Tab
+            label={APPVIEWS.login}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.login, e)}}
+          />
         </Tabs>
       </Paper>
     )
