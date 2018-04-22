@@ -26,11 +26,14 @@ class App extends Component {
     this.state = {
       view: APPVIEWS.home,
       loggedIn: false,
+      error: "",
     };
-    this.handleTabClick = this.handleTabClick.bind(this)
+    this.handleTabClick = this.handleTabClick.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   componentDidMount() {
+    // TODO: put this in a method and call it whenever view changes.
     if(storageAvailable('localStorage')) {
       let authToken = localStorage.getItem('authToken') || "";
       axios.post('/refresh-token/', {token: authToken})
@@ -40,7 +43,6 @@ class App extends Component {
             this.setState({
               loggedIn: true,
             });
-            // console.log(response);
           },
           // I suppose I don't really care what happens with the errors here...
           (error) => {
@@ -56,8 +58,23 @@ class App extends Component {
     }
   }
 
+  handleLogOut(e) {
+    axios.post('/rest-auth/logout/')
+      .then(
+        (response) => {
+          this.setState({
+            loggedIn: false
+          });
+        },
+        (error) => {
+          this.setState({
+            error: "Error during Log Out: " + error
+          });
+        }
+      )
+  }
+
   handleTabClick(view, e) {
-    console.log(axios.defaults.headers);
     this.setState({
       view: view
     });
@@ -83,10 +100,17 @@ class App extends Component {
       )
     }
 
+    if (this.state.error) {
+      view = this.state.error;
+    }
+
     return (
       <MuiThemeProvider theme={theme}>
         <Reboot />
-        <AppTabs handleTabClick={this.handleTabClick} loggedIn={this.state.loggedIn}></AppTabs>
+        <AppTabs
+          handleTabClick={this.handleTabClick}
+          loggedIn={this.state.loggedIn}
+          handleLogOut={this.handleLogOut}></AppTabs>
         {view}
       </MuiThemeProvider>
     );

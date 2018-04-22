@@ -4,6 +4,7 @@ const APPVIEWS  = {
   daily: "Daily",
   history: "History",
   login: "Log In",
+  logout: "Log Out",
 };
 
 export default APPVIEWS;

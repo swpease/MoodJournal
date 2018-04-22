@@ -45,6 +45,10 @@ class AppTabs extends Component {
               label={APPVIEWS.history}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
             />
+            <Tab
+              label={APPVIEWS.logout}
+              onClick={this.props.handleLogOut}
+            />
           </React.Fragment>
           }
           {!this.props.loggedIn &&
@@ -62,6 +66,7 @@ class AppTabs extends Component {
 AppTabs.propTypes = {
   handleTabClick: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
+  handleLogOut: PropTypes.func.isRequired,
 }
 
 export default AppTabs;
