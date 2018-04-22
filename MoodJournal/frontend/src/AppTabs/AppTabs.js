@@ -16,8 +16,6 @@ class AppTabs extends Component {
   };
 
   onChange(e, value) {
-    console.log(value);
-    console.log(e);
     if (value = 'logout') {
       value = '0'
     }
