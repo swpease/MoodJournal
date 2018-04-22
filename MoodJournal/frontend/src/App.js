@@ -62,8 +62,10 @@ class App extends Component {
     axios.post('/rest-auth/logout/')
       .then(
         (response) => {
+          localStorage.setItem('authToken', "");
           this.setState({
-            loggedIn: false
+            loggedIn: false,
+            view: APPVIEWS.home
           });
         },
         (error) => {
