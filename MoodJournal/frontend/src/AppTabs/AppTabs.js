@@ -16,6 +16,11 @@ class AppTabs extends Component {
   };
 
   onChange(e, value) {
+    console.log(value);
+    console.log(e);
+    if (value = 'logout') {
+      value = '0'
+    }
     this.setState({ value });
   };
 
@@ -32,24 +37,29 @@ class AppTabs extends Component {
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
           />
           {this.props.loggedIn &&
-          <React.Fragment>
             <Tab
               label={APPVIEWS.categories}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
             />
+          }
+          {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.daily}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
             />
+          }
+          {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.history}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
             />
+          }
+          {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.logout}
               onClick={this.props.handleLogOut}
+              value='logout'
             />
-          </React.Fragment>
           }
           {!this.props.loggedIn &&
           <Tab
