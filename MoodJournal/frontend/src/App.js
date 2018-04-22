@@ -85,7 +85,7 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Reboot />
-        <AppTabs handleTabClick={this.handleTabClick}></AppTabs>
+        <AppTabs handleTabClick={this.handleTabClick} loggedIn={this.state.loggedIn}></AppTabs>
         {view}
       </MuiThemeProvider>
     );

@@ -31,22 +31,28 @@ class AppTabs extends Component {
             label={APPVIEWS.home}
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
           />
-          <Tab
-            label={APPVIEWS.categories}
-            onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
-          />
-          <Tab
-            label={APPVIEWS.daily}
-            onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
-          />
-          <Tab
-            label={APPVIEWS.history}
-            onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
-          />
+          {this.props.loggedIn &&
+          <React.Fragment>
+            <Tab
+              label={APPVIEWS.categories}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
+            />
+            <Tab
+              label={APPVIEWS.daily}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
+            />
+            <Tab
+              label={APPVIEWS.history}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
+            />
+          </React.Fragment>
+          }
+          {!this.props.loggedIn &&
           <Tab
             label={APPVIEWS.login}
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.login, e)}}
           />
+          }
         </Tabs>
       </Paper>
     )
@@ -55,6 +61,7 @@ class AppTabs extends Component {
 
 AppTabs.propTypes = {
   handleTabClick: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 }
 
 export default AppTabs;
