@@ -63,7 +63,8 @@ class LoginView extends Component {
       .then(
         (response) => {
           console.log(response);
-          // localStorage.setItem('token', response.data.token);
+          localStorage.setItem('authToken', response.data.token);
+          axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.token;
         },
         (error) => {
           if (error.response && error.response.status === 400) {

@@ -36,11 +36,11 @@ class App extends Component {
       axios.post('/refresh-token/', {token: authToken})
         .then(
           (response) => {
-            // axios.defaults.headers.common['Authorization'] = 'JWT' + response.data.token;
-            // this.setState({
-            //   loggedIn: true,
-            // });
-            console.log(response);
+            axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.token;
+            this.setState({
+              loggedIn: true,
+            });
+            // console.log(response);
           },
           // I suppose I don't really care what happens with the errors here...
           (error) => {
@@ -57,6 +57,7 @@ class App extends Component {
   }
 
   handleTabClick(view, e) {
+    console.log(axios.defaults.headers);
     this.setState({
       view: view
     });
