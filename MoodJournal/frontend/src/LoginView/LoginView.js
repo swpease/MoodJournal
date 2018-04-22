@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import TextField from 'material-ui/TextField';
@@ -65,6 +66,7 @@ class LoginView extends Component {
           console.log(response);
           localStorage.setItem('authToken', response.data.token);
           axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.token;
+          this.props.updateAppState();
         },
         (error) => {
           if (error.response && error.response.status === 400) {
@@ -124,6 +126,10 @@ class LoginView extends Component {
       </AuthWrapper>
     );
   }
+}
+
+LoginView.propTyes = {
+  updateAppState: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(LoginView);

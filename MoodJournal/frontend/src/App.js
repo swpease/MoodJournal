@@ -30,6 +30,7 @@ class App extends Component {
     };
     this.handleTabClick = this.handleTabClick.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleLogIn = this.handleLogIn.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +77,13 @@ class App extends Component {
       )
   }
 
+  handleLogIn() {
+    this.setState({
+      loggedIn: true,
+      view: APPVIEWS.home
+    });
+  }
+
   handleTabClick(view, e) {
     this.setState({
       view: view
@@ -98,7 +106,7 @@ class App extends Component {
       )
     } else if (this.state.view === APPVIEWS.login) {
       view = (
-        <LoginView />
+        <LoginView updateAppState={this.handleLogIn}/>
       )
     }
 
