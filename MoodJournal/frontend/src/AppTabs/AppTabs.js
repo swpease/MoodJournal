@@ -15,6 +15,15 @@ class AppTabs extends Component {
     };
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({
+        value: nextProps.value
+      });
+    }
+  }
+
+  // TODO: remove?
   onChange(e, value) {
     if (value === APPVIEWS.logout) {
       value = APPVIEWS.home;
@@ -80,6 +89,7 @@ AppTabs.propTypes = {
   handleTabClick: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   handleLogOut: PropTypes.func.isRequired,
+  value: PropTypes.string,
 }
 
 export default AppTabs;

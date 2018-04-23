@@ -120,7 +120,8 @@ class App extends Component {
         <AppTabs
           handleTabClick={this.handleTabClick}
           loggedIn={this.state.loggedIn}
-          handleLogOut={this.handleLogOut}></AppTabs>
+          handleLogOut={this.handleLogOut}
+          value={this.state.view}></AppTabs>
         {view}
       </MuiThemeProvider>
     );
