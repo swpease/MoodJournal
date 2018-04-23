@@ -9,15 +9,15 @@ class AppTabs extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-  };
 
-  state = {
-    value: 0,
+    this.state = {
+      value: APPVIEWS.home,
+    };
   };
 
   onChange(e, value) {
-    if (value = 'logout') {
-      value = '0'
+    if (value === APPVIEWS.logout) {
+      value = APPVIEWS.home;
     }
     this.setState({ value });
   };
@@ -33,36 +33,41 @@ class AppTabs extends Component {
           <Tab
             label={APPVIEWS.home}
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
+            value={APPVIEWS.home}
           />
           {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.categories}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
+              value={APPVIEWS.categories}
             />
           }
           {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.daily}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
+              value={APPVIEWS.daily}
             />
           }
           {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.history}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
+              value={APPVIEWS.history}
             />
           }
           {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.logout}
               onClick={this.props.handleLogOut}
-              value='logout'
+              value={APPVIEWS.logout}
             />
           }
           {!this.props.loggedIn &&
           <Tab
             label={APPVIEWS.login}
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.login, e)}}
+            value={APPVIEWS.login}
           />
           }
         </Tabs>
