@@ -79,6 +79,13 @@ class AppTabs extends Component {
             value={APPVIEWS.login}
           />
           }
+          {!this.props.loggedIn &&
+          <Tab
+            label={APPVIEWS.register}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.register, e)}}
+            value={APPVIEWS.register}
+          />
+          }
         </Tabs>
       </Paper>
     )

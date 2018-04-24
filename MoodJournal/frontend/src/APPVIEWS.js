@@ -5,6 +5,7 @@ const APPVIEWS  = {
   history: "History",
   login: "Log In",
   logout: "Log Out",
+  register: "Register",
 };
 
 export default APPVIEWS;
