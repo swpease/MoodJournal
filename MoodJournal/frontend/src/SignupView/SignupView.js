@@ -61,7 +61,9 @@ class SignupView extends Component {
     axios.post(SIGNUP_URL, data)
       .then(
         (response) => {
-          console.log(response);
+          localStorage.setItem('authToken', response.data.token);
+          axios.defaults.headers.common['Authorization'] = 'JWT ' + response.data.token;
+          this.props.updateAppState();
         },
         (error) => {
           if (error.response && error.response.status === 400) {
