@@ -49,17 +49,40 @@ class SignupView extends Component {
   }
 
   register(e) {
-    console.log("registering")
+    let data = {
+      username: this.state.username,
+      password1: this.state.password1,
+      password2: this.state.password2,
+    }
+    if (this.state.email) {
+      data.email = this.state.email;
+    }
+
+    axios.post(SIGNUP_URL, data)
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          if (error.response && error.response.status === 400) {
+            console.log(error.response);
+            this.onError(error);
+          } else {
+            this.setState({generalError: error});
+          }
+        }
+      );
   }
 
   render() {
     let generalError = null;
     if (this.state.generalError) {
-      generalError = (
-        <Typography variant="subheading" color="error">
-          {this.state.generalError}
-        </Typography>
-      )
+      console.log(generalError);
+      // generalError = (
+      //   <Typography variant="subheading" color="error">
+      //     {this.state.generalError}
+      //   </Typography>
+      // )
     }
 
     let userError = null;
