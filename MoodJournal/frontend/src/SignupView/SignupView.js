@@ -29,7 +29,10 @@ class SignupView extends Component {
       password2: "",
       email: "",
       generalError: "",
-      userError: "",
+      password1Error: "",
+      password2Error: "",
+      usernameError: "",
+      emailError: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.register = this.register.bind(this);
@@ -45,7 +48,27 @@ class SignupView extends Component {
   }
 
   onError(error) {
-    console.log(error);
+    this.setState({
+      password1Error: "",
+      password2Error: "",
+      usernameError: "",
+      emailError: "",
+    });
+    let data = error.response.data;
+    for (const entry of Object.entries(data)) {
+      let k, v;
+      [k, v] = entry;
+      v = v[0];
+      if (k === "non_field_errors") {
+        this.setState({
+          password1Error: v,
+          password2Error: v
+        });
+      } else {
+        const stateField = k + "Error";
+        this.setState({[stateField]: v});
+      }
+    }
   }
 
   register(e) {
@@ -108,6 +131,8 @@ class SignupView extends Component {
         label="User Name"
         className={this.props.classes.textField}
         value={this.state.username}
+        error={this.state.usernameError}
+        helperText={this.state.usernameError}
         onChange={this.handleChange('username')}
         margin="normal"
         />
@@ -116,6 +141,8 @@ class SignupView extends Component {
         label="Password"
         className={this.props.classes.textField}
         value={this.state.password1}
+        error={this.state.password1Error}
+        helperText={this.state.password1Error}
         onChange={this.handleChange('password1')}
         margin="normal"
         />
@@ -124,6 +151,8 @@ class SignupView extends Component {
         label="Password (again)"
         className={this.props.classes.textField}
         value={this.state.password2}
+        error={this.state.password2Error}
+        helperText={this.state.password2Error}
         onChange={this.handleChange('password2')}
         margin="normal"
         />
@@ -132,6 +161,8 @@ class SignupView extends Component {
         label="Email (optional)"
         className={this.props.classes.textField}
         value={this.state.email}
+        error={this.state.emailError}
+        helperText={this.state.emailError}
         onChange={this.handleChange('email')}
         margin="normal"
         />
