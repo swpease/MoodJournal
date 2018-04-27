@@ -131,7 +131,7 @@ class SignupView extends Component {
         label="User Name"
         className={this.props.classes.textField}
         value={this.state.username}
-        error={this.state.usernameError}
+        error={!!this.state.usernameError}
         helperText={this.state.usernameError}
         onChange={this.handleChange('username')}
         margin="normal"
@@ -141,7 +141,7 @@ class SignupView extends Component {
         label="Password"
         className={this.props.classes.textField}
         value={this.state.password1}
-        error={this.state.password1Error}
+        error={!!this.state.password1Error}
         helperText={this.state.password1Error}
         onChange={this.handleChange('password1')}
         margin="normal"
@@ -151,7 +151,7 @@ class SignupView extends Component {
         label="Password (again)"
         className={this.props.classes.textField}
         value={this.state.password2}
-        error={this.state.password2Error}
+        error={!!this.state.password2Error}
         helperText={this.state.password2Error}
         onChange={this.handleChange('password2')}
         margin="normal"
@@ -161,7 +161,7 @@ class SignupView extends Component {
         label="Email (optional)"
         className={this.props.classes.textField}
         value={this.state.email}
-        error={this.state.emailError}
+        error={!!this.state.emailError}
         helperText={this.state.emailError}
         onChange={this.handleChange('email')}
         margin="normal"
