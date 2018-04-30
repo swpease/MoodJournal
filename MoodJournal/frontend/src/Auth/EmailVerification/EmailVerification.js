@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Reboot from 'material-ui/Reboot';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 import axios from 'axios';
 
 
@@ -12,7 +14,7 @@ const theme = createMuiTheme({
 
 
 class EmailVerification extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       verified: false,
@@ -21,11 +23,22 @@ class EmailVerification extends Component {
   }
 
   render() {
-    let display = "hello world";
+    let unverified = (
+      <React.Fragment>
+        <Typography
+          variant="headline"
+          gutterBottom>
+          Thanks for signing up! Click below to verify your email.
+        </Typography>
+        <Button color="primary" onClick={this.verifyEmail}>
+          Verify
+        </Button>
+      </React.Fragment>
+    )
     return (
       <MuiThemeProvider theme={theme}>
         <Reboot />
-        {display}
+        {unverified}
       </MuiThemeProvider>
     );
   }
