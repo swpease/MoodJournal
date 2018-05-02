@@ -5,6 +5,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import axios from 'axios';
 
+import { storageAvailable } from '../../Utils.js';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -16,10 +17,17 @@ const theme = createMuiTheme({
 });
 
 const VERIFY_URL = '/rest-auth/registration/verify-email/'
+const RESEND_VERIFY_URL = '/rest-auth/registration/resend-verification-email/'
+const MAIN_SITE_URL = 'http://127.0.0.1:8000/'
 const VIEWS = {
   unverified: 'unverified',
   verified: 'verified',
-  error: 'error'
+  error: 'error',
+  resent: 'resent'
+}
+const ERRORS = {
+  keyError: "Your verification key has expired or is faulty. Please request a new one below.",
+  permError: "You are not logged in. Please log again.",
 }
 
 class EmailVerification extends Component {
@@ -27,21 +35,53 @@ class EmailVerification extends Component {
     super(props);
     this.state = {
       view: VIEWS.unverified,
-      error: 'Your verification key has expired or is faulty. Please request a new one below.',
+      errorMsg: "",
     }
     this.verifyEmail = this.verifyEmail.bind(this);
     this.getTokenFromUrl = this.getTokenFromUrl.bind(this);
     this.onError = this.onError.bind(this);
+    this.resendVerify = this.resendVerify.bind(this);
+  }
+
+  componentDidMount() {
+    if(storageAvailable('localStorage')) {
+      let authToken = localStorage.getItem('authToken') || "";
+      axios.defaults.headers.common['Authorization'] = 'JWT ' + authToken;
+    } else {
+      console.log('localStorage not available. Cannot maintain session.') //TODO
+    }
   }
 
   onError(error) {
     if (error.response.status == 404) {  // https://github.com/pennersr/django-allauth/blob/master/allauth/account/models.py from_key method: it doesn't discriminate bad or expired keys
       this.setState({
         view: VIEWS.error,
+        errorMsg: ERRORS.keyError
       });
-    } else {
-      console.log(error);
+    } else if (error.response.status == 401 ){
+      this.setState({
+        view: VIEWS.error,
+        errorMsg: ERRORS.permError
+      })
     }
+  }
+
+  resendVerify() {
+    axios.get(RESEND_VERIFY_URL)
+      .then(
+        (response) => {
+          this.setState({
+            view: VIEWS.resent,
+          });
+        },
+        (error) => {
+          if (error.response) {
+            this.onError(error);
+          } else {
+            console.log(error);
+          }
+        }
+      );
   }
 
   verifyEmail() {
@@ -51,7 +91,6 @@ class EmailVerification extends Component {
     })
       .then(
         (response) => {
-          console.log(response);
           this.setState({
             view: VIEWS.verified,
           });
@@ -91,15 +130,36 @@ class EmailVerification extends Component {
         variant="headline"
         gutterBottom>
           Email verified!
-          <a href="http://127.0.0.1:8000/">Click here</a>
+          <a href={MAIN_SITE_URL}>Click here</a>
           to continue to the site.
       </Typography>
     )
     let error = (
+      <React.Fragment>
+        <Typography
+          variant="headline"
+          gutterBottom>
+            {this.state.errorMsg}
+        </Typography>
+        {this.state.errorMsg === ERRORS.keyError &&
+          <Button color="primary" onClick={this.resendVerify}>
+            Resend
+          </Button>
+        }
+        {this.state.errorMsg === ERRORS.permError &&
+          <Typography
+            variant="body2"
+            gutterBottom>
+              Return to <a href={MAIN_SITE_URL}>main site</a> to log back in.
+          </Typography>
+        }
+      </React.Fragment>
+    )
+    let resent = (
       <Typography
         variant="headline"
         gutterBottom>
-          {this.state.error}
+        Confirmation email resent. Check your email.
       </Typography>
     )
     return (
@@ -108,6 +168,7 @@ class EmailVerification extends Component {
         {this.state.view === VIEWS.unverified && unverified}
         {this.state.view === VIEWS.verified && verified}
         {this.state.view === VIEWS.error && error}
+        {this.state.view === VIEWS.resent && resent}
       </MuiThemeProvider>
     );
   }

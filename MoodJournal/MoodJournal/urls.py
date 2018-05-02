@@ -19,9 +19,16 @@ from django.views.generic import TemplateView
 
 from rest_framework_jwt.views import refresh_jwt_token
 
+from .AuthCust import views as auth_cust_views
+
 urlpatterns = [
     url(r'^api/', include('entries.urls')),
     url(r'^admin/', admin.site.urls),
+
+    url(r'^rest-auth/registration/resend-verification-email/$',
+        auth_cust_views.resend_verification_email,
+        name='resend-verification-email'),
+
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^refresh-token/', refresh_jwt_token),
