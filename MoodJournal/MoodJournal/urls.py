@@ -17,9 +17,25 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
+from rest_framework_jwt.views import refresh_jwt_token
+
+from .AuthCust import views as auth_cust_views
+
 urlpatterns = [
     url(r'^api/', include('entries.urls')),
     url(r'^admin/', admin.site.urls),
+
+    url(r'^rest-auth/registration/resend-verification-email/$',
+        auth_cust_views.resend_verification_email,
+        name='resend-verification-email'),
+    # per https://github.com/Tivix/django-rest-auth/issues/292
+    url(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        TemplateView.as_view(template_name="passwordreset.html"),
+        name='password_reset_confirm'),
+
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^refresh-token/', refresh_jwt_token),
     url('^$', TemplateView.as_view(template_name="index.html")),
 ]
 

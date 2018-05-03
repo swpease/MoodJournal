@@ -9,13 +9,25 @@ class AppTabs extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+
+    this.state = {
+      value: APPVIEWS.home,
+    };
   };
 
-  state = {
-    value: 0,
-  };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({
+        value: nextProps.value
+      });
+    }
+  }
 
+  // TODO: remove?
   onChange(e, value) {
+    if (value === APPVIEWS.logout) {
+      value = APPVIEWS.home;
+    }
     this.setState({ value });
   };
 
@@ -30,19 +42,57 @@ class AppTabs extends Component {
           <Tab
             label={APPVIEWS.home}
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
+            value={APPVIEWS.home}
           />
+          {this.props.loggedIn &&
+            <Tab
+              label={APPVIEWS.categories}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
+              value={APPVIEWS.categories}
+            />
+          }
+          {this.props.loggedIn &&
+            <Tab
+              label={APPVIEWS.daily}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
+              value={APPVIEWS.daily}
+            />
+          }
+          {this.props.loggedIn &&
+            <Tab
+              label={APPVIEWS.history}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
+              value={APPVIEWS.history}
+            />
+          }
+          {this.props.loggedIn &&
+            <Tab
+              label={APPVIEWS.account}
+              onClick={(e) => {this.props.handleTabClick(APPVIEWS.account, e)}}
+              value={APPVIEWS.account}
+            />
+          }
+          {this.props.loggedIn &&
+            <Tab
+              label={APPVIEWS.logout}
+              onClick={this.props.handleLogOut}
+              value={APPVIEWS.logout}
+            />
+          }
+          {!this.props.loggedIn &&
           <Tab
-            label={APPVIEWS.categories}
-            onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
+            label={APPVIEWS.login}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.login, e)}}
+            value={APPVIEWS.login}
           />
+          }
+          {!this.props.loggedIn &&
           <Tab
-            label={APPVIEWS.daily}
-            onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
+            label={APPVIEWS.register}
+            onClick={(e) => {this.props.handleTabClick(APPVIEWS.register, e)}}
+            value={APPVIEWS.register}
           />
-          <Tab
-            label={APPVIEWS.history}
-            onClick={(e) => {this.props.handleTabClick(APPVIEWS.history, e)}}
-          />
+          }
         </Tabs>
       </Paper>
     )
@@ -51,6 +101,9 @@ class AppTabs extends Component {
 
 AppTabs.propTypes = {
   handleTabClick: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  handleLogOut: PropTypes.func.isRequired,
+  value: PropTypes.string,
 }
 
 export default AppTabs;

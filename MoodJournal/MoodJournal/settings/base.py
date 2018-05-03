@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import datetime
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -49,8 +50,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'webpack_loader',
+
     'rest_framework',
+    'rest_auth',
+    # registration
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth.registration',
+
     'django_filters',
+
     'entries.apps.EntriesConfig',
 ]
 
@@ -102,6 +113,10 @@ CACHES = {
 }
 
 REST_FRAMEWORK = {
+    # Make JWT Auth the default authentication mechanism for Django
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle',
@@ -116,6 +131,23 @@ REST_FRAMEWORK = {
 
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Configure the JWTs to expire after 1 hour, and allow users to refresh near-expiration tokens
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_ALLOW_REFRESH': True,
+}
+
+# http://django-rest-auth.readthedocs.io/en/latest/configuration.html
+OLD_PASSWORD_FIELD_ENABLED = True
+LOGOUT_ON_PASSWORD_CHANGE = False
+
+# Enables django-rest-auth to use JWT tokens instead of regular tokens.
+REST_USE_JWT = True
+
+# required for django.contrib.sites (registration)
+SITE_ID = 1
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
