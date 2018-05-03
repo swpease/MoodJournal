@@ -10,6 +10,7 @@ import DailyView from './DailyView/DailyView.js';
 import HistoryView from './HistoryView/HistoryView.js';
 import LoginView from './LoginView/LoginView.js';
 import SignupView from './SignupView/SignupView.js';
+import AccountView from './AccountView/AccountView.js';
 import AppTabs from './AppTabs/AppTabs.js';
 import APPVIEWS from './APPVIEWS.js';
 
@@ -112,6 +113,10 @@ class App extends Component {
     } else if (this.state.view === APPVIEWS.register) {
       view = (
         <SignupView updateAppState={this.handleLogIn}/>
+      )
+    } else if (this.state.view === APPVIEWS.account) {
+      view = (
+        <AccountView />
       )
     }
 

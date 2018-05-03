@@ -6,6 +6,7 @@ const APPVIEWS  = {
   login: "Log In",
   logout: "Log Out",
   register: "Register",
+  account: "Account",
 };
 
 export default APPVIEWS;
