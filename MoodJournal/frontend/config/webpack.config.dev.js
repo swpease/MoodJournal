@@ -62,6 +62,12 @@ module.exports = {
       require.resolve('webpack/hot/dev-server'),
       paths.emailverificationIndexJs,
     ],
+    passwordreset: [
+      require.resolve('./polyfills'),
+      require.resolve('webpack-dev-server/client') + '?http://localhost:3000',
+      require.resolve('webpack/hot/dev-server'),
+      paths.passwordresetIndexJs,
+    ],
   },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
