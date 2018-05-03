@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^rest-auth/registration/resend-verification-email/$',
         auth_cust_views.resend_verification_email,
         name='resend-verification-email'),
-    # per FAQ http://django-rest-auth.readthedocs.io/en/latest/faq.html
+    # per https://github.com/Tivix/django-rest-auth/issues/292
     url(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_cust_views.null_view,
         name='password_reset_confirm'),
