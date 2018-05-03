@@ -9,8 +9,6 @@ import axios from 'axios';
 
 import AuthWrapper from '../../AuthWrapper/AuthWrapper.js';
 
-import { storageAvailable } from '../../Utils.js';
-
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
@@ -28,6 +26,11 @@ const styles = theme => ({
 });
 
 const CONFIRM_RESET_URL = '/rest-auth/password/reset/confirm/'
+const MAIN_SITE_URL = 'http://127.0.0.1:8000/'
+const VIEWS = {
+  default: 'default',
+  submitted: 'submitted',
+}
 
 class PasswordReset extends Component {
   constructor(props) {
@@ -37,23 +40,57 @@ class PasswordReset extends Component {
       token: "",
       new_password1: "",
       new_password2: "",
+      new_password1Error: "",
+      new_password2Error: "",
+      view: VIEWS.default,
     }
 
     this.confirmNewPassword = this.confirmNewPassword.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.getValuesFromUrl = this.getValuesFromUrl.bind(this);
+    this.onError = this.onError.bind(this);
   }
 
-  componentDidMount() {
-    if(storageAvailable('localStorage')) {
-      let authToken = localStorage.getItem('authToken') || "";
-      axios.defaults.headers.common['Authorization'] = 'JWT ' + authToken;
-    } else {
-      console.log('localStorage not available. Cannot maintain session.') //TODO
+  onError(error) {  // NB: this does not handle anything besides password value errors.
+    this.setState({
+      new_password1Error: "",
+      new_password2Error: "",
+    });
+    let data = error.response.data;
+    for (const entry of Object.entries(data)) {
+      let k, v;
+      [k, v] = entry;
+      v = v[0];
+      const stateField = k + "Error";
+      this.setState({[stateField]: v});
     }
   }
 
   confirmNewPassword(e) {
-    return;
+    let urlData = this.getValuesFromUrl();
+    let token = urlData.token;
+    let uid = urlData.uid;
+    axios.post(CONFIRM_RESET_URL, {
+      uid: uid,
+      token: token,
+      new_password1: this.state.new_password1,
+      new_password2: this.state.new_password2,
+      view: VIEWS.default
+    })
+      .then(
+        (response) => {
+          this.setState({
+            view: VIEWS.submitted,
+          });
+        },
+        (error) => {
+          if (error.response && error.response.status === 400) {
+            this.onError(error);
+          } else {
+            console.log(error);
+          }
+        }
+      );
   }
 
   handleChange(field) {
@@ -64,34 +101,64 @@ class PasswordReset extends Component {
     };
   }
 
+  getValuesFromUrl() {
+    let url = window.location.href;
+    let wds = url.split("/");
+    let token = wds[wds.length - 2];
+    let uid = wds[wds.length - 3];
+    let data = {
+      token: token,
+      uid: uid,
+    };
+    return data
+  }
+
   render() {
+    let defaultView = (
+      <AuthWrapper>
+        <Typography variant="title" gutterBottom>
+          {"Create New Password"}
+        </Typography>
+        <TextField
+        id="newpassword1"
+        label="New Password"
+        className={this.props.classes.textField}
+        value={this.state.new_password1}
+        error={!!this.state.new_password1Error}
+        helperText={this.state.new_password1Error}
+        onChange={this.handleChange('new_password1')}
+        margin="normal"
+        />
+        <TextField
+        id="newpassword2"
+        label="Repeat New Password"
+        className={this.props.classes.textField}
+        value={this.state.new_password2}
+        error={!!this.state.new_password2Error}
+        helperText={this.state.new_password2Error}
+        onChange={this.handleChange('new_password2')}
+        margin="normal"
+        />
+        <Button color="primary" onClick={this.confirmNewPassword}>
+          {"Submit"}
+        </Button>
+      </AuthWrapper>
+    )
+
+    let submittedView = (
+      <AuthWrapper>
+        <Typography variant="title" gutterBottom>
+          {"New Password Created!"}
+        </Typography>
+        <Button href={MAIN_SITE_URL}>Go To Site</Button>
+      </AuthWrapper>
+    )
+
     return (
       <MuiThemeProvider theme={theme}>
         <Reboot />
-        <AuthWrapper>
-          <Typography variant="title" gutterBottom>
-            {"Create New Password"}
-          </Typography>
-          <TextField
-          id="newpassword1"
-          label="New Password"
-          className={this.props.classes.textField}
-          value={this.state.new_password1}
-          onChange={this.handleChange('new_password1')}
-          margin="normal"
-          />
-          <TextField
-          id="newpassword2"
-          label="Repeat New Password"
-          className={this.props.classes.textField}
-          value={this.state.new_password2}
-          onChange={this.handleChange('new_password2')}
-          margin="normal"
-          />
-          <Button color="primary" onClick={this.confirmNewPassword}>
-            {"Submit"}
-          </Button>
-        </AuthWrapper>
+        {this.state.view === VIEWS.default && defaultView}
+        {this.state.view === VIEWS.submitted && submittedView}
       </MuiThemeProvider>
     )
   }
