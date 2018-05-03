@@ -139,6 +139,10 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
+# http://django-rest-auth.readthedocs.io/en/latest/configuration.html
+OLD_PASSWORD_FIELD_ENABLED = True
+LOGOUT_ON_PASSWORD_CHANGE = False
+
 # Enables django-rest-auth to use JWT tokens instead of regular tokens.
 REST_USE_JWT = True
 
