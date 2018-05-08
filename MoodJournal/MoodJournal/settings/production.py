@@ -13,6 +13,7 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+ALLOWED_HOSTS = ['.herokuapp.com', '.categoricaljournal.com']
 
 WEBPACK_LOADER = {
     'DEFAULT': {
