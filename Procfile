@@ -1,1 +1,1 @@
-web: gunicorn MoodJournal.MoodJournal.wsgi
+web: gunicorn MoodJournal.wsgi
