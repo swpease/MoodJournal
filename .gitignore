@@ -1,5 +1,5 @@
 # Python-React coupling
-webpack-stats.*
+webpack-stats.dev.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
