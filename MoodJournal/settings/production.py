@@ -1,7 +1,12 @@
 from .base import *
 
+import dj_database_url
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+
+# https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-python
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # STATIC_URL = '/static/'  # Defined in base.txt
