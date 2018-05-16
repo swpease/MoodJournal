@@ -32,6 +32,7 @@ class App extends Component {
     this.handleTabClick = this.handleTabClick.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
+    this.handleBadToken = this.handleBadToken.bind(this);
   }
 
   componentDidMount() {
@@ -81,6 +82,13 @@ class App extends Component {
   handleLogIn() {
     this.setState({
       loggedIn: true,
+      view: APPVIEWS.home
+    });
+  }
+
+  handleBadToken() {
+    this.setState({
+      loggedIn: false,
       view: APPVIEWS.home
     });
   }
