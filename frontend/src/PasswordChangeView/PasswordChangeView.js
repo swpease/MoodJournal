@@ -25,7 +25,7 @@ const VIEWS = {
   passwordChangeSuccess: "passwordChangeSuccess",
 }
 
-class AccountView extends Component {
+class PasswordChangeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -148,4 +148,4 @@ class AccountView extends Component {
   }
 }
 
-export default withStyles(styles)(AccountView);
+export default withStyles(styles)(PasswordChangeView);
