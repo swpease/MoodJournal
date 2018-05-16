@@ -355,7 +355,7 @@ class HistoryView extends Component {
 
           <InfiniteScroll
             hasMore={this.state.moreEntriesUrl ? true : false}
-            loader={<CustomProgress />}
+            loader={<CustomProgress key={0} />}
             initialLoad={false}
             loadMore={this.loadMoreEntries}
           >
