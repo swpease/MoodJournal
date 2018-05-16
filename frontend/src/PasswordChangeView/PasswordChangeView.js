@@ -74,6 +74,8 @@ class PasswordChangeView extends Component {
         (error) => {
           if (error.response && error.response.status === 400) {
             this.onError(error);
+          } else if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
           } else {
             console.log(error);
           }
