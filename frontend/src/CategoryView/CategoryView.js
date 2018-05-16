@@ -138,11 +138,12 @@ class CategoryView extends Component {
           handleUpdate={this.handleUpdate}>
         </CategoryWidget>
       );
-      // TODO do I want to just put the CategoryCreator in the List?
       return (
         <div className={this.props.classes.root}>
-          <List disablePadding>{categories}</List>
-          <CategoryCreator handleCreate={this.handleCreate}></CategoryCreator>
+          <List disablePadding>
+            {categories}
+            <CategoryCreator handleCreate={this.handleCreate}></CategoryCreator>
+          </List>
         </div>
       )
     }
