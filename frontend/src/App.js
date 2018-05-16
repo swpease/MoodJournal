@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { storageAvailable } from './Utils.js';
 
-import CategoryView from './CategoryView/CategoryView.js';
 import DailyView from './DailyView/DailyView.js';
 import HistoryView from './HistoryView/HistoryView.js';
 import LoginView from './LoginView/LoginView.js';
@@ -94,11 +93,7 @@ class App extends Component {
 
   render() {
     let view = null;
-    if (this.state.view === APPVIEWS.categories) {
-      view = (
-        <CategoryView />
-      )
-    } else if (this.state.view === APPVIEWS.daily) {
+    if (this.state.view === APPVIEWS.daily) {
       view = (
         <DailyView />
       )

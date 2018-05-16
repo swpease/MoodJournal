@@ -54,13 +54,6 @@ class AppTabs extends Component {
           />
           {this.props.loggedIn &&
             <Tab
-              label={APPVIEWS.categories}
-              onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
-              value={APPVIEWS.categories}
-            />
-          }
-          {this.props.loggedIn &&
-            <Tab
               label={APPVIEWS.daily}
               onClick={(e) => {this.props.handleTabClick(APPVIEWS.daily, e)}}
               value={APPVIEWS.daily}
