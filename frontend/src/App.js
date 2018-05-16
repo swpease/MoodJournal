@@ -103,11 +103,11 @@ class App extends Component {
     let view = null;
     if (this.state.view === APPVIEWS.daily) {
       view = (
-        <DailyView />
+        <DailyView handleBadToken={this.handleBadToken} />
       )
     } else if (this.state.view === APPVIEWS.history) {
       view = (
-        <HistoryView handleBadToken={this.handleBadToken}/>
+        <HistoryView handleBadToken={this.handleBadToken} />
       )
     } else if (this.state.view === APPVIEWS.login) {
       view = (
