@@ -25,6 +25,7 @@ const styles = theme => ({
   drawerPaper: {
     width: 240,
   },
+  toolbar: theme.mixins.toolbar,
   datePicker: {
     margin: '10px',
   },
@@ -245,7 +246,7 @@ class HistoryView extends Component {
               paper: this.props.classes.drawerPaper,
             }}
           >
-            {'Hello'}
+            <div className={this.props.classes.toolbar} />
             <DatePicker
               className={this.props.classes.datePicker}
               value={this.state.queryParams.date_start}

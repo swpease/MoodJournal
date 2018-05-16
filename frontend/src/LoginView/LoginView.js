@@ -115,7 +115,6 @@ class LoginView extends Component {
     })
       .then(
         (response) => {
-          console.log("email sent!")
           this.setState({
             view: VIEWS.resent,
           });
