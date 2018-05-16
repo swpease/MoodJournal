@@ -107,7 +107,7 @@ class App extends Component {
       )
     } else if (this.state.view === APPVIEWS.history) {
       view = (
-        <HistoryView />
+        <HistoryView handleBadToken={this.handleBadToken}/>
       )
     } else if (this.state.view === APPVIEWS.login) {
       view = (
