@@ -54,6 +54,11 @@ class LoginView extends Component {
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
   }
 
+  componentDidMount() {
+    localStorage.setItem('authToken', "");
+    delete axios.defaults.headers.common['Authorization'];
+  }
+
   handleChange(field) {
     return (e) => {
       this.setState({
