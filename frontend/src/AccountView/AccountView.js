@@ -30,12 +30,14 @@ class AccountView extends Component {
     this.state = {
       view: VIEWS.default,
     }
+
+    this.handleOnClick = this.handleOnClick.bind(this);
   }
 
-  handleChange(field) {
+  handleOnClick(view) {
     return (e) => {
       this.setState({
-        [field]: e.target.value,
+        view: view,
       });
     };
   }
@@ -60,13 +62,13 @@ class AccountView extends Component {
         >
           <div className={this.props.classes.toolbar} />
           <List>
-            <ListItem button divider>
+            <ListItem button divider onClick={this.handleOnClick(VIEWS.categories)}>
               <ListItemText primary="Manage Categories"/>
             </ListItem>
-            <ListItem button divider>
+            <ListItem button divider onClick={this.handleOnClick(VIEWS.passwordChange)}>
               <ListItemText primary="Change Password"/>
             </ListItem>
-            <ListItem button divider>
+            <ListItem button divider onClick={this.handleOnClick(VIEWS.resendConfirmation)}>
               <ListItemText primary="Resend Confirmation Email"/>
             </ListItem>
           </List>
