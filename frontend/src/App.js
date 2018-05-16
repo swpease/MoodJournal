@@ -119,7 +119,7 @@ class App extends Component {
       )
     } else if (this.state.view === APPVIEWS.account) {
       view = (
-        <AccountView />
+        <AccountView handleBadToken={this.handleBadToken} />
       )
     }
 

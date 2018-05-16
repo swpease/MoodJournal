@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import Drawer from 'material-ui/Drawer';
@@ -55,10 +56,10 @@ class AccountView extends Component {
       </AuthWrapper>
     )
     let passwordChangeView = (
-      <PasswordChangeView />
+      <PasswordChangeView handleBadToken={this.props.handleBadToken} />
     )
     let categoriesView = (
-      <CategoryView />
+      <CategoryView handleBadToken={this.props.handleBadToken} />
     )
 
     return (
@@ -85,6 +86,10 @@ class AccountView extends Component {
       </React.Fragment>
     )
   }
+}
+
+AccountView.propTypes = {
+  handleBadToken: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(AccountView);
