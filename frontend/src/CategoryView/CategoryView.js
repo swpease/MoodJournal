@@ -52,10 +52,14 @@ class CategoryView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
         }
       );
   }
@@ -73,6 +77,8 @@ class CategoryView extends Component {
         (error) => {
           if (error.response && error.response.status === 400) {
             onError(error);
+          } else if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
           } else {
             this.setState({error});
           }
@@ -95,6 +101,8 @@ class CategoryView extends Component {
         (error) => {
           if (error.response && error.response.status === 400) {
             onError(error);
+          } else if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
           } else {
             this.setState({error});
           }
@@ -111,9 +119,13 @@ class CategoryView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              error
+            });
+          }
         }
       );
   }
