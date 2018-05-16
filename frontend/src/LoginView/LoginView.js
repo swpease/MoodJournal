@@ -73,7 +73,6 @@ class LoginView extends Component {
   }
 
   onError(error) {
-    console.log(error.response.data);
     const userErrorMsg = Object.values(error.response.data)[0][0];
     const fieldName = Object.keys(error.response.data)[0];
     const capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
