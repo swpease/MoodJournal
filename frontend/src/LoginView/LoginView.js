@@ -5,6 +5,11 @@ import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
+import IconButton from 'material-ui/IconButton';
+import Visibility from 'material-ui-icons/Visibility';
+import VisibilityOff from 'material-ui-icons/VisibilityOff';
 
 import AuthWrapper from '../AuthWrapper/AuthWrapper.js';
 
@@ -38,12 +43,15 @@ class LoginView extends Component {
       email: "",
       generalError: "",
       userError: "",
+      showPassword: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.logIn = this.logIn.bind(this);
     this.onError = this.onError.bind(this);
     this.sendPWResetEmail = this.sendPWResetEmail.bind(this);
     this.handleForgotPW = this.handleForgotPW.bind(this);
+    this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
+    this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
   }
 
   handleChange(field) {
@@ -52,6 +60,16 @@ class LoginView extends Component {
         [field]: e.target.value,
       });
     };
+  }
+
+  handleMouseDownPassword(e) {
+    e.preventDefault();
+  }
+
+  handleClickShowPassword() {
+    this.setState((prevState) => {
+      return {showPassword: !prevState.showPassword};
+    });
   }
 
   onError(error) {
@@ -151,14 +169,27 @@ class LoginView extends Component {
         onChange={this.handleChange('username')}
         margin="normal"
         />
-        <TextField
-        id="password"
-        label="Password"
-        className={this.props.classes.textField}
-        value={this.state.password}
-        onChange={this.handleChange('password')}
-        margin="normal"
-        />
+        <FormControl className={this.props.classes.textField}>
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <Input
+            id="password"
+            type={this.state.showPassword ? 'text' : 'password'}
+            value={this.state.password}
+            onChange={this.handleChange('password')}
+            margin="normal"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickShowPassword}
+                  onMouseDown={this.handleMouseDownPassword}
+                >
+                  {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         <Button color="primary" onClick={this.logIn}>
           {"Log In"}
         </Button>
