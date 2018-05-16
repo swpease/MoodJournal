@@ -177,7 +177,6 @@ class LoginView extends Component {
             type={this.state.showPassword ? 'text' : 'password'}
             value={this.state.password}
             onChange={this.handleChange('password')}
-            margin="normal"
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
