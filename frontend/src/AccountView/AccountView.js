@@ -6,6 +6,8 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 
 import AuthWrapper from '../AuthWrapper/AuthWrapper.js';
+import PasswordChangeView from '../PasswordChangeView/PasswordChangeView.js';
+import CategoryView from '../CategoryView/CategoryView.js';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -52,6 +54,13 @@ class AccountView extends Component {
         </Typography>
       </AuthWrapper>
     )
+    let passwordChangeView = (
+      <PasswordChangeView />
+    )
+    let categoriesView = (
+      <CategoryView />
+    )
+
     return (
       <React.Fragment>
         <Drawer
@@ -71,6 +80,8 @@ class AccountView extends Component {
           </List>
         </Drawer>
         {this.state.view === VIEWS.default && defaultView}
+        {this.state.view === VIEWS.passwordChange && passwordChangeView}
+        {this.state.view === VIEWS.categories && categoriesView}
       </React.Fragment>
     )
   }
