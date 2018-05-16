@@ -73,9 +73,10 @@ class LoginView extends Component {
   }
 
   onError(error) {
+    console.log(error.response.data);
     const userErrorMsg = Object.values(error.response.data)[0][0];
     const userErrorMsgs = {
-      'This field may not be blank.': 'Password required.',
+      'This field may not be blank.': Object.keys(error.response.data)[0] + ' required.',
       'Must include "username" and "password".': 'Username required.',
       'Unable to log in with provided credentials.': 'Username and / or password are incorrect.',
       "Enter a valid email address.": "Enter a valid email address."
@@ -120,7 +121,6 @@ class LoginView extends Component {
         },
         (error) => {
           if (error.response && error.response.status === 400) {
-            console.log(error.response);
             this.onError(error);
           } else {
             this.setState({generalError: error});
@@ -132,6 +132,7 @@ class LoginView extends Component {
   handleForgotPW(e) {
     this.setState({
       view: VIEWS.resend,
+      userError: "",
     });
   }
 
