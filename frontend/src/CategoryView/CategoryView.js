@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
@@ -148,6 +149,10 @@ class CategoryView extends Component {
       )
     }
   }
+}
+
+CategoryView.propTypes = {
+  handleBadToken: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(CategoryView)
