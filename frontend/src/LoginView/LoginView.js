@@ -75,8 +75,10 @@ class LoginView extends Component {
   onError(error) {
     console.log(error.response.data);
     const userErrorMsg = Object.values(error.response.data)[0][0];
+    const fieldName = Object.keys(error.response.data)[0];
+    const capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
     const userErrorMsgs = {
-      'This field may not be blank.': Object.keys(error.response.data)[0] + ' required.',
+      'This field may not be blank.': capitalizedFieldName + ' required.',
       'Must include "username" and "password".': 'Username required.',
       'Unable to log in with provided credentials.': 'Username and / or password are incorrect.',
       "Enter a valid email address.": "Enter a valid email address."
