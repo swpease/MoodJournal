@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
-import moment from 'moment';
 import { DatePicker } from 'material-ui-pickers';
 import Drawer from 'material-ui/Drawer';
-import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 import InfiniteScroll from 'react-infinite-scroller';
 
