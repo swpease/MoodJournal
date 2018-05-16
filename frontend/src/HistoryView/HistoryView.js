@@ -59,6 +59,9 @@ class HistoryView extends Component {
     this.composeFilterUrl = this.composeFilterUrl.bind(this);
     this.getFilteredEntries = this.getFilteredEntries.bind(this);
 
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+
     this.timeout = 0;
   }
 
@@ -211,6 +214,45 @@ class HistoryView extends Component {
     }
   }
 
+  handleDelete(url) {
+    axios.delete(url)
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {entries: prevState.entries.filter(datum => datum.url !==  url)}
+          });
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      );
+  }
+
+  handleUpdate(e, url, rating, entry, onSuccess, onError) {
+    axios.patch(url, {
+      quality_rating: rating,
+      entry: entry
+    }).then(
+      (response) => {
+        onSuccess();
+        this.setState((prevState) => {
+          let oldData = prevState.entries
+          let replaceIndex = oldData.findIndex(item => item.url === response.data.url);
+          let newData = oldData.splice(replaceIndex, 1, response.data);
+          return newData;
+        })
+      },
+      (error) => {
+        if (error.response && error.response.status === 400) {
+          onError(error);
+        } else {
+          this.setState({error});
+        }
+      }
+    );
+  }
 
   render() {
     const { error, isLoaded, entries, qualityRatings } = this.state;
