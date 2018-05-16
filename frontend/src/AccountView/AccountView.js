@@ -68,9 +68,6 @@ class AccountView extends Component {
             <ListItem button divider onClick={this.handleOnClick(VIEWS.passwordChange)}>
               <ListItemText primary="Change Password"/>
             </ListItem>
-            <ListItem button divider onClick={this.handleOnClick(VIEWS.resendConfirmation)}>
-              <ListItemText primary="Resend Confirmation Email"/>
-            </ListItem>
           </List>
         </Drawer>
         {this.state.view === VIEWS.default && defaultView}
