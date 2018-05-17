@@ -18,7 +18,7 @@ const theme = createMuiTheme({
 
 const VERIFY_URL = '/rest-auth/registration/verify-email/'
 const RESEND_VERIFY_URL = '/rest-auth/registration/resend-verification-email/'
-const MAIN_SITE_URL = '/'
+const MAIN_SITE_URL = 'https://www.categoricaljournal.com'
 const VIEWS = {
   unverified: 'unverified',
   verified: 'verified',
