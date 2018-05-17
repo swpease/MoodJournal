@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Tabs, { Tab } from 'material-ui/Tabs';
 
 import APPVIEWS from '../APPVIEWS.js';
+
+const styles = theme => ({
+  root: {
+    position: 'relative',
+    zIndex: theme.zIndex.drawer + 1,
+  }
+});
 
 class AppTabs extends Component {
   constructor(props) {
@@ -33,7 +41,7 @@ class AppTabs extends Component {
 
   render() {
     return (
-      <Paper>
+      <Paper className={this.props.classes.root}>
         <Tabs
           value={this.state.value}
           onChange={this.onChange}
@@ -44,13 +52,6 @@ class AppTabs extends Component {
             onClick={(e) => {this.props.handleTabClick(APPVIEWS.home, e)}}
             value={APPVIEWS.home}
           />
-          {this.props.loggedIn &&
-            <Tab
-              label={APPVIEWS.categories}
-              onClick={(e) => {this.props.handleTabClick(APPVIEWS.categories, e)}}
-              value={APPVIEWS.categories}
-            />
-          }
           {this.props.loggedIn &&
             <Tab
               label={APPVIEWS.daily}
@@ -106,4 +107,4 @@ AppTabs.propTypes = {
   value: PropTypes.string,
 }
 
-export default AppTabs;
+export default withStyles(styles)(AppTabs);

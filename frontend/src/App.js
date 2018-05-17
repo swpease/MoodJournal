@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { storageAvailable } from './Utils.js';
 
-import CategoryView from './CategoryView/CategoryView.js';
 import DailyView from './DailyView/DailyView.js';
 import HistoryView from './HistoryView/HistoryView.js';
 import LoginView from './LoginView/LoginView.js';
@@ -33,6 +32,7 @@ class App extends Component {
     this.handleTabClick = this.handleTabClick.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
+    this.handleBadToken = this.handleBadToken.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +86,13 @@ class App extends Component {
     });
   }
 
+  handleBadToken() {
+    this.setState({
+      loggedIn: false,
+      view: APPVIEWS.home
+    });
+  }
+
   handleTabClick(view, e) {
     this.setState({
       view: view
@@ -94,17 +101,13 @@ class App extends Component {
 
   render() {
     let view = null;
-    if (this.state.view === APPVIEWS.categories) {
+    if (this.state.view === APPVIEWS.daily) {
       view = (
-        <CategoryView />
-      )
-    } else if (this.state.view === APPVIEWS.daily) {
-      view = (
-        <DailyView />
+        <DailyView handleBadToken={this.handleBadToken} />
       )
     } else if (this.state.view === APPVIEWS.history) {
       view = (
-        <HistoryView />
+        <HistoryView handleBadToken={this.handleBadToken} />
       )
     } else if (this.state.view === APPVIEWS.login) {
       view = (
@@ -116,7 +119,7 @@ class App extends Component {
       )
     } else if (this.state.view === APPVIEWS.account) {
       view = (
-        <AccountView />
+        <AccountView handleBadToken={this.handleBadToken} />
       )
     }
 

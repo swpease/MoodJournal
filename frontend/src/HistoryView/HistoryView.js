@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
-import moment from 'moment';
 import { DatePicker } from 'material-ui-pickers';
 import Drawer from 'material-ui/Drawer';
-import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -25,6 +24,7 @@ const styles = theme => ({
   drawerPaper: {
     width: 240,
   },
+  toolbar: theme.mixins.toolbar,
   datePicker: {
     margin: '10px',
   },
@@ -59,6 +59,9 @@ class HistoryView extends Component {
     this.handleQueryChange = this.handleQueryChange.bind(this);
     this.composeFilterUrl = this.composeFilterUrl.bind(this);
     this.getFilteredEntries = this.getFilteredEntries.bind(this);
+
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
 
     this.timeout = 0;
   }
@@ -97,10 +100,14 @@ class HistoryView extends Component {
       )
       .catch(
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
         }
       );
   }
@@ -119,11 +126,14 @@ class HistoryView extends Component {
             });
           },
           (error) => {
-            console.log(error);
-            this.setState({
-              isLoaded: true,
-              error
-            });
+            if (error.response && error.response.status === 401) {
+              this.props.handleBadToken();
+            } else {
+              this.setState({
+                isLoaded: true,
+                error
+              });
+            }
           }
         );
     }
@@ -179,10 +189,14 @@ class HistoryView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
         }
       );
   }
@@ -212,6 +226,51 @@ class HistoryView extends Component {
     }
   }
 
+  handleDelete(url) {
+    axios.delete(url)
+      .then(
+        (response) => {
+          this.setState((prevState) => {
+            return {entries: prevState.entries.filter(datum => datum.url !==  url)}
+          });
+        },
+        (error) => {
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              error
+            });
+          }
+        }
+      );
+  }
+
+  handleUpdate(e, url, rating, entry, onSuccess, onError) {
+    axios.patch(url, {
+      quality_rating: rating,
+      entry: entry
+    }).then(
+      (response) => {
+        onSuccess();
+        this.setState((prevState) => {
+          let oldData = prevState.entries
+          let replaceIndex = oldData.findIndex(item => item.url === response.data.url);
+          let newData = oldData.splice(replaceIndex, 1, response.data);
+          return newData;
+        })
+      },
+      (error) => {
+        if (error.response && error.response.status === 400) {
+          onError(error);
+        } else if (error.response && error.response.status === 401) {
+          this.props.handleBadToken();
+        } else {
+          this.setState({error});
+        }
+      }
+    );
+  }
 
   render() {
     const { error, isLoaded, entries, qualityRatings } = this.state;
@@ -245,7 +304,7 @@ class HistoryView extends Component {
               paper: this.props.classes.drawerPaper,
             }}
           >
-            {'Hello'}
+            <div className={this.props.classes.toolbar} />
             <DatePicker
               className={this.props.classes.datePicker}
               value={this.state.queryParams.date_start}
@@ -314,7 +373,7 @@ class HistoryView extends Component {
 
           <InfiniteScroll
             hasMore={this.state.moreEntriesUrl ? true : false}
-            loader={<CustomProgress />}
+            loader={<CustomProgress key={0} />}
             initialLoad={false}
             loadMore={this.loadMoreEntries}
           >
@@ -326,7 +385,11 @@ class HistoryView extends Component {
       )
     }
   }
+}
 
+HistoryView.propTypes = {
+  // To revert to the "logged out" view when token expires if user still on site.
+  handleBadToken: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(HistoryView);

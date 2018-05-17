@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import moment from 'moment';
@@ -87,10 +88,14 @@ class DailyView extends Component {
       )
       .catch(
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
         }
       );
   }
@@ -104,9 +109,13 @@ class DailyView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              error
+            });
+          }
         }
       );
   }
@@ -127,6 +136,8 @@ class DailyView extends Component {
       (error) => {
         if (error.response && error.response.status === 400) {
           onError(error);
+        } else if (error.response && error.response.status === 401) {
+          this.props.handleBadToken();
         } else {
           this.setState({error});
         }
@@ -151,6 +162,8 @@ class DailyView extends Component {
       (error) => {
         if (error.response && error.response.status === 400) {
           onError(error);
+        } else if (error.response && error.response.status === 401) {
+          this.props.handleBadToken();
         } else {
           this.setState({error});
         }
@@ -178,10 +191,14 @@ class DailyView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
         }
       )
   }
@@ -250,6 +267,11 @@ class DailyView extends Component {
       )
     }
   }
+}
+
+DailyView.propTypes = {
+  // To revert to the "logged out" view when token expires if user still on site.
+  handleBadToken: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(DailyView);

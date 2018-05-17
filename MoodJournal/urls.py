@@ -32,6 +32,9 @@ urlpatterns = [
     url(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         TemplateView.as_view(template_name="passwordreset.html"),
         name='password_reset_confirm'),
+    url(r'^rest-auth/registration/account-confirm-email/(?P<key>[-:\w]+)/$',
+        TemplateView.as_view(template_name="emailverification.html"),
+        name='account_confirm_email'),
 
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

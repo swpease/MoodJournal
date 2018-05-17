@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import List from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
@@ -51,10 +52,14 @@ class CategoryView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
         }
       );
   }
@@ -72,6 +77,8 @@ class CategoryView extends Component {
         (error) => {
           if (error.response && error.response.status === 400) {
             onError(error);
+          } else if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
           } else {
             this.setState({error});
           }
@@ -94,6 +101,8 @@ class CategoryView extends Component {
         (error) => {
           if (error.response && error.response.status === 400) {
             onError(error);
+          } else if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
           } else {
             this.setState({error});
           }
@@ -110,9 +119,13 @@ class CategoryView extends Component {
           });
         },
         (error) => {
-          this.setState({
-            error
-          });
+          if (error.response && error.response.status === 401) {
+            this.props.handleBadToken();
+          } else {
+            this.setState({
+              error
+            });
+          }
         }
       );
   }
@@ -138,15 +151,20 @@ class CategoryView extends Component {
           handleUpdate={this.handleUpdate}>
         </CategoryWidget>
       );
-      // TODO do I want to just put the CategoryCreator in the List?
       return (
         <div className={this.props.classes.root}>
-          <List disablePadding>{categories}</List>
-          <CategoryCreator handleCreate={this.handleCreate}></CategoryCreator>
+          <List disablePadding>
+            {categories}
+            <CategoryCreator handleCreate={this.handleCreate}></CategoryCreator>
+          </List>
         </div>
       )
     }
   }
+}
+
+CategoryView.propTypes = {
+  handleBadToken: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(CategoryView)

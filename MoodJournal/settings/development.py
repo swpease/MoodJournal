@@ -14,6 +14,8 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # For React integration
 # TODO may need to change for production?
 WEBPACK_LOADER = {

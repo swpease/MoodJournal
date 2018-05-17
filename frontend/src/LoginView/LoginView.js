@@ -5,6 +5,11 @@ import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
+import IconButton from 'material-ui/IconButton';
+import Visibility from 'material-ui-icons/Visibility';
+import VisibilityOff from 'material-ui-icons/VisibilityOff';
 
 import AuthWrapper from '../AuthWrapper/AuthWrapper.js';
 
@@ -38,12 +43,20 @@ class LoginView extends Component {
       email: "",
       generalError: "",
       userError: "",
+      showPassword: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.logIn = this.logIn.bind(this);
     this.onError = this.onError.bind(this);
     this.sendPWResetEmail = this.sendPWResetEmail.bind(this);
     this.handleForgotPW = this.handleForgotPW.bind(this);
+    this.handleMouseDownPassword = this.handleMouseDownPassword.bind(this);
+    this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+  }
+
+  componentDidMount() {
+    localStorage.setItem('authToken', "");
+    delete axios.defaults.headers.common['Authorization'];
   }
 
   handleChange(field) {
@@ -54,10 +67,22 @@ class LoginView extends Component {
     };
   }
 
+  handleMouseDownPassword(e) {
+    e.preventDefault();
+  }
+
+  handleClickShowPassword() {
+    this.setState((prevState) => {
+      return {showPassword: !prevState.showPassword};
+    });
+  }
+
   onError(error) {
     const userErrorMsg = Object.values(error.response.data)[0][0];
+    const fieldName = Object.keys(error.response.data)[0];
+    const capitalizedFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
     const userErrorMsgs = {
-      'This field may not be blank.': 'Password required.',
+      'This field may not be blank.': capitalizedFieldName + ' required.',
       'Must include "username" and "password".': 'Username required.',
       'Unable to log in with provided credentials.': 'Username and / or password are incorrect.',
       "Enter a valid email address.": "Enter a valid email address."
@@ -95,14 +120,12 @@ class LoginView extends Component {
     })
       .then(
         (response) => {
-          console.log("email sent!")
           this.setState({
             view: VIEWS.resent,
           });
         },
         (error) => {
           if (error.response && error.response.status === 400) {
-            console.log(error.response);
             this.onError(error);
           } else {
             this.setState({generalError: error});
@@ -114,6 +137,7 @@ class LoginView extends Component {
   handleForgotPW(e) {
     this.setState({
       view: VIEWS.resend,
+      userError: "",
     });
   }
 
@@ -151,14 +175,26 @@ class LoginView extends Component {
         onChange={this.handleChange('username')}
         margin="normal"
         />
-        <TextField
-        id="password"
-        label="Password"
-        className={this.props.classes.textField}
-        value={this.state.password}
-        onChange={this.handleChange('password')}
-        margin="normal"
-        />
+        <FormControl className={this.props.classes.textField}>
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <Input
+            id="password"
+            type={this.state.showPassword ? 'text' : 'password'}
+            value={this.state.password}
+            onChange={this.handleChange('password')}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickShowPassword}
+                  onMouseDown={this.handleMouseDownPassword}
+                >
+                  {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         <Button color="primary" onClick={this.logIn}>
           {"Log In"}
         </Button>
