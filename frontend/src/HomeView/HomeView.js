@@ -4,14 +4,35 @@ import Typography from 'material-ui/Typography';
 
 import AuthWrapper from '../AuthWrapper/AuthWrapper.js';
 
+const styles = theme => ({
+  main: {
+    paddingLeft: 16,
+    paddingBottom: 16,
+    paddingRight: 16,
+  },
+  title: {
+    paddingTop: 10,
+  }
+});
 
 function HomeView(props) {
   return (
     <AuthWrapper>
-      <Typography>
+      <Typography
+        className={props.classes.title}
+        variant="display2"
+        color="primary"
+        align="center"
+        gutterBottom
+      >
         {'Welcome to Categorical Journal!'}
       </Typography>
-      <Typography>
+      <Typography
+        className={props.classes.main}
+        variant="body1"
+        paragraph
+        gutterBottom
+      >
         {`Categorical Journal is designed for daily reflection.
           While it is certainly nice to write in a physical journal,
           one of the nice things about keeping a journal in the first
@@ -28,4 +49,4 @@ function HomeView(props) {
   )
 }
 
-export default HomeView;
+export default withStyles(styles)(HomeView);
