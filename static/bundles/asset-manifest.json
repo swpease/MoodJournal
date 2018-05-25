@@ -1,10 +1,10 @@
 {
-  "emailverification.js": "static/js/emailverification.0a5775f6.js",
-  "emailverification.js.map": "static/js/emailverification.0a5775f6.js.map",
+  "emailverification.js": "static/js/emailverification.220c1fc6.js",
+  "emailverification.js.map": "static/js/emailverification.220c1fc6.js.map",
   "main.css": "static/css/main.65027555.css",
   "main.css.map": "static/css/main.65027555.css.map",
-  "main.js": "static/js/main.167a81d3.js",
-  "main.js.map": "static/js/main.167a81d3.js.map",
-  "passwordreset.js": "static/js/passwordreset.c287d7d4.js",
-  "passwordreset.js.map": "static/js/passwordreset.c287d7d4.js.map"
+  "main.js": "static/js/main.2fe0cfb5.js",
+  "main.js.map": "static/js/main.2fe0cfb5.js.map",
+  "passwordreset.js": "static/js/passwordreset.3f0ac801.js",
+  "passwordreset.js.map": "static/js/passwordreset.3f0ac801.js.map"
 }
