@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import axios from 'axios';
 import Drawer from 'material-ui/Drawer';
+import Hidden from 'material-ui/Hidden';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 
@@ -62,14 +63,8 @@ class AccountView extends Component {
       <CategoryView handleBadToken={this.props.handleBadToken} />
     )
 
-    return (
+    let drawerContent = (
       <React.Fragment>
-        <Drawer
-          variant='permanent'
-          classes={{
-            paper: this.props.classes.drawerPaper,
-          }}
-        >
           <div className={this.props.classes.toolbar} />
           <List>
             <ListItem button divider onClick={this.handleOnClick(VIEWS.categories)}>
@@ -79,7 +74,21 @@ class AccountView extends Component {
               <ListItemText primary="Change Password"/>
             </ListItem>
           </List>
-        </Drawer>
+      </React.Fragment>
+    )
+
+    return (
+      <React.Fragment>
+        <Hidden smDown>
+          <Drawer
+            variant='permanent'
+            classes={{
+              paper: this.props.classes.drawerPaper,
+            }}
+          >
+            {drawerContent}
+          </Drawer>
+        </Hidden>
         {this.state.view === VIEWS.default && defaultView}
         {this.state.view === VIEWS.passwordChange && passwordChangeView}
         {this.state.view === VIEWS.categories && categoriesView}

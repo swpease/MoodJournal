@@ -10,6 +10,7 @@ import HistoryView from './HistoryView/HistoryView.js';
 import LoginView from './LoginView/LoginView.js';
 import SignupView from './SignupView/SignupView.js';
 import AccountView from './AccountView/AccountView.js';
+import HomeView from './HomeView/HomeView.js';
 import AppTabs from './AppTabs/AppTabs.js';
 import APPVIEWS from './APPVIEWS.js';
 
@@ -120,6 +121,10 @@ class App extends Component {
     } else if (this.state.view === APPVIEWS.account) {
       view = (
         <AccountView handleBadToken={this.handleBadToken} />
+      )
+    } else if (this.state.view === APPVIEWS.home) {
+      view = (
+        <HomeView />
       )
     }
 
